@@ -783,6 +783,11 @@ plot.diagmeta <- function(x,
                lwd = lwd.optcut, cex = 2, pch = 3, col = 1)
     }
     ##
+    ## Add data
+    ##
+    points(1 - NN0, 1 - NN1,
+           pch = pch.points, col = col.points, cex = cex)
+    ##
     ## Add text
     ##
     if (mark.cutpoints) {
@@ -812,12 +817,6 @@ plot.diagmeta <- function(x,
              text.cuts, cex = cex.marks)
       }
     }
-    ##
-    ## Add data
-    ##
-    points(1 - NN0, 1 - NN1,
-           pch = pch.points, col = col.points, cex = cex)
-
   }
   
   
