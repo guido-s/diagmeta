@@ -1,0 +1,8 @@
+export(diagmeta, plot.diagmeta)
+
+S3method(plot, diagmeta)
+
+
+importFrom("lme4", "lmer")
+
+importFrom("meta", "ci")
