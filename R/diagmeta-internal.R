@@ -85,8 +85,8 @@ calcYouden2 <- function(x, distr, lambda,
     res <- 2 * (1 - lambda) * expit(alpha0 + beta0 * x) +
       2 * lambda * (1 - expit(alpha1 + beta1 * x)) - 1
   else
-    res <- 2 * (1 - lambda) * pnorm(log(x), mean0, sd0) +
-      2 * lambda * (1 - pnorm(log(x), mean1, sd1)) - 1
+    res <- 2 * (1 - lambda) * pnorm(x, mean0, sd0) +
+      2 * lambda * (1 - pnorm(x, mean1, sd1)) - 1
   ##
   res
 }

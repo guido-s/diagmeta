@@ -496,7 +496,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               ##
               k = k,
               ##
-              optcut = optcut,
+              optcut = if (log.cutoff) exp(optcut) else optcut,
               ##
               Se.optcut = Se,
               lower.Se.optcut = lower.Se,

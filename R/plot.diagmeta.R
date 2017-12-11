@@ -1,6 +1,7 @@
 plot.diagmeta <- function(x,
                           which = c("survival", "youden", "roc", "sroc"),
                           xlab = "threshold",
+                          main,
                           ci = FALSE, ciSens = FALSE, ciSpec = FALSE,
                           mark.optcut = FALSE, mark.cutpoints = FALSE,
                           points = TRUE, lines = FALSE,
@@ -17,6 +18,7 @@ plot.diagmeta <- function(x,
   meta:::chkclass(x, "diagmeta")
   ##
   setchar <- meta:::setchar
+  chklength <- meta:::chklength
   chklogical <- meta:::chklogical
   ##
   plot.types <- c("regression", "cdf", "survival", "youden",
@@ -25,12 +27,31 @@ plot.diagmeta <- function(x,
   
   if (is.character(which))
     which <- setchar(which, plot.types)
-  if (is.numeric(which)) {
+  else if (is.numeric(which)) {
     if (any(which < 1) | any(which > 7))
       stop("Numeric values of argument 'which' must be in 1:7")
     which <- plot.types[which]
   }
+  else
+    stop("Argument 'which' must be a character vector or a numeric vector with values between 1 and 7.")
+  ##
   which <- unique(which)
+  ##
+  mains <- c("Regression lines", "Cumulative density functions",
+             "Survival curves", "Youden index", "ROC curves",
+             "SROC curve", "Density functions")[match(which, plot.types)]
+  ##
+  if (!missing(main))
+    if (is.logical(main)) {
+      if (!main)
+        mains <- rep_len("", length(mains))
+    }
+    else
+      mains <- main
+  ##
+  chklength(mains, length(which), "diagmeta",
+            text = paste("Number of plots (argument 'which') and number of",
+                         "plot titles (argument 'main') differ."))
   ##
   chklogical(ci)
   chklogical(ciSens)
@@ -149,6 +170,7 @@ plot.diagmeta <- function(x,
   Sp.optcut <- x$Sp.optcut
   ##
   log.cutoff <- x$log.cutoff
+  ##
   log.axis <- if (log.cutoff) "x" else ""
   ##
   youden <- calcYouden(1 - NN1, NN0, lambda)
@@ -164,7 +186,28 @@ plot.diagmeta <- function(x,
     plot(c(cutoff, cutoff), rescale(c(NN0, NN1), distr),
          type = "n", las = 1, log = log.axis,
          ylab = ylab, xlab = xlab,
+         main = mains[match("regression", which)],
          xlim = xlim, ...)
+    ##
+    if (lines)
+      for (s in studlab)
+        lines(cutoff[which(studlab == s)],
+              rescale(NN0[which(studlab == s)], distr),
+              col = col.points[studlab == s], lwd = lwd, lty = 2)
+    ##
+    ## Add data
+    ##
+    points(cutoff, rescale(NN1, distr),
+           pch = pch.points, cex = cex, col = col.points)      
+    ##
+    if (lines)
+      for (s in studlab)
+        lines(cutoff[which(studlab == s)],
+              rescale(NN1[which(studlab == s)], distr),
+              col = col.points[studlab == s], lwd = lwd)
+    ##
+    points(cutoff, rescale(NN0, distr),
+           pch = 1, cex = cex, col = col.points)
     ##
     ## Add linear regression lines
     ##
@@ -238,26 +281,6 @@ plot.diagmeta <- function(x,
               lty = 1, col = 1, lwd = lwd, add = TRUE)
       }
     }
-    ##
-    if (lines)
-      for (s in studlab)
-        lines(cutoff[which(studlab == s)],
-              rescale(NN0[which(studlab == s)], distr),
-              col = col.points[studlab == s], lwd = lwd, lty = 2)
-    ##
-    ## Add data
-    ##
-    points(cutoff, rescale(NN1, distr),
-           pch = pch.points, cex = cex, col = col.points)      
-    ##
-    if (lines)
-      for (s in studlab)
-        lines(cutoff[which(studlab == s)],
-              rescale(NN1[which(studlab == s)], distr),
-              col = col.points[studlab == s], lwd = lwd)
-    ##
-    points(cutoff, rescale(NN0, distr),
-           pch = 1, cex = cex, col = col.points)
   }
   
   
@@ -272,123 +295,8 @@ plot.diagmeta <- function(x,
     plot(c(cutoff, cutoff), c(NN0, NN1),
          type = "n", las = 1, log = log.axis,
          xlab = xlab, ylab = "Prob(negative test)",
+         main = mains[match("cdf", which)],
          xlim = xlim, ylim = c(0, 1), ...)
-    ##
-    ## Add regression curves
-    ##
-    if (log.cutoff) {
-      ##
-      if (rlines) {
-        curve(calcSpec(ci.y(log(x),
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$TE),
-              lty = 1, col = 1, lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(log(x),
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$TE),
-              lty = 2, col = 1, lwd = lwd, add = TRUE)
-      }
-      ##
-      if (ci) {
-        curve(calcSpec(ci.y(log(x),
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$lower),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(log(x),
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$upper),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(log(x),
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$lower),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(log(x),
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$upper),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-      }
-    }
-    else {
-      ##
-      if (rlines) {
-        curve(calcSpec(ci.y(x,
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$TE),
-              lty = 1, col = 1, lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(x,
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$TE),
-              lty = 2, col = 1, lwd = lwd, add = TRUE)
-      }
-      ##
-      if (ci) {
-        curve(calcSpec(ci.y(x,
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$lower),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(x,
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$upper),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(x,
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$lower),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSpec(ci.y(x,
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$upper),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-      }
-    }
-    ##
-    ## Draw line for optimal cutoff
-    ##
-    if (line.optcut)
-      abline(v = optcut)
     ##
     ## Add lines
     ##
@@ -411,6 +319,134 @@ plot.diagmeta <- function(x,
     ##
     points(cutoff, NN0,
            pch = 1, cex = cex, col = col.points)
+    ##
+    ## Add regression curves
+    ##
+    if (log.cutoff) {
+      ##
+      if (rlines) {
+        curve(calcSpec(ci.y(log(x),
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$TE,
+                       distr),
+              lty = 2, col = 1, lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(log(x),
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$TE,
+                       distr),
+              lty = 1, col = 1, lwd = lwd, add = TRUE)
+      }
+      ##
+      if (ci) {
+        curve(calcSpec(ci.y(log(x),
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$lower,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(log(x),
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$upper,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(log(x),
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$lower,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(log(x),
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$upper,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+      }
+    }
+    else {
+      ##
+      if (rlines) {
+        curve(calcSpec(ci.y(x,
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$TE,
+                       distr),
+              lty = 2, col = 1, lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(x,
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$TE,
+                       distr),
+              lty = 1, col = 1, lwd = lwd, add = TRUE)
+      }
+      ##
+      if (ci) {
+        curve(calcSpec(ci.y(x,
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$lower,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(x,
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$upper,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(x,
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$lower,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSpec(ci.y(x,
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$upper,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+      }
+    }
+    ##
+    ## Draw line for optimal cutoff
+    ##
+    if (line.optcut)
+      abline(v = optcut)
   }
   
   
@@ -424,123 +460,8 @@ plot.diagmeta <- function(x,
     plot(c(cutoff, cutoff), 1 - c(NN0, NN1),
          type = "n", las = 1, log = log.axis,
          xlab = xlab, ylab = "Prob(positive test)",
+         main = mains[match("survival", which)],
          xlim = xlim, ylim = c(0, 1), ...)
-    ##
-    ## Add regression curves
-    ##
-    if (log.cutoff) {
-      ##
-      if (rlines) {
-        curve(calcSens(ci.y(log(x),
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$TE),
-              lty = 1, col = 1, lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(log(x),
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$TE),
-              lty = 2, col = 1, lwd = lwd, add = TRUE)
-      }
-      ##
-      if (ci) {
-        curve(calcSens(ci.y(log(x),
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$lower),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(log(x),
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$upper),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(log(x),
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$lower),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(log(x),
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$upper),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-      }
-    }
-    else {
-      ##
-      if (rlines) {
-        curve(calcSens(ci.y(x,
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$TE),
-              lty = 1, col = 1, lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(x,
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$TE),
-              lty = 2, col = 1, lwd = lwd, add = TRUE)
-      }
-      ##
-      if (ci) {
-        curve(calcSens(ci.y(x,
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$lower),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(x,
-                            alpha0, varalpha0,
-                            beta0, varbeta0,
-                            covalpha0beta0,
-                            var.nondiseased,
-                            level)$upper),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(x,
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$lower),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-        ##
-        curve(calcSens(ci.y(x,
-                            alpha1, varalpha1,
-                            beta1, varbeta1,
-                            covalpha1beta1,
-                            var.diseased,
-                            level)$upper),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
-      }
-    }
-    ##
-    ## Draw line for optimal cutoff
-    ##
-    if (line.optcut)
-      abline(v = optcut)
     ##
     ## Add lines
     ##
@@ -562,6 +483,134 @@ plot.diagmeta <- function(x,
            pch = pch.points, cex = cex, col = col.points)
     ##
     points(cutoff, 1 - NN0, pch = 1, cex = cex, col = col.points)
+    ##
+    ## Add regression curves
+    ##
+    if (log.cutoff) {
+      ##
+      if (rlines) {
+        curve(calcSens(ci.y(log(x),
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$TE,
+                       distr),
+              lty = 1, col = 1, lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(log(x),
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$TE,
+                       distr),
+              lty = 2, col = 1, lwd = lwd, add = TRUE)
+      }
+      ##
+      if (ci) {
+        curve(calcSens(ci.y(log(x),
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$lower,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(log(x),
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$upper,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(log(x),
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$lower,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(log(x),
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$upper,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+      }
+    }
+    else {
+      ##
+      if (rlines) {
+        curve(calcSens(ci.y(x,
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$TE,
+                       distr),
+              lty = 1, col = 1, lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(x,
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$TE,
+                       distr),
+              lty = 2, col = 1, lwd = lwd, add = TRUE)
+      }
+      ##
+      if (ci) {
+        curve(calcSens(ci.y(x,
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$lower,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(x,
+                            alpha0, varalpha0,
+                            beta0, varbeta0,
+                            covalpha0beta0,
+                            var.nondiseased,
+                            level)$upper,
+                       distr),
+              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(x,
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$lower,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+        ##
+        curve(calcSens(ci.y(x,
+                            alpha1, varalpha1,
+                            beta1, varbeta1,
+                            covalpha1beta1,
+                            var.diseased,
+                            level)$upper,
+                       distr),
+              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+      }
+    }
+    ##
+    ## Draw line for optimal cutoff
+    ##
+    if (line.optcut)
+      abline(v = optcut)
   }
   
   
@@ -578,7 +627,22 @@ plot.diagmeta <- function(x,
          type = "n",
          las = 1, log = log.axis,
          ylab = "(Weighted) Youden index", xlab = xlab,
+         main = mains[match("youden", which)],
          xlim = xlim, ylim = c(0, 1), ...)
+    ##
+    ## Add lines
+    ##
+    if (lines) {
+      for (s in studlab)
+        lines(cutoff[which(studlab == s)],
+              youden[which(studlab == s)],
+              col = col.points[studlab == s], lwd = lwd)
+    }
+    ##
+    ## Add data
+    ##
+    points(cutoff, youden,
+           pch = pch.points, col = col.points, cex = cex)
     ##
     ## Plot Youden index
     ##
@@ -641,20 +705,6 @@ plot.diagmeta <- function(x,
     ##
     if (line.optcut)
       abline(v = optcut)
-    ##
-    ## Add lines
-    ##
-    if (lines) {
-      for (s in studlab)
-        lines(cutoff[which(studlab == s)],
-              youden[which(studlab == s)],
-              col = col.points[studlab == s], lwd = lwd)
-    }
-    ##
-    ## Add data
-    ##
-    points(cutoff, youden,
-           pch = pch.points, col = col.points, cex = cex)
   }
   
   
@@ -668,6 +718,7 @@ plot.diagmeta <- function(x,
     plot(1 - NN0, 1 - NN1,
          type = "n", las = 1,
          xlab = "1 - Specificity", ylab = "Sensitivity",
+         main = mains[match("roc", which)],
          xlim = c(0, 1), ylim = c(0, 1), ...)
     ##
     ## Add lines
@@ -695,6 +746,7 @@ plot.diagmeta <- function(x,
     plot(1 - NN0, 1 - NN1,
          type = "n", las = 1,
          xlab = "1 - Specificity", ylab = "Sensitivity",
+         main = mains[match("sroc", which)],
          xlim = c(0, 1), ylim = c(0, 1), ...)
     ##
     if (log.cutoff)
@@ -764,20 +816,24 @@ plot.diagmeta <- function(x,
     ##
     ## Add ROC curve
     ##
-    if (is.logistic) {
+    if (is.logistic)
       curve(1 - expit(alpha1 + beta1 * (logit(1 - x) - alpha0) / beta0),
             lwd = lwd, col = 1, add = TRUE)
-      ##
-      if (mark.optcut)
-        points(1 - expit(alpha0 + beta0 * optcut),
-               1 - expit(alpha1 + beta1 * optcut),
-               lwd = lwd.optcut, cex = 2, pch = 3, col = 1)
-    }
-    else {
+    else if (is.normal)
       curve(1 - pnorm(qnorm(1 - x, mean0, sd0), mean1, sd1),
             lwd = lwd, col = 1, add = TRUE)
+    ##
+    if (mark.optcut) {
+      if (log.cutoff)
+        ocut <- log(optcut)
+      else
+        ocut <- optcut
       ##
-      if (mark.optcut)
+      if (is.logistic)
+        points(1 - expit(alpha0 + beta0 * ocut),
+               1 - expit(alpha1 + beta1 * ocut),
+               lwd = lwd.optcut, cex = 2, pch = 3, col = 1)
+      else if (is.normal)
         points(1 - pnorm(optcut, mean0, sd0),
                1 - pnorm(optcut, mean1, sd1),
                lwd = lwd.optcut, cex = 2, pch = 3, col = 1)
@@ -807,7 +863,7 @@ plot.diagmeta <- function(x,
              0.98 - expit(alpha1 + beta1 * cuts),
              text.cuts, cex = cex.marks)
       }
-      else {
+      else if (is.normal) {
         points(1 - pnorm(cuts, mean0, sd0),
                1 - pnorm(cuts, mean1, sd1),
                pch = 3, cex = cex)
@@ -833,7 +889,8 @@ plot.diagmeta <- function(x,
               (1 + exp(beta0 * log(x) + alpha0)),
               lty = 2, log = "x", las = 1,
               from = min(Cutoff), to = max(Cutoff),
-              xlab = xlab, ylab = "")
+              xlab = xlab, ylab = "",
+              main = mains[match("density", which)])
         ##
         curve(beta1 * expit(beta1 * log(x) + alpha1) /
               (1 + exp(beta1 * log(x) + alpha1)),
@@ -844,7 +901,8 @@ plot.diagmeta <- function(x,
               (1 + exp(beta0 * x + alpha0)),
               lty = 2, las = 1,
               from = min(Cutoff), to = max(Cutoff),
-              xlab = xlab, ylab = "")
+              xlab = xlab, ylab = "",
+              main = mains[match("density", which)])
         ##
         curve(beta1 * expit(beta1 * x + alpha1) /
               (1 + exp(beta1 * x + alpha1)),
@@ -856,7 +914,8 @@ plot.diagmeta <- function(x,
         curve(dnorm(log(x), mean0, sd0),
               lty = 2, log = "x",
               from = min(Cutoff), to = max(Cutoff),
-              xlab = xlab)
+              xlab = xlab,
+              main = mains[match("density", which)])
         ##
         curve(dnorm(log(x), mean1, sd1),
               lty = 1, add = TRUE)
@@ -865,10 +924,11 @@ plot.diagmeta <- function(x,
         curve(dnorm(x, mean0, sd0),
               lty = 2,
               from = min(Cutoff), to = max(Cutoff),
-              xlab = xlab, ...) 
+              xlab = xlab,
+              main = mains[match("density", which)])
         ##
         curve(dnorm(x, mean1, sd1),
-              lty = 1, add = TRUE, ...)
+              lty = 1, add = TRUE)
       }
     }
     ##
