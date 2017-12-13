@@ -28,8 +28,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   is.normal <- distr == "normal"
   ##
   model <- setchar(model,
-                   c("CI", "DI", "CS", "DS",
-                     "CICS", "DICS", "CIDS", "DIDS"))
+                   c("CI", "DI", "CS", "DS", "CICS", "DICS", "CIDS", "DIDS"))
   ##
   chklogical(equalvar)
   chklevel(level)
@@ -228,54 +227,54 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##
   if (equalvar) {
     if (model == "CI")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (1 | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (1 | Study),
                    weights = w, ...)
     else if (model == "DI")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (1 + Group | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (1 + Group | Study),
                    weights = w, ...)
     else if (model == "CS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (0 + Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (0 + Cutoff | Study),
                    weights = w, ...)
     else if (model == "DS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (0 + Cutoff + Group:Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (0 + Cutoff + Group:Cutoff | Study),
                    weights = w, ...)
     else if (model == "CICS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (Cutoff | Study),
                    weights = w, ...)
     else if (model == "DICS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (Cutoff + Group | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (Cutoff + Group | Study),
                    weights = w, ...)
     else if (model == "CIDS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (Cutoff +  Group:Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (Cutoff +  Group:Cutoff | Study),
                    weights = w, ...)
     else if (model == "DIDS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group + Cutoff + (Group * Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group + Cutoff + (Group * Cutoff | Study),
                    weights = w, ...)
   }
   else {
     if (model == "CI")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (1 | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (1 | Study),
                    weights = w, ...)
     else if (model == "DI")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (1 + Group | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (1 + Group | Study),
                    weights = w, ...)
     else if (model == "CS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (0 + Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (0 + Cutoff | Study),
                    weights = w, ...)
     else if (model == "DS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (0 + Cutoff + Group:Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (0 + Cutoff + Group:Cutoff | Study),
                    weights = w, ...)
     else if (model == "CICS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (Cutoff | Study),
                    weights = w, ...)
     else if (model == "DICS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (Cutoff + Group | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (Cutoff + Group | Study),
                    weights = w, ...)
     else if (model == "CIDS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (Cutoff +  Group:Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (Cutoff +  Group:Cutoff | Study),
                    weights = w, ...)
     else if (model == "DIDS")
-      lme1 <- lmer(rescale(NN, distr) ~ Group * Cutoff + (Group * Cutoff | Study),
+      lme1 <- lmer(qdiag(NN, distr) ~ Group * Cutoff + (Group * Cutoff | Study),
                    weights = w, ...)
   }
   ##
@@ -293,44 +292,37 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## Extract regression coefficients:
   ## - alpha0, beta0 (non-diseased)
   ## - alpha1 and beta1 (diseased)
-  ##  
+  ##
+  alpha0 <- cf[1, 1]
+  alpha1 <- alpha0 + cf[2, 1]
+  beta0 <- cf[3, 1]
+  ##
+  var.alpha0 <- vc[1, 1]
+  var.alpha1 <- var.alpha0 + vc[2, 2] + 2 * vc[1, 2]
+  var.beta0 <- vc[3, 3]
+  ##
+  cov.alpha0.beta0 <- vc[1, 3]
+  cov.alpha0.alpha1 <- var.alpha0 + vc[1, 2]
+  ##
   if (equalvar) {
-    alpha0 <- cf[1, 1]
-    alpha1 <- cf[1, 1] + cf[2, 1]
-    beta0 <-  cf[3, 1]
-    beta1 <-  cf[3, 1]
+    beta1 <- beta0
+    var.beta1 <- var.beta0
     ##
-    varalpha0 <- vc[1, 1]
-    varalpha1 <- vc[1, 1] + vc[2, 2] + 2 * vc[1, 2]
-    varbeta0 <-  vc[3, 3]
-    varbeta1 <-  vc[3, 3]
+    cov.alpha0.beta1 <- cov.alpha0.beta0
+    cov.alpha1.beta0 <- cov.alpha0.beta0 + vc[2, 3]
+    cov.alpha1.beta1 <- cov.alpha1.beta0
     ##
-    covalpha0beta0 <- vc[1, 3]
-    covalpha0beta1 <- covalpha0beta0
-    covalpha0alpha1 <- vc[1, 1] + vc[1, 2]
-    covalpha1beta0 <- vc[1, 3] + vc[2, 3]
-    covalpha1beta1 <- covalpha1beta0
-    ##
-    covbeta0beta1 <- varbeta0
+    cov.beta0.beta1 <- var.beta0
   }
   else {
-    alpha0 <- cf[1, 1]
-    alpha1 <- cf[1, 1] + cf[2, 1]
-    beta0 <-  cf[3, 1]
-    beta1 <-  cf[3, 1] + cf[4, 1]
+    beta1 <- beta0 + cf[4, 1]
+    var.beta1 <- var.beta0 + vc[4, 4] + 2 * vc[3, 4]
     ##
-    varalpha0 <- vc[1, 1]
-    varalpha1 <- vc[1, 1] + vc[2, 2] + 2 * vc[1, 2]
-    varbeta0 <-  vc[3, 3]
-    varbeta1 <-  vc[3, 3] + vc[4, 4] + 2 * vc[3, 4]
+    cov.alpha0.beta1 <- cov.alpha0.beta0 + vc[1, 4]
+    cov.alpha1.beta0 <- cov.alpha0.beta0 + vc[2, 3]
+    cov.alpha1.beta1 <- cov.alpha0.beta1 + vc[2, 3] + vc[2, 4]
     ##
-    covalpha0beta0 <- vc[1, 3]
-    covalpha0beta1 <- vc[1, 3] + vc[1, 4]
-    covalpha0alpha1 <- vc[1, 1] + vc[1, 2]
-    covalpha1beta1 <- vc[1, 3] + vc[1, 4] + vc[2, 3] + vc[2, 4]
-    covalpha1beta0 <- vc[1, 3] + vc[2, 3]
-    ##
-    covbeta0beta1 <- vc[3, 3] + vc[3, 4]
+    cov.beta0.beta1 <- var.beta0 + vc[3, 4]
   }
   ##
   ## Correlation of data must be positive
@@ -346,20 +338,23 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##
   ##
   mean0 <- - alpha0 / beta0  # Mean disease-free
-  sd0 <- 1 / beta0           # Standard deviation disease-free
   mean1 <- - alpha1 / beta1  # Mean diseased
+  ##
+  sd0 <- 1 / beta0           # Standard deviation disease-free
   sd1 <- 1 / beta1           # Standard deviation diseased
   ##
-  var.mean0 <- (alpha0^2) / (beta0^4) * varbeta0 + varalpha0 /
-    (beta0^2) - 2 * alpha0 / (beta0^3) * covalpha0beta0
-  var.mean1 <- (alpha1^2) / (beta1^4) * varbeta1 + varalpha1 /
-    (beta1^2) - 2 * alpha1 / (beta1^3) * covalpha1beta1 
+  var.mean0 <- (alpha0^2) / (beta0^4) * var.beta0 + var.alpha0 /
+    (beta0^2) - 2 * alpha0 / (beta0^3) * cov.alpha0.beta0
+  var.mean1 <- (alpha1^2) / (beta1^4) * var.beta1 + var.alpha1 /
+    (beta1^2) - 2 * alpha1 / (beta1^3) * cov.alpha1.beta1 
   ##
-  var.sd0 <- varbeta0 / (beta0^4)
-  var.sd1 <- varbeta1 / (beta1^4)
+  var.sd0 <- var.beta0 / (beta0^4)
+  var.sd1 <- var.beta1 / (beta1^4)
   ##
   if (mean1 < mean0)
-    stop("Estimated distribution of diseased patients is left of non-diseased ones. Check if for your biomarker really higher values indicate illness.")
+    stop("Estimated distribution of diseased patients is left of ",
+         "non-diseased ones. Check if higher values for biomarker ",
+         "really indicate illness.")
   
   
   ##
@@ -384,7 +379,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
     ## Cutoffs of two normals, weighted with lambda and 1 - lambda
     turn <- (mean0 * sd1^2 - mean1 * sd0^2) / (sd1^2 - sd0^2)
     rad <- sqrt(sd0^2 * sd1^2 * (2 * (sd1^2 - sd0^2) *
-                                 (log(sd1) - log(sd0) - logit(lambda)) +
+                                 (log(sd1) - log(sd0) - qlogis(lambda)) +
                                  (mean1 - mean0)^2) / (sd1^2 - sd0^2)^2)
     x0 <- turn - rad
     x1 <- turn + rad
@@ -394,13 +389,13 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
     else if (sd0 > sd1)
       optcut <- x0
     else
-      optcut <- (-logit(lambda) * sd0^2 - 0.5 * (mean0^2 - mean1^2)) /
+      optcut <- (-qlogis(lambda) * sd0^2 - 0.5 * (mean0^2 - mean1^2)) /
         (mean1 - mean0)
     ##
     if (sd1 != sd0) {
       ## Derivations of optimal cutoff function
-      S <- sqrt(2 * (beta0^2 - beta1^2) * (log(beta0 / beta1) - logit(lambda)) +
-                (alpha0 * beta1-alpha1 * beta0)^2)
+      S <- sqrt(2 * (beta0^2 - beta1^2) * (log(beta0 / beta1) - qlogis(lambda)) +
+                (alpha0 * beta1 - alpha1 * beta0)^2)
       ##
       dalpha0 <- (-beta0 + beta1 / S * (alpha0 * beta1 - alpha1 * beta0)) /
         (beta0^2 - beta1^2)
@@ -408,34 +403,34 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
       dalpha1 <- (beta1 - beta0 / S * (alpha0 * beta1 - alpha1 * beta0)) /
         (beta0^2 - beta1^2)
       ##
-      dbeta0 <- (- alpha0 + 1 / (beta0 * S) * (beta0^2-beta1^2)) /
-        (beta0^2-beta1^2)+
-        (4 * beta0 * (log(beta0 / beta1)-logit(lambda)) -
-         2 * alpha1 * (alpha0 * beta1-alpha1 * beta0)) /
+      dbeta0 <- (- alpha0 + 1 / (beta0 * S) * (beta0^2 - beta1^2)) /
+        (beta0^2 - beta1^2)+
+        (4 * beta0 * (log(beta0 / beta1) - qlogis(lambda)) -
+         2 * alpha1 * (alpha0 * beta1 - alpha1 * beta0)) /
         (2 * S * (beta0^2 - beta1^2)) -
         (2 * beta0 * (alpha1 * beta1 - alpha0 * beta0 + S)) /
         ((beta0^2 - beta1^2)^2)
       ##
       dbeta1 <- (alpha1 - 1 / (beta1 * S) * (beta0^2 - beta1^2)) /
         (beta0^2 - beta1^2) +
-        (-4 * beta1 * (log(beta0 / beta1) - logit(lambda)) + 2 * alpha0 *
+        (-4 * beta1 * (log(beta0 / beta1) - qlogis(lambda)) + 2 * alpha0 *
          (alpha0 * beta1 - alpha1 * beta0)) / (2 * S * (beta0^2 - beta1^2)) +
         (2 * beta1 * (alpha1 * beta1 - alpha0 * beta0 + S)) /
         ((beta0^2 - beta1^2)^2)
       ##
       ## Variance estimate of optimal cutoff
       ##
-      var.optcut <- dalpha0^2 * varalpha0 + dalpha1^2 * varalpha1 +
-                                                      dbeta0^2 * varbeta0 + dbeta1^2 * varbeta1 +
-                                                                                     2 * dalpha0 * dalpha1 * covalpha0alpha1 + 2 * dalpha0 * dbeta0 * covalpha0beta0 +
-                                                                                     2 * dalpha0 * dbeta1 * covalpha0beta1 + 2 * dalpha1 * dbeta0 * covalpha1beta0 +
-                                                                                     2 * dalpha1 * dbeta1 * covalpha1beta1 + 2 * dbeta0 * dbeta1 * covbeta0beta1
+      var.optcut <- dalpha0^2 * var.alpha0 + dalpha1^2 * var.alpha1 +
+                                                       dbeta0^2 * var.beta0 + dbeta1^2 * var.beta1 +
+                                                                                       2 * dalpha0 * dalpha1 * cov.alpha0.alpha1 + 2 * dalpha0 * dbeta0 * cov.alpha0.beta0 +
+                                                                                       2 * dalpha0 * dbeta1 * cov.alpha0.beta1 + 2 * dalpha1 * dbeta0 * cov.alpha1.beta0 +
+                                                                                       2 * dalpha1 * dbeta1 * cov.alpha1.beta1 + 2 * dbeta0 * dbeta1 * cov.beta0.beta1
     }
     else {
       ##
       ## Derivations of optimal cutoff function
       ##
-      S <- logit(lambda) + 0.5 * (alpha1^2 - alpha0^2)
+      S <- qlogis(lambda) + 0.5 * (alpha1^2 - alpha0^2)
       ##
       dalpha0 <- (alpha1 * (alpha1 - alpha0) - S / beta0) /
         ((alpha1 - alpha0)^2)
@@ -447,9 +442,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
       ##
       ## Variance estimate of optimal cutoff
       ##
-      var.optcut <- dalpha0^2 * varalpha0 + dalpha1^2 * varalpha1 + dbeta0^2 * varbeta0 +
-                                                                             2 * dalpha0 * dalpha1 * covalpha0alpha1 + 2 * dalpha0 * dbeta0 * covalpha0beta0 +
-                                                                             2 * dalpha1 * dbeta0 * covalpha1beta0
+      var.optcut <- dalpha0^2 * var.alpha0 + dalpha1^2 * var.alpha1 + dbeta0^2 * var.beta0 +
+                                                                               2 * dalpha0 * dalpha1 * cov.alpha0.alpha1 + 2 * dalpha0 * dbeta0 * cov.alpha0.beta0 +
+                                                                               2 * dalpha1 * dbeta0 * cov.alpha1.beta0
     }
   }
   
@@ -459,25 +454,25 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (9) Calculate sensitivity and specificity at optimal cutpoint
   ##
   ##
-  ci.y1 <- ci.y(optcut,
-                alpha1, varalpha1, beta1, varbeta1, covalpha1beta1,
-                var.diseased,
-                level)
+  ci.regr1 <- ciRegr(optcut,
+                     alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
+                     var.diseased,
+                     level)
   ##
-  ci.y0 <- ci.y(optcut,
-                alpha0, varalpha0, beta0, varbeta0, covalpha1beta0,
-                var.nondiseased,
-                level)
+  ci.regr0 <- ciRegr(optcut,
+                     alpha0, var.alpha0, beta0, var.beta0, cov.alpha1.beta0,
+                     var.nondiseased,
+                     level)
   ##
   ## Calculate sensitivity and specificity at optimal cutpoint
   ##
-  Se <- calcSens(ci.y1$TE, distr)
-  lower.Se <- calcSens(ci.y1$lower, distr)
-  upper.Se <- calcSens(ci.y1$upper, distr)
+  Se <- calcSens(ci.regr1$TE, distr)
+  lower.Se <- calcSens(ci.regr1$lower, distr)
+  upper.Se <- calcSens(ci.regr1$upper, distr)
   ##
-  Sp <- calcSpec(ci.y0$TE, distr)
-  lower.Sp <- calcSpec(ci.y0$lower, distr)
-  upper.Sp <- calcSpec(ci.y0$upper, distr)
+  Sp <- calcSpec(ci.regr0$TE, distr)
+  lower.Sp <- calcSpec(ci.regr0$lower, distr)
+  upper.Sp <- calcSpec(ci.regr0$upper, distr)
   
   
   ##
@@ -519,16 +514,16 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               result.lmer = lme1,
               weights = w,
               ##
-              regr = list(alpha0 = alpha0, varalpha0 = varalpha0,
-                          beta0 = beta0, varbeta0 = varbeta0,
-                          covalpha0beta0 = covalpha0beta0,
-                          alpha1 = alpha1, varalpha1 = varalpha1,
-                          beta1 = beta1, varbeta1 = varbeta1,
-                          covalpha1beta1 = covalpha1beta1,
-                          covalpha0alpha1 = covalpha0alpha1,
-                          covalpha0beta1 = covalpha0beta1,
-                          covalpha1beta0 = covalpha1beta0,
-                          covbeta0beta1 = covbeta0beta1),
+              regr = list(alpha0 = alpha0, var.alpha0 = var.alpha0,
+                          beta0 = beta0, var.beta0 = var.beta0,
+                          cov.alpha0.beta0 = cov.alpha0.beta0,
+                          alpha1 = alpha1, var.alpha1 = var.alpha1,
+                          beta1 = beta1, var.beta1 = var.beta1,
+                          cov.alpha1.beta1 = cov.alpha1.beta1,
+                          cov.alpha0.alpha1 = cov.alpha0.alpha1,
+                          cov.alpha0.beta1 = cov.alpha0.beta1,
+                          cov.alpha1.beta0 = cov.alpha1.beta0,
+                          cov.beta0.beta1 = cov.beta0.beta1),
               ##
               dist = list(mean0 = mean0, var.mean0 = var.mean0,
                           sd0 = sd0, var.sd0 = var.sd0,
