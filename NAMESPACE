@@ -6,3 +6,14 @@ S3method(plot, diagmeta)
 importFrom("lme4", "lmer")
 
 importFrom("meta", "ci")
+
+importFrom("grDevices",
+           "cm.colors", "heat.colors", "rainbow", "rgb",
+           "terrain.colors", "topo.colors")
+
+importFrom("graphics",
+           "abline", "curve", "par", "plot", "polygon", "text")
+
+importFrom("stats",
+           "AIC", "BIC", "coef", "cov", "dlogis", "dnorm",
+           "logLik", "plogis", "pnorm", "qlogis", "qnorm", "vcov")
