@@ -92,7 +92,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   
   ##
   ##
-  ## (3) Check length of essential variables
+  ## (3) Check of essential variables
   ##
   ##
   chklength(FP, k.All, fun, name = "TP")
@@ -100,8 +100,11 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   chklength(FN, k.All, fun, name = "TP")
   chklength(cutoff, k.All, fun, name = "TP")
   chklength(studlab, k.All, fun, name = "TP")
-
-
+  ##
+  if (length(unique(cutoff)) == 1)
+    stop("Model cannot be use with a single cutoff. Consider using, e.g., madad() from R package mada.")
+  
+  
   ##
   ##
   ## (4) Auxiliary function
@@ -483,6 +486,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   res <- list(TP = TP, FP = FP, TN = TN, FN = FN,
               cutoff = cutoff, studlab = studlab,
               ##
+              Sens = 1 - (FN + incr) / (N1 + 2 * incr),
+              Spec = (TN + incr) / (N0 + 2 * incr),
+              ##
               distr = distr, model = model, equalvar = equalvar,
               lambda = lambda,
               ##
@@ -493,18 +499,15 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               ##
               optcut = if (log.cutoff) exp(optcut) else optcut,
               ##
-              Se.optcut = Se,
-              lower.Se.optcut = lower.Se,
-              upper.Se.optcut = upper.Se,
-              Sp.optcut = Sp,
-              lower.Sp.optcut = lower.Sp,
-              upper.Sp.optcut = upper.Sp,
+              Sens.optcut = Se,
+              lower.Sens.optcut = lower.Se,
+              upper.Sens.optcut = upper.Se,
+              Spec.optcut = Sp,
+              lower.Spec.optcut = lower.Sp,
+              upper.Spec.optcut = upper.Sp,
               ##
               var.diseased = var.diseased,
               var.nondiseased = var.nondiseased,
-              ##
-              NN0 = (TN + incr) / (N0 + 2 * incr),
-              NN1 = (FN + incr) / (N1 + 2 * incr),
               ##
               AIC = AIC(logLik(lme1)),
               BIC = BIC(lme1),

@@ -143,9 +143,9 @@ components
 
 \references{
 Steinhauser S, Schumacher M and Rücker G (2016),
-\emph{Modelling multiple thresholds in meta-analysis of diagnostic test accuracy
-studies}.
-BMC Med Res Methodol 2016;16:97.
+Modelling multiple thresholds in meta-analysis of diagnostic test accuracy
+studies.
+\emph{BMC Med Res Methodol}, \bold{16}, 97.
 }
 
 \author{

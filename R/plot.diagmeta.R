@@ -108,7 +108,7 @@ plot.diagmeta <- function(x,
   else if (col.points == "gray")
     cols <- gray(1:x$k / (x$k + 1))[study.no]
   else if (col.points == "black")
-    cols <- rep(1, x$k)
+    cols <- rep(1, x$k)[study.no]
   ##
   col.points <- cols
   ##
@@ -151,20 +151,17 @@ plot.diagmeta <- function(x,
   var.nondiseased <- x$var.nondiseased
   var.diseased <- x$var.diseased
   ##
-  NN0 <- x$NN0
-  NN1 <- x$NN1
+  Spec <- x$Spec
+  Sens <- x$Sens
   ##
   NN <- x$data.lmer$NN
   Cutoff <- x$data.lmer$Cutoff
-  ##
-  Se.optcut <- x$Se.optcut
-  Sp.optcut <- x$Sp.optcut
   ##
   log.cutoff <- x$log.cutoff
   ##
   log.axis <- if (log.cutoff) "x" else ""
   ##
-  youden <- calcYouden.SeSp(1 - NN1, NN0, lambda)
+  youden <- calcYouden.SeSp(Sens, Spec, lambda)
   
   
   ##
@@ -174,7 +171,7 @@ plot.diagmeta <- function(x,
   ##
   if ("regression" %in% which) {
     ##
-    plot(c(cutoff, cutoff), qdiag(c(NN0, NN1), distr),
+    plot(c(cutoff, cutoff), qdiag(c(Spec, 1 - Sens), distr),
          type = "n", las = 1, log = log.axis,
          ylab = ylab, xlab = xlab,
          main = mains[match("regression", which)],
@@ -185,18 +182,18 @@ plot.diagmeta <- function(x,
     if (lines)
       for (s in studlab) {
         lines(cutoff[which(studlab == s)],
-              qdiag(NN0[which(studlab == s)], distr),
+              qdiag(Spec[which(studlab == s)], distr),
               col = col.points[studlab == s], lwd = lwd, lty = 2)
         ##
         lines(cutoff[which(studlab == s)],
-              qdiag(NN1[which(studlab == s)], distr),
+              qdiag(1 - Sens[which(studlab == s)], distr),
               col = col.points[studlab == s], lwd = lwd, lty = 1)
       }
     ##
-    points(cutoff, qdiag(NN0, distr),
+    points(cutoff, qdiag(Spec, distr),
            pch = 1, cex = cex, col = col.points)
     ##
-    points(cutoff, qdiag(NN1, distr),
+    points(cutoff, qdiag(1 - Sens, distr),
            pch = pch.points, cex = cex, col = col.points)      
     ##
     ## Add linear regression lines
@@ -282,7 +279,7 @@ plot.diagmeta <- function(x,
   ##
   if ("cdf" %in% which) {
     ##
-    plot(c(cutoff, cutoff), c(NN0, NN1),
+    plot(c(cutoff, cutoff), c(Spec, 1 - Sens),
          type = "n", las = 1, log = log.axis,
          xlab = xlab, ylab = "Prob(negative test)",
          main = mains[match("cdf", which)],
@@ -293,20 +290,20 @@ plot.diagmeta <- function(x,
     if (lines)
       for (s in studlab) {
         lines(cutoff[which(studlab == s)], 
-              NN0[which(studlab == s)],
+              Spec[which(studlab == s)],
               col = col.points[studlab == s], lwd = lwd, lty = 2)
         ##
         lines(cutoff[which(studlab == s)], 
-              NN1[which(studlab == s)],
+              1 - Sens[which(studlab == s)],
               col = col.points[studlab == s], lwd = lwd, lty = 1)
       }
     ##
     ## Add data
     ##
-    points(cutoff, NN1,
+    points(cutoff, 1 - Sens,
            pch = pch.points, cex = cex, col = col.points)
     ##
-    points(cutoff, NN0,
+    points(cutoff, Spec,
            pch = 1, cex = cex, col = col.points)
     ##
     ## Add regression curves
@@ -446,7 +443,7 @@ plot.diagmeta <- function(x,
   ##
   if ("survival" %in% which) {
     ##
-    plot(c(cutoff, cutoff), 1 - c(NN0, NN1),
+    plot(c(cutoff, cutoff), 1 - c(Spec, 1 - Sens),
          type = "n", las = 1, log = log.axis,
          xlab = xlab, ylab = "Prob(positive test)",
          main = mains[match("survival", which)],
@@ -457,21 +454,21 @@ plot.diagmeta <- function(x,
     if (lines) {
       for (s in studlab)
         lines(cutoff[which(studlab == s)], 
-              1 - NN1[which(studlab == s)],
+              Sens[which(studlab == s)],
               col = col.points[studlab == s], lwd = lwd, lty = 2)
       ##
       for (s in studlab)
         lines(cutoff[which(studlab == s)], 
-              1 - NN0[which(studlab == s)],
+              1 - Spec[which(studlab == s)],
               col = col.points[studlab == s], lwd = lwd, lty = 1)
     }
     ##
     ## Add data
     ##
-    points(cutoff, 1 - NN1,
+    points(cutoff, Sens,
            pch = pch.points, cex = cex, col = col.points)
     ##
-    points(cutoff, 1 - NN0, pch = 1, cex = cex, col = col.points)
+    points(cutoff, 1 - Spec, pch = 1, cex = cex, col = col.points)
     ##
     ## Add regression curves
     ##
@@ -702,7 +699,7 @@ plot.diagmeta <- function(x,
   ##
   if ("roc" %in% which) {
     ##
-    plot(1 - NN0, 1 - NN1,
+    plot(1 - Spec, Sens,
          type = "n", las = 1,
          xlab = "1 - Specificity", ylab = "Sensitivity",
          main = mains[match("roc", which)],
@@ -711,14 +708,14 @@ plot.diagmeta <- function(x,
     ## Add lines
     ##
     for (s in studlab)
-      lines(c(1, 1 - NN0[studlab == s], 0),
-            c(1, 1 - NN1[studlab == s], 0),
+      lines(c(1, 1 - Spec[studlab == s], 0),
+            c(1, Sens[studlab == s], 0),
             col = col.points[studlab == s], lwd = lwd)
     ##
     ## Add data
     ##
     if (points)
-      points(1 - NN0, 1 - NN1,
+      points(1 - Spec, Sens,
              pch = pch.points, col = col.points, cex = cex)
   }
   
@@ -730,7 +727,7 @@ plot.diagmeta <- function(x,
   ##
   if ("sroc" %in% which) {
     ##
-    plot(1 - NN0, 1 - NN1,
+    plot(1 - Spec, Sens,
          type = "n", las = 1,
          xlab = "1 - Specificity", ylab = "Sensitivity",
          main = mains[match("sroc", which)],
@@ -753,25 +750,25 @@ plot.diagmeta <- function(x,
                      cov.alpha1.beta1, var.diseased,
                      level)
     ##
-    Sens <- calcSens(tcuts1$TE, distr)
-    lowerSens <- calcSens(tcuts1$lower, distr)
-    upperSens <- calcSens(tcuts1$upper, distr)
+    Sens.cuts <- calcSens(tcuts1$TE, distr)
+    lowerSens.cuts <- calcSens(tcuts1$lower, distr)
+    upperSens.cuts <- calcSens(tcuts1$upper, distr)
     ##
-    Spec <- calcSpec(tcuts0$TE, distr)
-    lowerSpec <- calcSpec(tcuts0$lower, distr)
-    upperSpec <- calcSpec(tcuts0$upper, distr)
+    Spec.cuts <- calcSpec(tcuts0$TE, distr)
+    lowerSpec.cuts <- calcSpec(tcuts0$lower, distr)
+    upperSpec.cuts <- calcSpec(tcuts0$upper, distr)
     ##
-    y.lower.Se <- lowerSens
-    y.lower.Sp <- Sens
+    y.lower.Se <- lowerSens.cuts
+    y.lower.Sp <- Sens.cuts
     ##
-    y.upper.Se <- upperSens
-    y.upper.Sp <- Sens
+    y.upper.Se <- upperSens.cuts
+    y.upper.Sp <- Sens.cuts
     ##
-    x.lower.Se <- 1 - Spec
-    x.lower.Sp <- 1 - lowerSpec
+    x.lower.Se <- 1 - Spec.cuts
+    x.lower.Sp <- 1 - lowerSpec.cuts
     ##
-    x.upper.Se <- 1 - Spec
-    x.upper.Sp <- 1 - upperSpec
+    x.upper.Se <- 1 - Spec.cuts
+    x.upper.Sp <- 1 - upperSpec.cuts
     ##
     if (ciSens) {
       if(shading == "shade")
@@ -821,7 +818,7 @@ plot.diagmeta <- function(x,
     ##
     ## Add data
     ##
-    points(1 - NN0, 1 - NN1,
+    points(1 - Spec, Sens,
            pch = pch.points, col = col.points, cex = cex)
     ##
     ## Add text
