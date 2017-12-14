@@ -38,7 +38,7 @@ doi: 10.1016/j.jclinepi.2017.09.001 .
 }
 
 \author{
-Srinath Kolampally \url{kolampal@imbi.uni-freiburg.de}, Gerta Rücker \url{ruecker@imbi.uni-freiburg.de}
+Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de}, Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}
 }
 
 \seealso{\code{\link{diagmeta}}, \code{\link{plot.diagmeta}}}

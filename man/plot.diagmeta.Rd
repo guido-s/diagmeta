@@ -74,9 +74,10 @@ To be written
 }
 
 \references{
-Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G.
-\emph{A novel statistical model for analyzing data of a systematic review generates optimal cutoff values for fractional exhaled nitric oxide for asthma diagnosis}
-\url{https://doi.org/10.1016/j.jclinepi.2017.09.001}
+Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017),
+A novel statistical model for analyzing data of a systematic review generates optimal cutoff values for fractional exhaled nitric oxide for asthma diagnosis
+\emph{Journal of Clinical Epidemiology}, \bold{92}, 69--78,
+doi: 10.1016/j.jclinepi.2017.09.001 .
 }
 
 

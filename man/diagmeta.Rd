@@ -100,6 +100,8 @@ components
   \item{FN}{As defined above}
   \item{cutoff}{As defined above}
   \item{studlab}{As defined above}
+  \item{Sens}{Sensitivity}
+  \item{Spec}{Specificity}  
   \item{data}{As defined above}
   \item{distr}{As defined above}
   \item{model}{As defined above}
@@ -124,8 +126,6 @@ components
     group} 
   \item{var.nondiseased}{The within-study variance for the
     non-diseased group}
-  \item{Sens}{Sensitivity}
-  \item{Spec}{Specificity}  
   \item{AIC}{The value of the Akaike information criterion of the lmer
     object}
   \item{BIC}{The value of the Bayesian information criterion of the
@@ -148,7 +148,7 @@ studies.
 }
 
 \author{
-Susanne Steinhauser \url{susanne.steinhauser@uni-koeln.de}, Srinath Kolampally  \url{kolampal@imbi.uni-freiburg.de}, Gerta Rücker \url{ruecker@imbi.uni-freiburg.de}, Guido Schwarzer \url{sc@imbi.uni-freiburg.de}
+Susanne Steinhauser \email{susanne.steinhauser@uni-koeln.de}, Srinath Kolampally  \email{kolampal@imbi.uni-freiburg.de}, Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}, Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
 }
 
 
