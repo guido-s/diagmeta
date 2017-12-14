@@ -110,23 +110,22 @@ components
   \item{k}{The number of studies in the meta-analysis}
   \item{optcut}{The optimal cutoff, defined as the point where lambda
     * sensitivity + (1 – lambda) * specificity is maximized}
-  \item{Se.optcut}{The sensitivity at the optimal cutoff}
-  \item{lower.Se.optcut}{The lower limit of the confidence interval
+  \item{Sens.optcut}{The sensitivity at the optimal cutoff}
+  \item{lower.Sens.optcut}{The lower limit of the confidence interval
     (CI) of the sensitivity at the optimal cutoff}
-  \item{upper.Se.optcut}{The upper limit of the confidence interval
+  \item{upper.Sens.optcut}{The upper limit of the confidence interval
     (CI) of the sensitivity at the optimal cutoff}
-  \item{Sp.optcut}{The specificity at the optimal cutoff}
-  \item{lower.Sp.optcut}{The lower limit of the confidence interval
+  \item{Spec.optcut}{The specificity at the optimal cutoff}
+  \item{lower.Spec.optcut}{The lower limit of the confidence interval
     (CI) of the specificity at the optimal cutoff}
-  \item{upper.Sp.optcut}{The upper limit of the confidence interval
+  \item{upper.Spec.optcut}{The upper limit of the confidence interval
     (CI) of the specificity at the optimal cutoff}
   \item{var.diseased}{The within-study variance for the diseased
     group} 
   \item{var.nondiseased}{The within-study variance for the
     non-diseased group}
-  \item{NN0}{The total number of individuals in the diseased group}
-  \item{NN1}{The total number of individuals in the non-diseased
-    group}  
+  \item{Sens}{Sensitivity}
+  \item{Spec}{Specificity}  
   \item{AIC}{The value of the Akaike information criterion of the lmer
     object}
   \item{BIC}{The value of the Bayesian information criterion of the
