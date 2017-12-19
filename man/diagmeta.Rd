@@ -2,22 +2,21 @@
 \alias{diagmeta}
 
 \title{
-Meta-analysis of diagnostic accuracy studies with the multiple cutoffs model
+Meta-analysis of diagnostic test accuracy studies with the multiple cutoffs model
 }
 
-\description{
-Diagnostic accuracy tests may be based on an ordinal or continuous
-biomarker or an ordinal score together with a cutoff. The decision
-whether the target condition is present or not (positive or negative
-test result) depends on whether the observed value is above or below
-the cutoff. Sensitivity and specificity of the test depend on the
-chosen cutoff and vary with the cutoff. In meta-analysis of diagnostic
-accuracy studies, results are often reported for multiple cutoffs
-within a study, and the cutoffs may differ between studies. The
-multiple cutoffs model creates a link between the range of cutoffs and
-the respective pairs of sensitivity and specificity and thus allows
-identifying cutoffs at which the test is likely to perform best
-[Rücker 2016].
+\description{ Diagnostic tests may be based on an ordinal or
+continuous biomarker or an ordinal score together with a cutoff. The
+decision whether the target condition is present or not (positive or
+negative test result) depends on whether the observed value is above
+or below the cutoff. Sensitivity and specificity of the test depend on
+the chosen cutoff and vary with the cutoff. In meta-analysis of
+diagnostic accuracy studies, results are often reported for multiple
+cutoffs within a study, and the cutoffs may differ between
+studies. The multiple cutoffs model creates a link between the range
+of cutoffs and the respective pairs of sensitivity and specificity and
+thus allows identifying cutoffs at which the test is likely to perform
+best (Steinhauser et al., 2016).
 }
 
 \usage{
@@ -33,7 +32,7 @@ diagmeta(TP, FP, TN, FN, cutoff, studlab, data = NULL, distr = "logistic",
   \item{cutoff}{A number vector indicating the cutoff values}
   \item{studlab}{A numeric or a character vector with study labels}
   \item{data}{An optional data frame containing the study information}
-  \item{distr}{A character indicating the distribution(see details)}
+  \item{distr}{A character indicating the distribution(see Details)}
   \item{model}{A character indicating the model (see Details)}
   \item{equalvar}{A logical indicating whether the variances of the
     biomarker in both groups are thought equal (see Details)}
@@ -76,32 +75,41 @@ on a parametric model, it provides estimates of the two cdfs for the
 two groups across all studies, accounting for the between-study
 heterogeneity and correlation between groups.
 
-Users have the choice between the normal (argument distr = “normal”)
-and the logistic distribution (argument distr = “logistic” which is
-the default). In addition, the cutoffs may be log-transformed
-(argument log, default is FALSE).
+Users have the choice between the normal (argument
+\code{distr="normal"}) and the logistic distribution (argument
+\code{distr="logistic"} which is the default). In addition, the
+cutoffs may be log-transformed (argument \code{log.cutoff}, default is
+\code{FALSE}).
+
+The cdf, transformed using the quantile function of the chosen
+distribution, is modelled by one of eight mixed linear models ("DIDS",
+"CIDS", "DICS", "CICS", "DS", "CS", "DI", "CI") as described in
+Steinhauser et al. (2016). The argument \code{equalvar} indicates if
+the variances of the biomarker in both groups are assumed to be equal
+(equalvar = TRUE) or unequal (equalvar = FALSE).
 
 The ‘pooled’ sensitivity and specificity values can be obtained at
-every cutoff; and a multiple cutoffs summary ROC (sROC) naturally
+every cutoff; a multiple cutoffs summary ROC (sROC) naturally
 follows while preserving cutoff information. The optimal cutoff is
 defined as the cutoff where the maximum of a weighted sum of
 sensitivity and specificity is obtained. The 95\% confidence intervals
 (95\%CI) of sensitivities, specificities and the optimal cutoff are
-estimated using the delta method [16].
+estimated using the delta method (Steinhauser et al., 2016).
 }
 
 \value{
-An object of class “netmeta” with corresponding print, summary, and
+An object of class "diagmeta" with corresponding print, summary, and
 plot function. The object is a list containing the following
 components
+ \itemize{
   \item{TP}{As defined above}
   \item{FP}{As defined above}
   \item{TN}{As defined above}
   \item{FN}{As defined above}
   \item{cutoff}{As defined above}
   \item{studlab}{As defined above}
-  \item{Sens}{Sensitivity}
-  \item{Spec}{Specificity}  
+  \item{Sens}{Sensitivity (original data)}
+  \item{Spec}{Specificity (original data)}  
   \item{data}{As defined above}
   \item{distr}{As defined above}
   \item{model}{As defined above}
@@ -138,6 +146,7 @@ components
   \item{..$ NN}{A vector of frequencies of negative test results}
   \item{result.lmer}{An object of class \code{\link[lme4]{lmer}}
     with 13 slots}
+}
 }
 
 \references{

@@ -1,14 +1,16 @@
 \name{fenomeda}
 \alias{fenomeda}
 
-\title{Meta-analysis of diagnostic accuracy studies with the multiple cutoffs model in asthma}
+\title{Meta-analysis of studies of the diagnostic test accuracy of FENO for diagnosis of asthma}
 
 \description{
-Meta-analysis of diagnostic accuracy studies with the optimal cutoff
-values for fractional exhaled nitric oxide in asthma.
+Meta-analysis of studies of the diagnostic test accuracy of fractional
+exhaled nitric oxide (FENO) for diagnosis of asthma.
 
-These data are used as an example in Schneider et al. (2017) and have
-been preprocessed for use in R package diagmeta.
+The data were collected for a systematic review by Karrasch et
+al. (2017) and are published as a supplement (Appendix 1) to Schneider
+et al. (2017). They have been preprocessed for use in R package
+diagmeta.
 }
 
 \usage{
@@ -22,7 +24,7 @@ data(fenomeda)
     \bold{author} \tab First author \cr
     \bold{year} \tab Year of publication \cr
     \bold{group} \tab Information on subgroup \cr
-    \bold{cutpoint} \tab Cutpoint \cr
+    \bold{cutpoint} \tab Cutpoint (FeNO [ppb]) \cr
     \bold{tpos} \tab Number of true positives \cr
     \bold{fneg} \tab Number of false negatives \cr
     \bold{fpos} \tab Number of false positives \cr
@@ -31,6 +33,10 @@ data(fenomeda)
 }
 
 \source{
+Karrasch S, Linde K, Rücker G, Sommer H, Karsch-Volk M, Kleijnen J, Jörres RA, Schneider A (2017),
+Accuracy of FENO for diagnosing asthma: a systematic review.
+\emph{Thorax}, \bold{72}, 109e16.
+
 Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017),
 A novel statistical model for analyzing data of a systematic review
 generates optimal cutoff values for fractional exhaled nitric oxide
@@ -45,8 +51,6 @@ doi: 10.1016/j.jclinepi.2017.09.001
 # Feno data
 #
 data(fenomeda)
-
-
 
 diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   studlab = paste(author, year, group),

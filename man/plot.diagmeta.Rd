@@ -2,13 +2,13 @@
 \alias{plot.diagmeta}
 
 \title{
-Plot for meta-analysis of diagnostic accuracy studies with the
-multiple cutoffs
+Plot for meta-analysis of diagnostic test accuracy studies with the
+multiple cutoffs model
 }
 
 \description{
-Draws a plot for meta-analysis of diagnostic accuracy studies with the
-multiple cutoffs
+Provides several plots for meta-analysis of diagnostic test accuracy
+studies with the multiple cutoffs model
 }
 
 \usage{
@@ -29,7 +29,8 @@ multiple cutoffs
   \item{xlab}{An x axis label}
   \item{main}{A logical indicating title to the plot}
   \item{ci}{A logical indicating whether confidence intervals should
-    be plotted for \code{"cdf"}, \code{"survival"} and \code{"Youden"}}
+    be plotted for \code{"reg"}, \code{"cdf"}, \code{"survival"} and
+    \code{"Youden"}}
   \item{ciSens}{A logical indicating whether confidence intervals
     should be plotted for sensitivity, given the specificity in
     \code{"SROC"} plot}
@@ -42,21 +43,23 @@ multiple cutoffs
     should be marked on \code{"SROC"} plot}
   \item{points}{A logical indicating whether points should be plotted
     on \code{"ROC"} plot}
-  \item{lines}{A logical indicating polygonal lines connecting points
-    belonging to the same study should be printed in plots
-    \code{"reg"}, \code{"cdf"}, \code{"survival"} and \code{"Youden"}} 
+  \item{lines}{A logical indicating whether polygonal lines connecting
+    points belonging to the same study should be printed in plots
+    \code{"reg"}, \code{"cdf"}, \code{"survival"} and \code{"Youden"}}
   \item{rlines}{A logical indicating whether regression lines or
     curves should be plotted for plots \code{"reg"}, \code{"cdf"},
     \code{"survival"} and \code{"Youden"}}
   \item{line.optcut}{A logical indicating whether a vertical line
-    should be plotted at optimal cutoff line}
+    should be plotted at the optimal cutoff line for plots
+    \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
+    \code{"density"}}
   \item{col.points}{A character vector indicating color, either
     \code{"rainbow"} or \code{"topo"} or \code{"heat"} or
     \code{"terrain"} or \code{"cm"} or \code{"gray"} or
     \code{"black"}}
   \item{cex}{A numeric indicating magnification to be used for
     plotting text and symbols.}
-  \item{pch.points}{A numeric inicating plot symbol(s) for points}
+  \item{pch.points}{A numeric indicating plot symbol(s) for points}
   \item{cex.marks}{A numeric indicating magnification(s) to be used
     for marking cutoffs}
   \item{lwd}{A numeric indicating line width}
@@ -70,7 +73,38 @@ multiple cutoffs
 }
 
 \details{
-To be written
+The first argument of the plot function is an object of class
+"diagmeta".
+
+The second argument \code{which} indicates which sort of plot(s)
+should be shown. For \code{which="reg"}, a scatter plot of the
+quantil-transformed proportions of negative test results with two
+regression lines is shown. Points belonging to the same study are
+marked with the same colour. For \code{which="cdf"}, the two
+cumulative distribution functions are shown, corresponding to the
+proportions of negative test results. For \code{which="survival"}, the
+survival functions are shown, corresponding to the proportions of
+positive test results. For \code{which="Youden"}, the (potentially
+weighted) sum of sensitivity and specificity minus 1 is shown; in case
+of \code{lambda=0.5} (the default) this is the Youden index. For
+\code{which="ROC"}, study-specific ROC curves are shown. For
+\code{which="SROC"}, the model-based summary ROC curve is shown. For
+\code{which="density"}, the model-based densities of both groups are
+shown. Instead of character strings, a numeric value or vector can be
+used to specify plots with numbers corresponding to the following
+order of plots: "regression", "cdf", "survival", "youden", "roc",
+"sroc", and "density".
+
+Other arguments refer to further plot parameters, such as \code{lines}
+(whether points belonging to the same study should be joined),
+\code{rlines} (whether regression curves should be drawn), \code{ci} /
+\code{ciSens} / \code{ciSpec} (whether confidence regions should be
+shown), \code{line.optcut} / \code{mark.optcut} (whether the optimal
+cutoff should be indicated), and additional plot parameters (see
+Arguments).
+
+If no further arguments are provided, four standard plots ("survival",
+"Youden", "ROC", and "SROC") are produced in a 2 x 2 format.
 }
 
 \references{
@@ -78,6 +112,11 @@ Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017),
 A novel statistical model for analyzing data of a systematic review generates optimal cutoff values for fractional exhaled nitric oxide for asthma diagnosis
 \emph{Journal of Clinical Epidemiology}, \bold{92}, 69--78,
 doi: 10.1016/j.jclinepi.2017.09.001 .
+
+Steinhauser S, Schumacher M and Rücker G (2016),
+Modelling multiple thresholds in meta-analysis of diagnostic test accuracy
+studies.
+\emph{BMC Med Res Methodol}, \bold{16}, 97.
 }
 
 
