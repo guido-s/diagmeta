@@ -857,7 +857,7 @@ plot.diagmeta <- function(x,
             xlab = xlab, ylab = "",
             main = mains[match("density", which)])
       ##
-      curve(beta1 * pdiag(beta1 * log(x) + alpha1) /
+      curve(beta1 * pdiag(beta1 * log(x) + alpha1, distr) /
             (1 + exp(beta1 * log(x) + alpha1)),
             lty = 1, add = TRUE)
     }

@@ -163,7 +163,8 @@ data(fenomeda)
 
 str(fenomeda)
 
-diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint, study,
+diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
+                  studlab = paste(author, year, group),
                   data = fenomeda, log.cutoff = TRUE,
                   model = "DIDS", distr = "l")
 

@@ -16,29 +16,27 @@ data(fenomeda)
 }
 
 
-\format{
-  \tabular{rll}{
-    \tab \bold{study}    \tab First author and year \cr
-    \tab \bold{study_id} \tab Numeric study ID \cr
-    \tab \bold{n}        \tab Number of participants \cr
-    \tab \bold{prev}     \tab Prevalence \cr
-    \tab \bold{cutpoint} \tab Cutpoint \cr
-    \tab \bold{tpos}     \tab True positives\cr
-    \tab \bold{fneg}     \tab False Negatives (degrees F)\cr
-    \tab \bold{fpos}     \tab False positives (lang)\cr
-    \tab \bold{tneg}     \tab True negatives (mph)\cr
-  }
+\format{A data frame with the following columns:
+  \tabular{ll}{
+    \bold{study_id} \tab Numeric study ID \cr
+    \bold{author} \tab First author \cr
+    \bold{year} \tab Year of publication \cr
+    \bold{group} \tab Information on subgroup \cr
+    \bold{cutpoint} \tab Cutpoint \cr
+    \bold{tpos} \tab Number of true positives \cr
+    \bold{fneg} \tab Number of false negatives \cr
+    \bold{fpos} \tab Number of false positives \cr
+    \bold{tneg} \tab Number of true negatives
+ }
 }
 
-\references{
+\source{
 Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017),
-A novel statistical model for analyzing data of a systematic review generates optimal cutoff values for fractional exhaled nitric oxide for asthma diagnosis
-\emph{Journal of Clinical Epidemiology}, \bold{92}, 69--78,
-doi: 10.1016/j.jclinepi.2017.09.001 .
-}
-
-\author{
-Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de}, Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}
+A novel statistical model for analyzing data of a systematic review
+generates optimal cutoff values for fractional exhaled nitric oxide
+for asthma diagnosis
+\emph{Journal of Clinical Epidemiology}, \bold{92}, 69--78.
+doi: 10.1016/j.jclinepi.2017.09.001
 }
 
 \seealso{\code{\link{diagmeta}}, \code{\link{plot.diagmeta}}}
@@ -48,7 +46,10 @@ Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de}, Gerta Rücker \email{r
 #
 data(fenomeda)
 
-diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint, study,
+
+
+diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
+                  studlab = paste(author, year, group),
                   data = fenomeda, log.cutoff = TRUE,
                   model = "DIDS", distr = "l")
 

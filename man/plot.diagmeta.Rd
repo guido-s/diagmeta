@@ -90,26 +90,38 @@ doi: 10.1016/j.jclinepi.2017.09.001 .
 #
 data(fenomeda)
 
-diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint, study,
+diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
+                  studlab = paste(author, year, group),
                   data = fenomeda, log.cutoff = TRUE,
                   model = "DIDS", distr = "l")
 
 
 # Regression plot with confidence intervals
-plot(diag1, which="reg", lines = FALSE, ci = TRUE)
+#
+plot(diag1, which = "reg", lines = FALSE, ci = TRUE)
 
-# Cumulative distribution plot with optimal cutoff line and confidence intervals
-plot(diag1, which="cdf", line.optcut = TRUE, ci= TRUE)
+# Cumulative distribution plot with optimal cutoff line and confidence
+# intervals
+#
+plot(diag1, which = "cdf", line.optcut = TRUE, ci = TRUE)
 
 # Survival plot with optimal cutoff line and confidence intervals
-plot(diag1, which="survival", line.optcut = TRUE, ci = TRUE)
+#
+plot(diag1, which = "survival", line.optcut = TRUE, ci = TRUE)
 
 # Youden plot of optimal cutoff line and confidence intervals
-plot(diag1, which="youden", lines = TRUE, line.optcut = TRUE, ci = TRUE)
+#
+plot(diag1, which = "youden",
+     lines = TRUE, line.optcut = TRUE, ci = TRUE)
 
 # ROC plot of lines connecting points belonging to the same study
-plot(diag1, which="ROC", lines = TRUE)
+#
+plot(diag1, which = "ROC", lines = TRUE)
 
-# SROC plot of confidence regions for sensitivity and specificity with optimal cutoff mark
-plot(diag1, which="SROC", ciSens = TRUE, ciSpec = TRUE, mark.optcut = TRUE, shading = "hatch")
+# SROC plot of confidence regions for sensitivity and specificity with
+# optimal cutoff mark
+#
+plot(diag1, which = "SROC",
+     ciSens = TRUE, ciSpec = TRUE, mark.optcut = TRUE,
+     shading = "hatch")
 }
