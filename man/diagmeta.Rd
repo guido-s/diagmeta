@@ -89,68 +89,62 @@ the variances of the biomarker in both groups are assumed to be equal
 (equalvar = TRUE) or unequal (equalvar = FALSE).
 
 The ‘pooled’ sensitivity and specificity values can be obtained at
-every cutoff; a multiple cutoffs summary ROC (sROC) naturally
-follows while preserving cutoff information. The optimal cutoff is
-defined as the cutoff where the maximum of a weighted sum of
-sensitivity and specificity is obtained. The 95\% confidence intervals
-(95\%CI) of sensitivities, specificities and the optimal cutoff are
-estimated using the delta method (Steinhauser et al., 2016).
+every cutoff; a multiple cutoffs summary ROC (sROC) naturally follows
+while preserving cutoff information. The optimal cutoff is defined as
+the cutoff where the maximum of a weighted sum of sensitivity and
+specificity is obtained. The 95\% confidence intervals of
+sensitivities, specificities and the optimal cutoff are estimated
+using the delta method (Steinhauser et al., 2016).
 }
 
 \value{
 An object of class "diagmeta" with corresponding print, summary, and
 plot function. The object is a list containing the following
 components
- \itemize{
-  \item{TP}{As defined above}
-  \item{FP}{As defined above}
-  \item{TN}{As defined above}
-  \item{FN}{As defined above}
-  \item{cutoff}{As defined above}
-  \item{studlab}{As defined above}
-  \item{Sens}{Sensitivity (original data)}
-  \item{Spec}{Specificity (original data)}  
-  \item{data}{As defined above}
-  \item{distr}{As defined above}
-  \item{model}{As defined above}
-  \item{equalvar}{As defined above}
-  \item{lambda}{As defined above}
-  \item{log.cutoff}{As defined above}
-  \item{method.weights}{As defined above}
-  \item{k}{The number of studies in the meta-analysis}
+  \item{TP}{As defined above.}
+  \item{FP}{As defined above.}
+  \item{TN}{As defined above.}
+  \item{FN}{As defined above.}
+  \item{cutoff}{As defined above.}
+  \item{studlab}{As defined above.}
+  \item{Sens}{Sensitivity (original data).}
+  \item{Spec}{Specificity (original data).}  
+  \item{data}{As defined above.}
+  \item{distr}{As defined above.}
+  \item{model}{As defined above.}
+  \item{equalvar}{As defined above.}
+  \item{lambda}{As defined above.}
+  \item{log.cutoff}{As defined above.}
+  \item{method.weights}{As defined above.}
+  \item{k}{The number of studies in the meta-analysis.}
   \item{optcut}{The optimal cutoff, defined as the point where lambda
-    * sensitivity + (1 – lambda) * specificity is maximized}
-  \item{Sens.optcut}{The sensitivity at the optimal cutoff}
-  \item{lower.Sens.optcut}{The lower limit of the confidence interval
-    (CI) of the sensitivity at the optimal cutoff}
-  \item{upper.Sens.optcut}{The upper limit of the confidence interval
-    (CI) of the sensitivity at the optimal cutoff}
-  \item{Spec.optcut}{The specificity at the optimal cutoff}
-  \item{lower.Spec.optcut}{The lower limit of the confidence interval
-    (CI) of the specificity at the optimal cutoff}
-  \item{upper.Spec.optcut}{The upper limit of the confidence interval
-    (CI) of the specificity at the optimal cutoff}
-  \item{var.diseased}{The within-study variance for the diseased
-    group} 
-  \item{var.nondiseased}{The within-study variance for the
-    non-diseased group}
+    * sensitivity + (1 – lambda) * specificity is maximized.}
+  \item{Sens.optcut}{The sensitivity at the optimal cutoff.}
+  \item{lower.Sens.optcut, upper.Sens.optcut}{The lower and upper
+    limit of the confidence interval of the sensitivity at the optimal
+    cutoff.}
+  \item{Spec.optcut}{The specificity at the optimal cutoff.}
+  \item{lower.Spec.optcut, upper.Spec.optcut}{The lower and upper
+    limit of the confidence interval of the specificity at the optimal
+    cutoff.}
+  \item{var.diseased, var.nondiseased}{The within-study variance for
+    the diseased and non-diseased group, respectively.}
   \item{AIC}{The value of the Akaike information criterion of the lmer
-    object}
+    object.}
   \item{BIC}{The value of the Bayesian information criterion of the
-    lmer object}
-  \item{..$ Study}{A vector of study labels}
-  \item{..$ Group}{A vector of group labels (0 or 1)}
-  \item{..$ Cutoff}{A vector of cutoffs}
-  \item{..$ N}{A vector of group sizes}
-  \item{..$ Negative}{A vector of number of negative test results}
-  \item{..$ NN}{A vector of frequencies of negative test results}
-  \item{result.lmer}{An object of class \code{\link[lme4]{lmer}}
-    with 13 slots}
-}
+    lmer object.}
+  \item{data.lmer}{A list with objects Study (study labels), Group
+    (group labels (0 or 1)), Cutoff, N (group sizes), Negative (number
+    of negative test results), NN (frequencies of negative test
+    results).}
+  \item{result.lmer}{An object of class \code{\link[lme4]{lmer}}.}
+  \item{n.iter.max}{As defined above.}
+  \item{call}{Function call.}
+  \item{version}{Version of R package \bold{diagmeta} used to create object.}
 }
 
 \references{
-Steinhauser S, Schumacher M and Rücker G (2016),
+Steinhauser S, Schumacher M, Rücker G (2016),
 Modelling multiple thresholds in meta-analysis of diagnostic test accuracy
 studies.
 \emph{BMC Med Res Methodol}, \bold{16}, 97.

@@ -12,11 +12,12 @@ studies with the multiple cutoffs model
 }
 
 \usage{
-\method{plot}{diagmeta}(x, which = c("survival", "youden", "roc", "sroc"), xlab = "threshold", main, ci = FALSE,
-              ciSens = FALSE, ciSpec = FALSE, mark.optcut = FALSE, mark.cutpoints = FALSE,
-              points = TRUE, lines = FALSE, rlines = TRUE, line.optcut = TRUE,
-              col.points =  "rainbow",cex = 1, pch.points = 16, cex.marks = 0.7 * cex,
-              lwd = 1, lwd.optcut = 2 * lwd, shading = "none", xlim = NULL, ...)
+\method{plot}{diagmeta}(x, which = c("survival", "youden", "roc", "sroc"), xlab = "threshold",
+     main, ci = FALSE, ciSens = FALSE, ciSpec = FALSE,
+     mark.optcut = FALSE, mark.cutpoints = FALSE,
+     points = TRUE, lines = FALSE, rlines = TRUE, line.optcut = TRUE,
+     col.points =  "rainbow",cex = 1, pch.points = 16, cex.marks = 0.7 * cex,
+     lwd = 1, lwd.optcut = 2 * lwd, shading = "none", xlim = NULL, ...)
 }
 
 
@@ -113,7 +114,7 @@ A novel statistical model for analyzing data of a systematic review generates op
 \emph{Journal of Clinical Epidemiology}, \bold{92}, 69--78,
 doi: 10.1016/j.jclinepi.2017.09.001 .
 
-Steinhauser S, Schumacher M and Rücker G (2016),
+Steinhauser S, Schumacher M, Rücker G (2016),
 Modelling multiple thresholds in meta-analysis of diagnostic test accuracy
 studies.
 \emph{BMC Med Res Methodol}, \bold{16}, 97.

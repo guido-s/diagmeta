@@ -533,10 +533,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                           mean1 = mean1, var.mean1 = var.mean1,
                           sd1 = sd1, var.sd1 = var.sd1),
               ##
-              workdata = list(),
-              ##
               n.iter.max = n.iter.max, tol = tol, iter = iter,
-              call = match.call()
+              call = match.call(),
+              version = packageDescription("diagmeta")$Version
               )
   
   
