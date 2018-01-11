@@ -850,27 +850,23 @@ plot.diagmeta <- function(x,
   if ("density" %in% which) {
     ##
     if (log.cutoff) {
-      curve(beta0 * pdiag(beta0 * log(x) + alpha0, distr) /
-            (1 + exp(beta0 * log(x) + alpha0)),
+      curve(beta0 * ddiag(beta0 * log(x) + alpha0, distr),
             lty = 2, log = "x", las = 1,
-            from = min(Cutoff), to = max(Cutoff),
+            from = min(exp(Cutoff)), to = max(exp(Cutoff)),
             xlab = xlab, ylab = "",
             main = mains[match("density", which)])
       ##
-      curve(beta1 * pdiag(beta1 * log(x) + alpha1, distr) /
-            (1 + exp(beta1 * log(x) + alpha1)),
+      curve(beta1 * ddiag(beta1 * log(x) + alpha1, distr),
             lty = 1, add = TRUE)
     }
     else {
-      curve(beta0 * pdiag(beta0 * x + alpha0, distr) /
-            (1 + exp(beta0 * x + alpha0)),
+      curve(beta0 * ddiag(beta0 * x + alpha0, distr),
             lty = 2, las = 1,
             from = min(Cutoff), to = max(Cutoff),
             xlab = xlab, ylab = "",
             main = mains[match("density", which)])
       ##
-      curve(beta1 * pdiag(beta1 * x + alpha1, distr) /
-            (1 + exp(beta1 * x + alpha1)),
+      curve(beta1 * ddiag(beta1 * x + alpha1, distr),
             lty = 1, add = TRUE)
     }
     ##

@@ -164,4 +164,7 @@ plot(diag1, which = "ROC", lines = TRUE)
 plot(diag1, which = "SROC",
      ciSens = TRUE, ciSpec = TRUE, mark.optcut = TRUE,
      shading = "hatch")
+
+# Density plot of densities for both groups with optimal cutoff line
+plot(diag1, which = "density", line.optcut = TRUE)
 }
