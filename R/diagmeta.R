@@ -127,13 +127,14 @@
 #'   (number of negative test results), NN (frequencies of negative
 #'   test results).}
 #' \item{result.lmer}{An object of class \code{\link[lme4]{lmer}}.}
-#'
-#' \item{weights}{??????.}
-#' 
-#' \item{regr}{A list containing ??????.}
-#' 
-#' \item{dist}{A list containing ??????.}
-#' 
+#' \item{weights}{Normalized weights per study, group, and cutoff such
+#'   that the sum of weights is twice the number of cutoffs over all
+#'   studies.}
+#' \item{regr}{A list with point estimates, variances, and covariances
+#'   from regression parameters of \code{\link[lme4]{lmer}} object.}
+#' \item{dist}{A list containing estimated means, standard deviations,
+#'   and variances of distributions from diseased (ending with 1) and
+#'   non-diseased (ending with 0).}
 #' \item{n.iter.max}{As defined above.}
 #' \item{call}{Function call.}
 #' \item{version}{Version of R package \bold{diagmeta} used to create
