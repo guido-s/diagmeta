@@ -1,3 +1,169 @@
+#' Plot for meta-analysis of diagnostic test accuracy studies with the
+#' multiple cutoffs model
+#' 
+#' Provides several plots for meta-analysis of diagnostic test
+#' accuracy studies with the multiple cutoffs model
+#' 
+#' The first argument of the plot function is an object of class
+#' "diagmeta".
+#' 
+#' The second argument \code{which} indicates which sort of plot(s)
+#' should be shown. For \code{which="reg"}, a scatter plot of the
+#' quantil-transformed proportions of negative test results with two
+#' regression lines is shown.  Points belonging to the same study are
+#' marked with the same colour. For \code{which="cdf"}, the two
+#' cumulative distribution functions are shown, corresponding to the
+#' proportions of negative test results. For \code{which="survival"},
+#' the survival functions are shown, corresponding to the proportions
+#' of positive test results. For \code{which="Youden"}, the
+#' (potentially weighted) sum of sensitivity and specificity minus 1
+#' is shown; in case of \code{lambda=0.5} (the default) this is the
+#' Youden index. For \code{which="ROC"}, study-specific ROC curves are
+#' shown. For \code{which="SROC"}, the model-based summary ROC curve
+#' is shown. For \code{which="density"}, the model-based densities of
+#' both groups are shown.  Instead of character strings, a numeric
+#' value or vector can be used to specify plots with numbers
+#' corresponding to the following order of plots: "regression", "cdf",
+#' "survival", "youden", "roc", "sroc", and "density".
+#' 
+#' Other arguments refer to further plot parameters, such as
+#' \code{lines} (whether points belonging to the same study should be
+#' joined), \code{rlines} (whether regression curves should be drawn),
+#' \code{ci} / \code{ciSens} / \code{ciSpec} / \code{ellipse} (whether
+#' confidence regions should be shown), \code{line.optcut} /
+#' \code{mark.optcut} (whether the optimal cutoff should be
+#' indicated), and additional plot parameters (see Arguments).
+#' 
+#' If no further arguments are provided, four standard plots
+#' ("survival", "Youden", "ROC", and "SROC") are produced in a 2 x 2
+#' format.
+#' 
+#' @param x An object of class \code{diagmeta}
+#' @param which A character vector indicating the type of plot, either
+#'   \code{"reg"} or\code{"cdf"} or \code{"survival"} or
+#'   \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
+#'   \code{"density"}
+#' @param xlab An x axis label
+#' @param main A logical indicating title to the plot
+#' @param ci A logical indicating whether confidence intervals should
+#'   be plotted for \code{"reg"}, \code{"cdf"}, \code{"survival"} and
+#'   \code{"Youden"}
+#' @param ciSens A logical indicating whether confidence intervals
+#'   should be plotted for sensitivity, given the specificity in
+#'   \code{"SROC"} plot
+#' @param ciSpec A logical indicating whether confidence intervals
+#'   should be plotted for specificity, given the sensitivity in
+#'   \code{"SROC"} plot
+#' @param mark.optcut A logical indicating whether the optimal cutoff
+#'   should be marked on \code{"SROC"} plot
+#' @param mark.cutpoints A logical indicating whether the given
+#'   cutoffs should be marked on \code{"SROC"} plot
+#' @param points A logical indicating whether points should be plotted
+#'   on \code{"ROC"} plot
+#' @param lines A logical indicating whether polygonal lines
+#'   connecting points belonging to the same study should be printed
+#'   in plots \code{"reg"}, \code{"cdf"}, \code{"survival"} and
+#'   \code{"Youden"}
+#' @param rlines A logical indicating whether regression lines or
+#'   curves should be plotted for plots \code{"reg"}, \code{"cdf"},
+#'   \code{"survival"} and \code{"Youden"}
+#' @param line.optcut A logical indicating whether a vertical line
+#'   should be plotted at the optimal cutoff line for plots
+#'   \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
+#'   \code{"density"}
+#' @param col.points A character vector indicating color, either
+#'   \code{"rainbow"} or \code{"topo"} or \code{"heat"} or
+#'   \code{"terrain"} or \code{"cm"} or \code{"gray"} or
+#'   \code{"black"}
+#' @param cex A numeric indicating magnification to be used for
+#'   plotting text and symbols.
+#' @param pch.points A numeric indicating plot symbol(s) for points
+#' @param cex.marks A numeric indicating magnification(s) to be used
+#'   for marking cutoffs
+#' @param lwd A numeric indicating line width
+#' @param lwd.optcut A numeric indicating line width of optimal cutoff
+#' @param shading A character indicating shading and hatching
+#'   confidence region in \code{"SROC"} plot, either \code{"none"} or
+#'   \code{"shade"} or \code{"hatch"}
+#' @param ellipse A logical indicating whether a confidence ellipse
+#'   should be drawn around the optimal cutoff
+#' @param xlim A character or numerical vector indicating the minimum
+#'   and maximum value for the horizontal axes.
+#' @param \dots Additional graphical arguments
+#' 
+#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Susanne
+#'   Steinhauser \email{susanne.steinhauser@@uni-koeln.de}, Srinath
+#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
+#'   Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' 
+#' @seealso \code{\link{diagmeta}}
+#' 
+#' @references
+#'
+#' Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017), A
+#' novel statistical model for analyzing data of a systematic review
+#' generates optimal cutoff values for fractional exhaled nitric oxide
+#' for asthma diagnosis \emph{Journal of Clinical Epidemiology},
+#' \bold{92}, 69--78, doi: 10.1016/j.jclinepi.2017.09.001 .
+#' 
+#' Steinhauser S, Schumacher M, Rücker G (2016), Modelling multiple
+#' thresholds in meta-analysis of diagnostic test accuracy
+#' studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+#' 
+#' @examples
+#' 
+#' # FENO dataset
+#' #
+#' data(Schneider2017)
+#' 
+#' diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
+#'                   studlab = paste(author, year, group),
+#'                   data = Schneider2017,
+#'                   model = "DIDS", log.cutoff = TRUE)
+#' 
+#' 
+#' # Regression plot with confidence intervals
+#' #
+#' plot(diag1, which = "reg", lines = FALSE, ci = TRUE)
+#' 
+#' # Cumulative distribution plot with optimal cutoff line and
+#' # confidence intervals
+#' #
+#' plot(diag1, which = "cdf", line.optcut = TRUE, ci = TRUE)
+#' 
+#' # Survival plot with optimal cutoff line and confidence intervals
+#' #
+#' plot(diag1, which = "survival", line.optcut = TRUE, ci = TRUE)
+#' 
+#' # Youden plot of optimal cutoff line and confidence intervals
+#' #
+#' plot(diag1, which = "youden",
+#'      lines = TRUE, line.optcut = TRUE, ci = TRUE)
+#' 
+#' # ROC plot of lines connecting points belonging to the same study
+#' #
+#' plot(diag1, which = "ROC", lines = TRUE)
+#' 
+#' # SROC plot of confidence regions for sensitivity and specificity
+#' # with optimal cutoff mark
+#' #
+#' plot(diag1, which = "SROC",
+#'      ciSens = TRUE, ciSpec = TRUE, mark.optcut = TRUE,
+#'      shading = "hatch")
+#' 
+#' # Density plot of densities for both groups with optimal cutoff
+#' # line
+#' #
+#' plot(diag1, which = "density", line.optcut = TRUE)
+#' 
+#' @export
+#'
+#' @importFrom grDevices cm.colors heat.colors rainbow rgb
+#'   terrain.colors topo.colors
+#' @importFrom graphics abline curve par plot polygon text
+#' @importFrom stats qchisq
+
+
 plot.diagmeta <- function(x,
                           which = c("survival", "youden", "roc", "sroc"),
                           xlab = "threshold",
@@ -11,6 +177,7 @@ plot.diagmeta <- function(x,
                           cex.marks = 0.7 * cex,
                           lwd = 1, lwd.optcut = 2 * lwd,
                           shading = "none",
+                          ellipse = FALSE,
                           xlim = NULL,
                           ...) {
   
@@ -33,7 +200,8 @@ plot.diagmeta <- function(x,
     which <- plot.types[which]
   }
   else
-    stop("Argument 'which' must be a character vector or a numeric vector with values between 1 and 7.")
+    stop("Argument 'which' must be a character vector or ",
+         "a numeric vector with values between 1 and 7.")
   ##
   which <- unique(which)
   ##
@@ -770,6 +938,20 @@ plot.diagmeta <- function(x,
     x.upper.Se <- 1 - Spec.cuts
     x.upper.Sp <- 1 - upperSpec.cuts
     ##
+    if (log.cutoff)
+      ocut <- log(optcut)
+    else
+      ocut <- optcut
+    ##
+    ce <- ciEllipse(ocut, 
+                    alpha0, var.alpha0, beta0, var.beta0,
+                    alpha1, var.alpha1, beta1, var.beta1,
+                    cov.alpha0.beta0, cov.alpha1.beta1,
+                    cov.alpha0.alpha1, cov.alpha0.beta1,
+                    cov.alpha1.beta0, cov.beta0.beta1, 
+                    var.nondiseased, var.diseased, level)
+    
+    ##
     if (ciSens) {
       if(shading == "shade")
         polygon(c(x.upper.Se,x.lower.Se[order(x.lower.Se)]),
@@ -838,6 +1020,22 @@ plot.diagmeta <- function(x,
       text(1.02 - pdiag(alpha0 + beta0 * cuts, distr),
            0.98 - pdiag(alpha1 + beta1 * cuts, distr),
            text.cuts, cex = cex.marks)
+    }
+    ##
+    ## Add ellipse
+    ##
+    if (ellipse) {
+      n <- 2 * pi * 100 
+      xx <- yy <- rep(0, n) 
+      q <- sqrt(qchisq(0.05, 2, lower.tail = FALSE))
+      ##
+      for (t in 1:n) {
+        xx[t] <- pdiag(-ce$logit.spec +
+                       q * ce$se.y0 * cos(t / 100 + acos(ce$r)), distr)
+        yy[t] <- pdiag(ce$logit.sens +
+                       q * ce$se.y1 * cos(t / 100), distr)
+      }
+      lines(xx, yy)
     }
   }
   
