@@ -1,6 +1,8 @@
 # diagmeta: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
 Official GitHub repository of R package **diagmeta**
 
+[![Build Status](https://travis-ci.org/guido-s/diagmeta.svg?branch=master)](https://travis-ci.org/guido-s/diagmeta)
+
 
 ## Description
 
