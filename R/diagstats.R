@@ -121,8 +121,8 @@ diagstats <- function(x,
   ci1 <- ci(beta1 * cutoff + alpha1, seSens, level = level)
   ci0 <- ci(beta0 * cutoff + alpha0, seSpec, level = level)
   ##
-  lower.Sens <- 1 - pdiag(ci1$lower, distr)
-  upper.Sens <- 1 - pdiag(ci1$upper, distr)
+  lower.Sens <- 1 - pdiag(ci1$upper, distr)
+  upper.Sens <- 1 - pdiag(ci1$lower, distr)
   ##
   lower.Spec <- pdiag(ci0$lower, distr)
   upper.Spec <- pdiag(ci0$upper, distr)
