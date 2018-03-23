@@ -9,7 +9,7 @@ Authors@R: c(person("Gerta","Rücker", role="aut"),
     person("Guido","Schwarzer", email="sc@imbi.uni-freiburg.de", role=c("aut","cre")))
 Author: Gerta Rücker [aut], Susanne Steinhauser [aut], Srinath Kolampally [aut], Guido Schwarzer [aut, cre]
 Maintainer: Guido Schwarzer <sc@imbi.uni-freiburg.de>
-Date: 2018-03-22
+Date: 2018-03-23
 URL: https://github.com/guido-s/diagmeta
 Description: Package providing methods by Steinhauser et al. <DOI:10.1186/s12874-016-0196-1> for meta-analysis of diagnostic accuracy studies with several cutpoints.
 License: GPL (>= 2)
