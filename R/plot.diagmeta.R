@@ -260,23 +260,33 @@ plot.diagmeta <- function(x,
   ##
   on.exit(par(oldpar))
   
+
+  k <- x$k
+  ##
+  o <- order(x$studlab, x$cutoff)
+  ##
+  cutoff <- x$cutoff[o]
+  studlab <- x$studlab[o]
+  Spec <- x$Spec[o]
+  Sens <- x$Sens[o]
   
-  study.no <- as.numeric(as.factor(x$studlab))
+  
+  study.no <- as.numeric(as.factor(studlab))
   ##  
   if (col.points == "rainbow")
-    cols <- rainbow(x$k)[study.no]
+    cols <- rainbow(k)[study.no]
   else if (col.points == "topo")
-    cols <- topo.colors(x$k)[study.no]
+    cols <- topo.colors(k)[study.no]
   else if (col.points == "heat")
-    cols <- heat.colors(x$k)[study.no]
+    cols <- heat.colors(k)[study.no]
   else if (col.points == "terrain")
-    cols <- terrain.colors(x$k)[study.no]
+    cols <- terrain.colors(k)[study.no]
   else if (col.points == "cm")
-    cols <- cm.colors(x$k)[study.no]
+    cols <- cm.colors(k)[study.no]
   else if (col.points == "gray")
-    cols <- gray(1:x$k / (x$k + 1))[study.no]
+    cols <- gray(1:k / (k + 1))[study.no]
   else if (col.points == "black")
-    cols <- rep(1, x$k)[study.no]
+    cols <- rep(1, k)[study.no]
   ##
   col.points <- cols
   ##
@@ -293,9 +303,6 @@ plot.diagmeta <- function(x,
     ylab <- ""
   
   
-  cutoff <- x$cutoff
-  studlab <- x$studlab
-  ##
   distr <- x$distr
   level <- x$level
   lambda <- x$lambda
@@ -318,9 +325,6 @@ plot.diagmeta <- function(x,
   ##
   var.nondiseased <- x$var.nondiseased
   var.diseased <- x$var.diseased
-  ##
-  Spec <- x$Spec
-  Sens <- x$Sens
   ##
   NN <- x$data.lmer$NN
   Cutoff <- x$data.lmer$Cutoff
@@ -349,12 +353,12 @@ plot.diagmeta <- function(x,
     ##
     if (lines)
       for (s in studlab) {
-        lines(cutoff[which(studlab == s)],
-              qdiag(Spec[which(studlab == s)], distr),
+        lines(cutoff[studlab == s],
+              qdiag(Spec[studlab == s], distr),
               col = col.points[studlab == s], lwd = lwd, lty = 2)
         ##
-        lines(cutoff[which(studlab == s)],
-              qdiag(1 - Sens[which(studlab == s)], distr),
+        lines(cutoff[studlab == s],
+              qdiag(1 - Sens[studlab == s], distr),
               col = col.points[studlab == s], lwd = lwd, lty = 1)
       }
     ##
@@ -457,12 +461,12 @@ plot.diagmeta <- function(x,
     ##
     if (lines)
       for (s in studlab) {
-        lines(cutoff[which(studlab == s)], 
-              Spec[which(studlab == s)],
+        lines(cutoff[studlab == s], 
+              Spec[studlab == s],
               col = col.points[studlab == s], lwd = lwd, lty = 2)
         ##
-        lines(cutoff[which(studlab == s)], 
-              1 - Sens[which(studlab == s)],
+        lines(cutoff[studlab == s], 
+              1 - Sens[studlab == s],
               col = col.points[studlab == s], lwd = lwd, lty = 1)
       }
     ##
@@ -621,13 +625,13 @@ plot.diagmeta <- function(x,
     ##
     if (lines) {
       for (s in studlab)
-        lines(cutoff[which(studlab == s)], 
-              Sens[which(studlab == s)],
+        lines(cutoff[studlab == s], 
+              Sens[studlab == s],
               col = col.points[studlab == s], lwd = lwd, lty = 2)
       ##
       for (s in studlab)
-        lines(cutoff[which(studlab == s)], 
-              1 - Spec[which(studlab == s)],
+        lines(cutoff[studlab == s], 
+              1 - Spec[studlab == s],
               col = col.points[studlab == s], lwd = lwd, lty = 1)
     }
     ##
@@ -788,8 +792,8 @@ plot.diagmeta <- function(x,
     ##
     if (lines) {
       for (s in studlab)
-        lines(cutoff[which(studlab == s)],
-              youden[which(studlab == s)],
+        lines(cutoff[studlab == s],
+              youden[studlab == s],
               col = col.points[studlab == s], lwd = lwd)
     }
     ##

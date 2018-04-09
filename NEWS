@@ -1,3 +1,17 @@
+*** diagmeta, version 0.2-1, 2018-mm-dd ***
+
+ ** User-visible changes **
+
+  * New function as.data.frame.diagmeta()
+
+ ** Bug fixes **
+
+  * plot.diagmeta():
+    - correct ROC curves for datasets with decreasing cutoff values
+      for individual studies (points (0,0) and (1,1) were connected
+      with the wrong values on the ROC curve)
+    
+
 *** diagmeta, version 0.2-0, 2018-03-23 ***
 
  ** First submission to CRAN
