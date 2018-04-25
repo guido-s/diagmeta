@@ -21,11 +21,30 @@ several cutpoints.
 
 ## Installation
 
+### Current official [![CRAN Version](http://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta) release:
+```r
+install.packages("diagmeta")
+```
+
 ### Current beta / GitHub release:
+
+Installation using R package
+[**ghit**](https://cran.r-project.org/package=ghit) (without
+[Rtools](https://cran.r-project.org/bin/windows/Rtools/) for Windows):
 ```r
 install.packages("ghit")
 ghit::install_github("guido-s/diagmeta")
 ```
+
+Installation using R package
+[**devtools**](https://cran.r-project.org/package=devtools) (with
+[Rtools](https://cran.r-project.org/bin/windows/Rtools/) for Windows):
+```r
+install.packages("devtools")
+devtools::install_github("guido-s/diagmeta")
+```
+
+
 
 
 ### Bug Reports:
