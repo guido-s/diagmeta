@@ -1,8 +1,13 @@
-*** diagmeta, version 0.2-1, 2018-mm-dd ***
+*** diagmeta, version 0.3-0, 2018-mm-dd ***
 
  ** User-visible changes **
 
   * New function as.data.frame.diagmeta()
+
+  * plot.diagmeta():
+    new plot type to show sensitivity and specificity curves
+
+  * New arguments 'sens' and 'spec' in diagstats()
 
  ** Bug fixes **
 

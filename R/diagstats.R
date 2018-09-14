@@ -1,39 +1,46 @@
 #' Calculate statistical measures of test performance for objects of
 #' class \code{diagmeta}
 #' 
-#' The user can provide cutoffs and prevalences to calculate
-#' sensitivities and specificities (with confidence intervals),
-#' positive predictive values (PPV), negative predictive values (NPV),
-#' and probabilities of disease (PD) for a \code{diagmeta} object.
+#' The user can provide cutoffs, sensitivities, and / or specificities
+#' to calculate the respective quantities (with confidence
+#' intervals). Furthermore, positive predictive values (PPV), negative
+#' predictive values (NPV), and probabilities of disease (PD) are
+#' calculated if the prevalence is provided.
 #' 
 #' @param x An object of class \code{diagmeta}
 #' @param cutoff A numeric or vector with cutoff value(s)
+#' @param sens A numeric or vector with sensitivity value(s)
+#' @param spec A numeric or vector with specificity value(s)
 #' @param prevalence A numeric or vector with the prevalence(s)
 #' @param level The level used to calculate confidence intervals
 #' 
 #' @return A data frame of class "diagstats" with the following
 #'   variables:
 #' 
-#' \item{cutoff}{As defined above.}
-#' \item{Sens}{Model-based estimate of the sensitivity for given
-#'   cutoff}
+#' \item{cutoff}{Cutoffs provided in argument "cutoff" and / or
+#'   model-based cutoff values for given sensitivities /
+#'   specificities.}
+#' \item{Sens}{Sensitivities provided in argument "sens" and / or
+#'   model-based estimates of the sensitivity for given cutoffs /
+#'   specificities}
 #' \item{seSens}{Standard error of sensitivity}
 #' \item{lower.Sens, upper.Sens}{Lower and upper confidence limits of
 #'   the sensitivity}
-#' \item{Spec}{Model-based estimate of the specificity for given
-#'   cutoff}
-#' \item{seSpec}{Standard error of sensitivity}
+#' \item{Spec}{Specificities provided in argument "spec" and / or
+#'   model-based estimates of the specificity for given cutoffs /
+#'   sensitivities}
+#' \item{seSpec}{Standard error of specificity}
 #' \item{lower.Spec, upper.Spec}{Lower and upper confidence limits of
 #'   the specificity}
 #' \item{prevalence}{As defined above.}
-#' \item{PPV}{Positive predictive value, given the cutoff}
-#' \item{NPV}{Negative predictive value, given the cutoff}
-#' \item{PD}{Probability of disease if the given "cutoff" was observed
-#'   as the measurement for an individual}
+#' \item{PPV}{Positive predictive value (based on the cutoff)}
+#' \item{NPV}{Negative predictive value (based on the cutoff)}
+#' \item{PD}{Probability of disease if the given cutoff value was
+#'   observed as the measurement for an individual}
 #' \item{dens.nondiseased}{Value of the model-based density function at the
-#'   given cutoff for non-diseased individuals}
+#'    cutoff(s) for non-diseased individuals}
 #' \item{dens.diseased}{Value of the model-based density function at the
-#'   given cutoff for diseased individuals}
+#'    cutoff(s) for diseased individuals}
 #' 
 #' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Srinath
 #'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
@@ -52,13 +59,17 @@
 #'                   data = Schneider2017, 
 #'                   model = "DIDS", log.cutoff = TRUE)
 #'
-#' # Values at the optimal cutoff
+#' # Results at the optimal cutoff
 #' #
 #' diagstats(diag1)
 #' 
-#' # Values for prevalence 10% at cutoffs 25 and 50
+#' # Results for cutoffs 25 and 50 (and a prevalence of 10%)
 #' #
-#' diagstats(diag1, c(25, 50), 0.10)
+#' diagstats(diag1, c(25, 50), prevalence = 0.10)
+#' 
+#' # Results for sensitivity and specificity of 0.95
+#' #
+#' diagstats(diag1, sens = 0.95, spec = 0.95)
 #' 
 #' @export
 #'
@@ -67,28 +78,31 @@
 
 diagstats <- function(x,
                       cutoff = x$optcut,
-                      prevalence = NA,
+                      sens, spec,
+                      prevalence,
                       level = 0.95) {
   
   
   meta:::chkclass(x, "diagmeta")
   ##
+  cutoff.given <- !missing(cutoff)
+  sens.given <- !missing(sens)
+  spec.given <- !missing(spec)
+  ##
   meta:::chknumeric(cutoff)
   ##
   if (!missing(prevalence))
     meta:::chklevel(prevalence, single = FALSE)
+  else
+    prevalence <- NA
+  ##
+  if (sens.given)
+    meta:::chklevel(sens, single = FALSE)
+  ##
+  if (spec.given)
+    meta:::chklevel(spec, single = FALSE)
   ##
   meta:::chklevel(level)
-  
-  
-  if (length(cutoff) != length(prevalence)) {
-    if (length(cutoff) > length(prevalence))
-      bad <- length(cutoff) %% length(prevalence) != 0
-    else
-      bad <- length(prevalence) %% length(cutoff) != 0
-    if (bad)
-      stop("Lengths of arguments 'cutoff' and 'prevalence' do not match.")
-  }
 
   
   regr <- x$regr
@@ -101,8 +115,47 @@ diagstats <- function(x,
   distr <- x$distr
   
   
+  if (sens.given) {
+    if (x$log.cutoff)
+      cutoff1 <- exp((qdiag(1 - sens, distr) - alpha1) / beta1)
+    else
+      cutoff1 <- (qdiag(1 - sens, distr) - alpha1) / beta1
+    ##
+    if (cutoff.given)
+      cutoff <- c(cutoff, cutoff1)
+    else
+      cutoff <- cutoff1
+  }
+  ##
+  if (spec.given) {
+    if (x$log.cutoff)
+      cutoff2 <- exp((qdiag(spec, distr) - alpha0) / beta0)
+    else
+      cutoff2 <- (qdiag(spec, distr) - alpha0) / beta0
+    ##
+    if (cutoff.given | sens.given)
+      cutoff <- c(cutoff, cutoff2)
+  }
+  
+  
   if (x$log.cutoff)
     cutoff <- log(cutoff)
+  
+  
+  if (length(cutoff) != length(prevalence)) {
+    if (length(cutoff) > length(prevalence))
+      bad <- length(cutoff) %% length(prevalence) != 0
+    else
+      bad <- length(prevalence) %% length(cutoff) != 0
+    ##
+    if (bad) {
+      if (cutoff.given)
+        stop("Lengths of arguments 'cutoff' and 'prevalence' do not match.",
+             call. = FALSE)
+      else
+        stop("Number of cutoffs and prevalences (argument 'prevalence') do not match.")
+    }
+  }
   
   
   Sens <- 1 - pdiag(beta1 * cutoff + alpha1, distr)

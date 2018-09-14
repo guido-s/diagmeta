@@ -4,7 +4,8 @@
 \alias{as.data.frame.diagmeta}
 \title{Extract data frame from diagmeta objects}
 \usage{
-\method{as.data.frame}{diagmeta}(x, row.names = NULL, optional = FALSE, ...)
+\method{as.data.frame}{diagmeta}(x, row.names = NULL, optional = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}.}

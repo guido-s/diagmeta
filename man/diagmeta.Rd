@@ -5,10 +5,11 @@
 \title{Meta-analysis of diagnostic test accuracy studies with the multiple
 cutoffs model}
 \usage{
-diagmeta(TP, FP, TN, FN, cutoff, studlab, data = NULL, distr = "logistic",
-  model = "DICS", equalvar = FALSE, lambda = 0.5, log.cutoff = FALSE,
-  method.weights = "invvar", level = 0.95, incr = 0.5,
-  n.iter.max = 1000, tol = 1e-08, silent = TRUE, ...)
+diagmeta(TP, FP, TN, FN, cutoff, studlab, data = NULL,
+  distr = "logistic", model = "DICS", equalvar = FALSE,
+  lambda = 0.5, log.cutoff = FALSE, method.weights = "invvar",
+  level = 0.95, incr = 0.5, n.iter.max = 1000, tol = 1e-08,
+  silent = TRUE, ...)
 }
 \arguments{
 \item{TP, FP, TN, FN}{Numeric vectors giving the number of true

@@ -5,12 +5,16 @@
 \title{Calculate statistical measures of test performance for objects of
 class \code{diagmeta}}
 \usage{
-diagstats(x, cutoff = x$optcut, prevalence = NA, level = 0.95)
+diagstats(x, cutoff = x$optcut, sens, spec, prevalence, level = 0.95)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}}
 
 \item{cutoff}{A numeric or vector with cutoff value(s)}
+
+\item{sens}{A numeric or vector with sensitivity value(s)}
+
+\item{spec}{A numeric or vector with specificity value(s)}
 
 \item{prevalence}{A numeric or vector with the prevalence(s)}
 
@@ -20,32 +24,37 @@ diagstats(x, cutoff = x$optcut, prevalence = NA, level = 0.95)
 A data frame of class "diagstats" with the following
   variables:
 
-\item{cutoff}{As defined above.}
-\item{Sens}{Model-based estimate of the sensitivity for given
-  cutoff}
+\item{cutoff}{Cutoffs provided in argument "cutoff" and / or
+  model-based cutoff values for given sensitivities /
+  specificities.}
+\item{Sens}{Sensitivities provided in argument "sens" and / or
+  model-based estimates of the sensitivity for given cutoffs /
+  specificities}
 \item{seSens}{Standard error of sensitivity}
 \item{lower.Sens, upper.Sens}{Lower and upper confidence limits of
   the sensitivity}
-\item{Spec}{Model-based estimate of the specificity for given
-  cutoff}
-\item{seSpec}{Standard error of sensitivity}
+\item{Spec}{Specificities provided in argument "spec" and / or
+  model-based estimates of the specificity for given cutoffs /
+  sensitivities}
+\item{seSpec}{Standard error of specificity}
 \item{lower.Spec, upper.Spec}{Lower and upper confidence limits of
   the specificity}
 \item{prevalence}{As defined above.}
-\item{PPV}{Positive predictive value, given the cutoff}
-\item{NPV}{Negative predictive value, given the cutoff}
-\item{PD}{Probability of disease if the given "cutoff" was observed
-  as the measurement for an individual}
+\item{PPV}{Positive predictive value (based on the cutoff)}
+\item{NPV}{Negative predictive value (based on the cutoff)}
+\item{PD}{Probability of disease if the given cutoff value was
+  observed as the measurement for an individual}
 \item{dens.nondiseased}{Value of the model-based density function at the
-  given cutoff for non-diseased individuals}
+   cutoff(s) for non-diseased individuals}
 \item{dens.diseased}{Value of the model-based density function at the
-  given cutoff for diseased individuals}
+   cutoff(s) for diseased individuals}
 }
 \description{
-The user can provide cutoffs and prevalences to calculate
-sensitivities and specificities (with confidence intervals),
-positive predictive values (PPV), negative predictive values (NPV),
-and probabilities of disease (PD) for a \code{diagmeta} object.
+The user can provide cutoffs, sensitivities, and / or specificities
+to calculate the respective quantities (with confidence
+intervals). Furthermore, positive predictive values (PPV), negative
+predictive values (NPV), and probabilities of disease (PD) are
+calculated if the prevalence is provided.
 }
 \examples{
 
@@ -58,13 +67,17 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   data = Schneider2017, 
                   model = "DIDS", log.cutoff = TRUE)
 
-# Values at the optimal cutoff
+# Results at the optimal cutoff
 #
 diagstats(diag1)
 
-# Values for prevalence 10\% at cutoffs 25 and 50
+# Results for cutoffs 25 and 50 (and a prevalence of 10\%)
 #
-diagstats(diag1, c(25, 50), 0.10)
+diagstats(diag1, c(25, 50), prevalence = 0.10)
+
+# Results for sensitivity and specificity of 0.95
+#
+diagstats(diag1, sens = 0.95, spec = 0.95)
 
 }
 \seealso{

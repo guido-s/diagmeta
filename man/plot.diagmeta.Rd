@@ -5,13 +5,13 @@
 \title{Plot for meta-analysis of diagnostic test accuracy studies with the
 multiple cutoffs model}
 \usage{
-\method{plot}{diagmeta}(x, which = c("survival", "youden", "roc", "sroc"),
-  xlab = "threshold", main, ci = FALSE, ciSens = FALSE, ciSpec = FALSE,
-  mark.optcut = FALSE, mark.cutpoints = FALSE, points = TRUE,
-  lines = FALSE, rlines = TRUE, line.optcut = TRUE,
-  col.points = "rainbow", cex = 1, pch.points = 16, cex.marks = 0.7 *
-  cex, lwd = 1, lwd.optcut = 2 * lwd, shading = "none", ellipse = FALSE,
-  xlim = NULL, ...)
+\method{plot}{diagmeta}(x, which = c("survival", "youden", "roc",
+  "sroc"), xlab = "threshold", main, ci = FALSE, ciSens = FALSE,
+  ciSpec = FALSE, mark.optcut = FALSE, mark.cutpoints = FALSE,
+  points = TRUE, lines = FALSE, rlines = TRUE, line.optcut = TRUE,
+  col.points = "rainbow", cex = 1, pch.points = 16, cex.marks = 0.7
+  * cex, lwd = 1, lwd.optcut = 2 * lwd, shading = "none",
+  ellipse = FALSE, xlim = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}}
@@ -26,8 +26,8 @@ multiple cutoffs model}
 \item{main}{A logical indicating title to the plot}
 
 \item{ci}{A logical indicating whether confidence intervals should
-be plotted for \code{"reg"}, \code{"cdf"}, \code{"survival"} and
-\code{"Youden"}}
+be plotted for \code{"reg"}, \code{"cdf"}, \code{"survival"},
+\code{"Youden"}, and \code{"sensspec"}}
 
 \item{ciSens}{A logical indicating whether confidence intervals
 should be plotted for sensitivity, given the specificity in
@@ -48,12 +48,12 @@ on \code{"ROC"} plot}
 
 \item{lines}{A logical indicating whether polygonal lines
 connecting points belonging to the same study should be printed
-in plots \code{"reg"}, \code{"cdf"}, \code{"survival"} and
-\code{"Youden"}}
+in plots \code{"reg"}, \code{"cdf"}, \code{"survival"},
+\code{"Youden"}, and \code{"sensspec"}}
 
 \item{rlines}{A logical indicating whether regression lines or
 curves should be plotted for plots \code{"reg"}, \code{"cdf"},
-\code{"survival"} and \code{"Youden"}}
+\code{"survival"}, \code{"Youden"}, and \code{"sensspec"}}
 
 \item{line.optcut}{A logical indicating whether a vertical line
 should be plotted at the optimal cutoff line for plots
@@ -111,10 +111,11 @@ is shown; in case of \code{lambda=0.5} (the default) this is the
 Youden index. For \code{which="ROC"}, study-specific ROC curves are
 shown. For \code{which="SROC"}, the model-based summary ROC curve
 is shown. For \code{which="density"}, the model-based densities of
-both groups are shown.  Instead of character strings, a numeric
-value or vector can be used to specify plots with numbers
-corresponding to the following order of plots: "regression", "cdf",
-"survival", "youden", "roc", "sroc", and "density".
+both groups are shown. For \code{which="sensspec"}, the ??? are
+shown. Instead of character strings, a numeric value or vector can
+be used to specify plots with numbers corresponding to the
+following order of plots: "regression", "cdf", "survival",
+"youden", "roc", "sroc", "density", and "sensspec".
 
 Other arguments refer to further plot parameters, such as
 \code{lines} (whether points belonging to the same study should be
