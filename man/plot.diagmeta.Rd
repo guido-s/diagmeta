@@ -111,11 +111,12 @@ is shown; in case of \code{lambda=0.5} (the default) this is the
 Youden index. For \code{which="ROC"}, study-specific ROC curves are
 shown. For \code{which="SROC"}, the model-based summary ROC curve
 is shown. For \code{which="density"}, the model-based densities of
-both groups are shown. For \code{which="sensspec"}, the ??? are
-shown. Instead of character strings, a numeric value or vector can
-be used to specify plots with numbers corresponding to the
-following order of plots: "regression", "cdf", "survival",
-"youden", "roc", "sroc", "density", and "sensspec".
+both groups are shown. For \code{which="sensspec"}, the sensitivity
+(decreasing with increasing cutoff) and the specificity (increasing
+with increasing cutoff) are shown. Instead of character strings, a
+numeric value or vector can be used to specify plots with numbers
+corresponding to the following order of plots: "regression", "cdf",
+"survival", "youden", "roc", "sroc", "density", and "sensspec".
 
 Other arguments refer to further plot parameters, such as
 \code{lines} (whether points belonging to the same study should be
