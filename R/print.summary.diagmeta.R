@@ -63,7 +63,12 @@ print.summary.diagmeta <- function(x, digits = 3, ...) {
   cat(paste0("Cutoffs log transformed: ", x$log.cutoff, "\n\n", sep = ""))
   ##
   cat(paste0("The optimal cutoff value: ",
-             formatN(round(x$optcut, digits), digits), "\n\n"))
+             formatN(round(x$optcut, digits), digits)))
+  if (!is.na(x$lower.optcut))
+    cat(paste0(" ",
+               formatCI(formatN(round(x$lower.optcut, digits), digits),
+                        formatN(round(x$upper.optcut, digits), digits))))
+  cat("\n\n")
   ##
   cat("Sensitivity and specificity at optimal cutoff:\n")
   ##

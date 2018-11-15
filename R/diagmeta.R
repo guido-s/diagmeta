@@ -103,6 +103,8 @@
 #' \item{level, incr}{As defined above.}
 #' \item{k}{The number of studies in the meta-analysis.}
 #' \item{optcut}{The optimal cutoff.}
+#' \item{lower.optcut, upper.optcut}{Corresponding lower and upper
+#'   confidence limits (for normal distribution).}
 #' \item{Sens.optcut}{The sensitivity at the optimal cutoff.}
 #' \item{lower.Sens.optcut, upper.Sens.optcut}{Corresponding lower and
 #'   upper confidence limits.}
@@ -551,6 +553,8 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
     }
     else
       optcut <- wmean
+    ##
+    var.optcut <- NA
   }
   else if (is.normal) {
     ## Cutoffs of two normals, weighted with lambda and 1 - lambda
@@ -623,6 +627,14 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                                                                                2 * dalpha0 * dalpha1 * cov.alpha0.alpha1 + 2 * dalpha0 * dbeta0 * cov.alpha0.beta0 +
                                                                                2 * dalpha1 * dbeta0 * cov.alpha1.beta0
     }
+  }
+  ##
+  ci.optcut <- ci(optcut, sqrt(var.optcut), level = level)
+  ##
+  if (log.cutoff) {
+    ci.optcut$TE    <- exp(ci.optcut$TE)
+    ci.optcut$lower <- exp(ci.optcut$lower)
+    ci.optcut$upper <- exp(ci.optcut$upper)
   }
   
   
@@ -702,7 +714,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               ##
               k = k,
               ##
-              optcut = if (log.cutoff) exp(optcut) else optcut,
+              optcut = ci.optcut$TE,
+              lower.optcut = ci.optcut$lower,
+              upper.optcut = ci.optcut$upper,
               ##
               Sens.optcut = Se,
               lower.Sens.optcut = lower.Se,

@@ -71,6 +71,8 @@ An object of class "diagmeta" with corresponding print,
 \item{level, incr}{As defined above.}
 \item{k}{The number of studies in the meta-analysis.}
 \item{optcut}{The optimal cutoff.}
+\item{lower.optcut, upper.optcut}{Corresponding lower and upper
+  confidence limits (for normal distribution).}
 \item{Sens.optcut}{The sensitivity at the optimal cutoff.}
 \item{lower.Sens.optcut, upper.Sens.optcut}{Corresponding lower and
   upper confidence limits.}
