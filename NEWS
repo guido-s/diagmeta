@@ -9,12 +9,22 @@
 
   * New arguments 'sens' and 'spec' in diagstats()
 
+  * print.summary.diagmeta():
+    - print confidence interval for optimal cutoff
+      (for normal distribution)
+
  ** Bug fixes **
 
   * plot.diagmeta():
     - correct ROC curves for datasets with decreasing cutoff values
-      for individual studies (points (0,0) and (1,1) were connected
+      for individual studies (points (0, 0) and (1, 1) were connected
       with the wrong values on the ROC curve)
+
+ ** Internal changes **
+
+  * diagmeta():
+    - calculate and return lower and upper confidence limit for
+      optimal cutoff (for normal distribution
     
 
 *** diagmeta, version 0.2-0, 2018-03-23 ***
