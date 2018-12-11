@@ -5,7 +5,6 @@ Official GitHub repository of R package **diagmeta**
 [![CRAN Version](http://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta)
 [![Monthly Downloads](http://cranlogs.r-pkg.org/badges/diagmeta)](http://cranlogs.r-pkg.org/badges/diagmeta)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/diagmeta)](http://cranlogs.r-pkg.org/badges/grand-total/diagmeta)
-[![Research software impact](http://depsy.org/api/package/cran/diagmeta/badge.svg)](http://depsy.org/package/r/diagmeta)
 
 
 ## Description
