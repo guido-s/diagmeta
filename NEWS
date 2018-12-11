@@ -24,7 +24,7 @@
 
   * diagmeta():
     - calculate and return lower and upper confidence limit for
-      optimal cutoff (for normal distribution
+      optimal cutoff (for normal distribution)
     
 
 *** diagmeta, version 0.2-0, 2018-03-23 ***
