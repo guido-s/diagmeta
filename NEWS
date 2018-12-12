@@ -1,8 +1,6 @@
-*** diagmeta, version 0.3-0, 2018-mm-dd ***
+*** diagmeta, version 0.3-0, 2018-12-11 ***
 
  ** User-visible changes **
-
-  * New function as.data.frame.diagmeta()
 
   * plot.diagmeta():
     new plot type to show sensitivity and specificity curves
@@ -12,6 +10,8 @@
   * print.summary.diagmeta():
     - print confidence interval for optimal cutoff
       (for normal distribution)
+
+  * New function as.data.frame.diagmeta()
 
  ** Bug fixes **
 
