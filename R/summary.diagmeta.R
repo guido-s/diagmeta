@@ -27,6 +27,7 @@
 #' 
 #' summary(diag1)
 #' 
+#' @export summary.diagmeta
 #' @export
 
 

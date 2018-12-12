@@ -35,6 +35,7 @@
 #'
 #' print(ds1, predicted = FALSE)
 #'
+#' @export print.diagstats
 #' @export
 
 

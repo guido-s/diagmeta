@@ -29,6 +29,7 @@
 #' 
 #' as.data.frame(diag1)
 #'
+#' @export as.data.frame.diagmeta
 #' @export
 
 

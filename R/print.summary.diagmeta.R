@@ -27,6 +27,7 @@
 #' summary(diag1)
 #' print(summary(diag1), digits = 2)
 #'
+#' @export print.summary.diagmeta
 #' @export
 
 

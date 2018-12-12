@@ -25,7 +25,9 @@
 #' 
 #' diag1
 #'
+#' @export print.diagmeta
 #' @export
+#' 
 #' @importFrom stats quantile
 
 
