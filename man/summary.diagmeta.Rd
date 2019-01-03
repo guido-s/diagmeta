@@ -20,7 +20,6 @@ A list with classes 'summary.diagmeta' and 'diagmeta' is
 Summary method for objects of class \code{diagmeta}.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -31,7 +30,6 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   model = "DIDS", log.cutoff = TRUE)
 
 summary(diag1)
-
 }
 \seealso{
 \code{\link{diagmeta}}

@@ -17,7 +17,6 @@
 Print method for objects of class \code{diagmeta}.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -28,7 +27,6 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   model = "DIDS", log.cutoff = TRUE)
 
 diag1
-
 }
 \seealso{
 \code{\link{diagmeta}} \code{\link{summary.diagmeta}}

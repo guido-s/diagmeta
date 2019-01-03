@@ -113,7 +113,6 @@
 #' studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
 #' 
 #' @examples
-#' 
 #' # FENO dataset
 #' #
 #' data(Schneider2017)
@@ -157,7 +156,6 @@
 #' # line
 #' #
 #' plot(diag1, which = "density", line.optcut = TRUE)
-#' 
 #' @export plot.diagmeta
 #' @export
 #'

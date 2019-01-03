@@ -172,7 +172,6 @@ sensitivities, specificities and the optimal cutoff are estimated
 using the delta method (Steinhauser et al., 2016).
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -184,7 +183,6 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   
 summary(diag1)
 plot(diag1)
-
 }
 \references{
 Steinhauser S, Schumacher M, Rücker G (2016), Modelling

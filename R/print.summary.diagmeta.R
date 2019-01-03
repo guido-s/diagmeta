@@ -13,8 +13,7 @@
 #' 
 #' @seealso \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
 #' 
-#' @examples
-#' 
+#' @examples 
 #' # FENO dataset
 #' #
 #' data(Schneider2017)
@@ -26,7 +25,6 @@
 #' 
 #' summary(diag1)
 #' print(summary(diag1), digits = 2)
-#'
 #' @export print.summary.diagmeta
 #' @export
 

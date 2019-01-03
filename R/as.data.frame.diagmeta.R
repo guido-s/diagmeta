@@ -17,7 +17,6 @@
 #'   \code{as.data.frame}.
 #' 
 #' @examples
-#' 
 #' # FENO dataset
 #' #
 #' data(Schneider2017)
@@ -28,7 +27,6 @@
 #'                   model = "DIDS", log.cutoff = TRUE)
 #' 
 #' as.data.frame(diag1)
-#'
 #' @export as.data.frame.diagmeta
 #' @export
 

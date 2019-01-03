@@ -131,7 +131,6 @@ If no further arguments are provided, four standard plots
 format.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -175,7 +174,6 @@ plot(diag1, which = "SROC",
 # line
 #
 plot(diag1, which = "density", line.optcut = TRUE)
-
 }
 \references{
 Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017), A

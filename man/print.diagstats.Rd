@@ -27,7 +27,6 @@ model-based density functions should be printed.}
 Print method for objects of class \code{diagstats}.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -40,11 +39,8 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
 # Values for prevalence 10\% at cutoffs 25 and 50
 #
 ds1 <- diagstats(diag1, c(25, 50), 0.10)
-
 ds1
-
 print(ds1, predicted = FALSE)
-
 }
 \seealso{
 \code{\link{diagstats}} \code{\link{diagmeta}}

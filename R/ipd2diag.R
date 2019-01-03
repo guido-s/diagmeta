@@ -19,7 +19,6 @@
 #'   \link{print.diagmeta}, \link{summary.diagmeta}}
 #' 
 #' @examples
-#' 
 #' # Simulate IPD data for three studies, each with 30 patients based
 #' # on normally distributed marker values
 #' #
@@ -53,7 +52,6 @@
 #' plot(diag1, which = "ROC", lines = TRUE)
 #' plot(diag1, which = "SROC", ciSens = TRUE,
 #'      ciSpec = TRUE, lines = TRUE, shading = "hatch")
-#'
 #' @export
 
 

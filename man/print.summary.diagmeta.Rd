@@ -17,7 +17,6 @@
 Print method for objects of class \code{summary.diagmeta}.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -29,7 +28,6 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
 
 summary(diag1)
 print(summary(diag1), digits = 2)
-
 }
 \seealso{
 \code{\link{diagmeta}} \code{\link{summary.diagmeta}}

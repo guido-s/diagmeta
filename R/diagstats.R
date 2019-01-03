@@ -49,7 +49,6 @@
 #' @seealso \code{\link{diagmeta}} \code{\link{print.diagstats}}
 #' 
 #' @examples
-#' 
 #' # FENO dataset
 #' #
 #' data(Schneider2017)
@@ -70,7 +69,6 @@
 #' # Results for sensitivity and specificity of 0.95
 #' #
 #' diagstats(diag1, sens = 0.95, spec = 0.95)
-#' 
 #' @export
 #'
 #' @importFrom meta ci

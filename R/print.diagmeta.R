@@ -13,7 +13,6 @@
 #' @seealso \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
 #' 
 #' @examples
-#' 
 #' # FENO dataset
 #' #
 #' data(Schneider2017)
@@ -24,7 +23,6 @@
 #'                   model = "DIDS", log.cutoff = TRUE)
 #' 
 #' diag1
-#'
 #' @export print.diagmeta
 #' @export
 #' 

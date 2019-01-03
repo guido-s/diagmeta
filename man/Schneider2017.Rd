@@ -7,16 +7,16 @@
 for diagnosis of asthma}
 \format{A data frame with the following columns:
 
-\itemize{
-  \item study_id. Numeric study ID
-  \item author. First author
-  \item year. Year of publication
-  \item group. Information on subgroup
-  \item cutpoint. Cutpoint (FeNO [ppb])
-  \item tpos. Number of true positives
-  \item fneg. Number of false negatives
-  \item fpos. Number of false positives
-  \item tneg. Number of true negatives
+\tabular{rl}{
+\bold{\emph{study_id}}\tab numeric study ID \cr
+\bold{\emph{author}}\tab first author \cr
+\bold{\emph{year}}\tab year of publication \cr
+\bold{\emph{group}}\tab information on subgroup \cr
+\bold{\emph{cutpoint}}\tab cutpoint (FeNO [ppb]) \cr
+\bold{\emph{tpos}}\tab number of true positives  \cr
+\bold{\emph{fneg}}\tab number of false negatives \cr
+\bold{\emph{fpos}}\tab number of false positives \cr
+\bold{\emph{tneg}}\tab number of true negatives  \cr
 }}
 \source{
 Karrasch S, Linde K, Rücker G, Sommer H, Karsch-Volk M,
@@ -45,7 +45,6 @@ Schneider et al. (2017). They have been preprocessed for use in R
 package \bold{diagmeta}.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)

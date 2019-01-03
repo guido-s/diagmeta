@@ -26,7 +26,6 @@ A data frame is returned by the function
 Extract data frame from objects of class \code{diagmeta}.
 }
 \examples{
-
 # FENO dataset
 #
 data(Schneider2017)
@@ -37,7 +36,6 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   model = "DIDS", log.cutoff = TRUE)
 
 as.data.frame(diag1)
-
 }
 \seealso{
 \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
