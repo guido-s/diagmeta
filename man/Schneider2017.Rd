@@ -6,7 +6,6 @@
 \title{Meta-analysis of studies of the diagnostic test accuracy of FENO
 for diagnosis of asthma}
 \format{A data frame with the following columns:
-
 \tabular{rl}{
 \bold{\emph{study_id}}\tab numeric study ID \cr
 \bold{\emph{author}}\tab first author \cr
@@ -20,25 +19,24 @@ for diagnosis of asthma}
 }}
 \source{
 Karrasch S, Linde K, Rücker G, Sommer H, Karsch-Volk M,
-  Kleijnen J, Jörres RA, Schneider A (2017), Accuracy of FENO for
-  diagnosing asthma: a systematic review.  \emph{Thorax},
-  \bold{72}, 109e16.
+Kleijnen J, Jörres RA, Schneider A (2017):
+Accuracy of FENO for diagnosing asthma: a systematic review.
+\emph{Thorax}, \bold{72}, 109e16
 
-  Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017),
-  A novel statistical model for analyzing data of a systematic
-  review generates optimal cutoff values for fractional exhaled
-  nitric oxide for asthma diagnosis \emph{Journal of Clinical
-  Epidemiology}, \bold{92}, 69--78.  doi:
-  10.1016/j.jclinepi.2017.09.001
+Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017):
+A novel statistical model for analyzing data of a systematic review
+generates optimal cutoff values for fractional exhaled nitric oxide
+for asthma diagnosis.
+\emph{Journal of Clinical Epidemiology},
+\bold{92}, 69--78
 }
 \usage{
 Schneider2017
 }
 \description{
-Meta-analysis of studies of the diagnostic test accuracy of fractional
-exhaled nitric oxide (FENO) for diagnosis of asthma.
-}
-\details{
+Meta-analysis of studies of the diagnostic test accuracy of
+fractional exhaled nitric oxide (FENO) for diagnosis of asthma.
+
 The data were collected for a systematic review by Karrasch et
 al. (2017) and are published as a supplement (Appendix 1) to
 Schneider et al. (2017). They have been preprocessed for use in R

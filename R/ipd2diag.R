@@ -1,5 +1,6 @@
 #' Individual participant data to enter them into diagmeta
 #' 
+#' @description
 #' Function to transform individual patient data (IPD) to enter them
 #' into \code{diagmeta}
 #' 
@@ -9,11 +10,13 @@
 #' @param status A vector with information of the individual's status
 #'   (0 = non-diseased, 1 = diseased)
 #' 
-#' @return A data frame with values that can be entered into
-#'   \code{\link{diagmeta}}.
+#' @return
+#' A data frame with values that can be entered into
+#' \code{\link{diagmeta}}.
 #' 
-#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Srinath
-#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}
+#' @author
+#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{diagmeta}, \link{plot.diagmeta},
 #'   \link{print.diagmeta}, \link{summary.diagmeta}}

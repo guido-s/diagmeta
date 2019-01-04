@@ -1,5 +1,6 @@
 #' Print method for diagstats objects
 #' 
+#' @description
 #' Print method for objects of class \code{diagstats}.
 #' 
 #' @param x An object of class \code{diagmeta}.

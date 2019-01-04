@@ -1,5 +1,5 @@
 # diagmeta: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
-Official GitHub repository of R package **diagmeta**
+Official Git repository of R package **diagmeta**
 
 [![Build Status](https://travis-ci.org/guido-s/diagmeta.svg?branch=master)](https://travis-ci.org/guido-s/diagmeta)
 [![CRAN Version](http://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta)
@@ -15,7 +15,7 @@ several cutpoints.
  
 ### References
 
-[Steinhauser S, Schumacher M, Rücker G (2016). Modelling multiple thresholds in meta-analysis of diagnostic test accuracy studies. *BMC Medical Research Methodology*, *16*: 97](https://scholar.google.com/scholar?q=Steinhauser+Schumacher+Rücker+2016+BMC)
+[Steinhauser S, Schumacher M, Rücker G (2016): Modelling multiple thresholds in meta-analysis of diagnostic test accuracy studies. *BMC Medical Research Methodology*, **16**: 97](https://scholar.google.com/scholar?q=Steinhauser+Schumacher+Rücker+2016+BMC)
 
 
 ## Installation

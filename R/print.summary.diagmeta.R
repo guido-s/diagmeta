@@ -1,15 +1,17 @@
 #' Print method for summary of diagmeta objects
 #' 
+#' @description
 #' Print method for objects of class \code{summary.diagmeta}.
 #' 
 #' @param x An object of class \code{summary.diagmeta}.
 #' @param digits Number of significant digits for printing.
 #' @param \dots Additional arguments.
 #'
-#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Susanne
-#'   Steinhauser \email{susanne.steinhauser@@uni-koeln.de}, Srinath
-#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
-#'   Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' @author
+#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
+#' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
+#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
 #' 

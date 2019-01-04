@@ -58,10 +58,9 @@ suppressed}
 \item{\dots}{additional arguments}
 }
 \value{
-An object of class "diagmeta" with corresponding print,
-  summary, and plot function. The object is a list containing the
-  following components
-
+An object of class "diagmeta" with corresponding print, summary,
+and plot function. The object is a list containing the following
+components
 \item{TP, FP, TN, FN}{As defined above.}
 \item{cutoff, studlab}{As defined above.}
 \item{Sens}{Sensitivity (original data).}
@@ -185,16 +184,18 @@ summary(diag1)
 plot(diag1)
 }
 \references{
-Steinhauser S, Schumacher M, Rücker G (2016), Modelling
-  multiple thresholds in meta-analysis of diagnostic test accuracy
-  studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+Steinhauser S, Schumacher M, Rücker G (2016):
+Modelling multiple thresholds in meta-analysis of diagnostic test
+accuracy studies.
+\emph{BMC Medical Research Methodology},
+\bold{16}, 97
 }
 \seealso{
 \code{\link{plot.diagmeta}, \link{summary.diagmeta}}
 }
 \author{
-Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}, Susanne
-  Steinhauser \email{susanne.steinhauser@uni-koeln.de}, Srinath
-  Kolampally \email{kolampal@imbi.uni-freiburg.de}, Guido
-  Schwarzer \email{sc@imbi.uni-freiburg.de}
+Gerta Rücker \email{ruecker@imbi.uni-freiburg.de},
+Susanne Steinhauser \email{susanne.steinhauser@uni-koeln.de},
+Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de},
+Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
 }

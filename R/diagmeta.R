@@ -1,6 +1,7 @@
 #' Meta-analysis of diagnostic test accuracy studies with the multiple
 #' cutoffs model
 #' 
+#' @description
 #' Diagnostic tests may be based on an ordinal or continuous biomarker
 #' or an ordinal score together with a cutoff. The decision whether
 #' the target condition is present or not (positive or negative test
@@ -17,6 +18,37 @@
 #' specificity and thus allows identifying cutoffs at which the test
 #' is likely to perform best (Steinhauser et al., 2016).
 #' 
+#' @param TP,FP,TN,FN Numeric vectors giving the number of true
+#'   positives, false positives, true negatives and false negatives
+#' @param cutoff A number vector indicating the cutoff values
+#' @param studlab A numeric or a character vector with study labels
+#' @param data An optional data frame containing the study information
+#' @param distr A character indicating the distribution (see Details)
+#' @param model A character indicating the model (see Details)
+#' @param equalvar A logical indicating whether the variances of the
+#'   biomarker in both groups are thought equal (see Details)
+#' @param lambda A numeric between 0 and 1 indicating the weight of
+#'   the sensitivity (such that specificity receives weight 1 -
+#'   lambda)
+#' @param log.cutoff A logical indicating whether the cutoffs should
+#'   be log-transformed
+#' @param method.weights A character indicating the method for
+#'   weighting the studies: \code{invvar} (default) means inverse
+#'   variance weighting, \code{size} means weighting by group sample
+#'   size, \code{equal} means that all studies are equally weighted
+#' @param incr A numeric between 0 and 1 that is added as a continuity
+#'   correction
+#' @param level A numeric indicating the significance level (1 -
+#'   alpha) for tests (default is 0.95)
+#' @param n.iter.max A numeric indicating the maximal number of fixed
+#'   point iterations for finding the optimal cutoff
+#' @param tol A numeric indicating the tolerance for convergence of
+#'   the fixed point iteration
+#' @param silent A logical indicating whether iterations should be
+#'   suppressed
+#' @param \dots additional arguments
+#' 
+#' @details
 #' Each row of the data set provides at least a study label, a cutoff
 #' and the numbers of true positives, false positives, true negatives
 #' and false negatives. Different studies may contribute a varying
@@ -60,40 +92,10 @@
 #' sensitivities, specificities and the optimal cutoff are estimated
 #' using the delta method (Steinhauser et al., 2016).
 #' 
-#' @param TP,FP,TN,FN Numeric vectors giving the number of true
-#'   positives, false positives, true negatives and false negatives
-#' @param cutoff A number vector indicating the cutoff values
-#' @param studlab A numeric or a character vector with study labels
-#' @param data An optional data frame containing the study information
-#' @param distr A character indicating the distribution (see Details)
-#' @param model A character indicating the model (see Details)
-#' @param equalvar A logical indicating whether the variances of the
-#'   biomarker in both groups are thought equal (see Details)
-#' @param lambda A numeric between 0 and 1 indicating the weight of
-#'   the sensitivity (such that specificity receives weight 1 -
-#'   lambda)
-#' @param log.cutoff A logical indicating whether the cutoffs should
-#'   be log-transformed
-#' @param method.weights A character indicating the method for
-#'   weighting the studies: \code{invvar} (default) means inverse
-#'   variance weighting, \code{size} means weighting by group sample
-#'   size, \code{equal} means that all studies are equally weighted
-#' @param incr A numeric between 0 and 1 that is added as a continuity
-#'   correction
-#' @param level A numeric indicating the significance level (1 -
-#'   alpha) for tests (default is 0.95)
-#' @param n.iter.max A numeric indicating the maximal number of fixed
-#'   point iterations for finding the optimal cutoff
-#' @param tol A numeric indicating the tolerance for convergence of
-#'   the fixed point iteration
-#' @param silent A logical indicating whether iterations should be
-#'   suppressed
-#' @param \dots additional arguments
-#' 
-#' @return An object of class "diagmeta" with corresponding print,
-#'   summary, and plot function. The object is a list containing the
-#'   following components
-#'
+#' @return
+#' An object of class "diagmeta" with corresponding print, summary,
+#' and plot function. The object is a list containing the following
+#' components
 #' \item{TP, FP, TN, FN}{As defined above.}
 #' \item{cutoff, studlab}{As defined above.}
 #' \item{Sens}{Sensitivity (original data).}
@@ -142,16 +144,20 @@
 #' \item{version}{Version of R package \bold{diagmeta} used to create
 #'   object.}
 #' 
-#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Susanne
-#'   Steinhauser \email{susanne.steinhauser@@uni-koeln.de}, Srinath
-#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
-#'   Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' @author
+#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
+#' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
+#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{plot.diagmeta}, \link{summary.diagmeta}}
 #' 
-#' @references Steinhauser S, Schumacher M, Rücker G (2016), Modelling
-#'   multiple thresholds in meta-analysis of diagnostic test accuracy
-#'   studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+#' @references
+#' Steinhauser S, Schumacher M, Rücker G (2016):
+#' Modelling multiple thresholds in meta-analysis of diagnostic test
+#' accuracy studies.
+#' \emph{BMC Medical Research Methodology},
+#' \bold{16}, 97
 #' 
 #' @examples
 #' # FENO dataset

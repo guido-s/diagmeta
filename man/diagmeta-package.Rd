@@ -44,13 +44,15 @@ The development version of \bold{diagmeta} is available on GitHub
 https://github.com/guido-s/diagmeta.
 }
 \references{
-Steinhauser S, Schumacher M, Rücker G (2016), Modelling
-  multiple thresholds in meta-analysis of diagnostic test accuracy
-  studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+Steinhauser S, Schumacher M, Rücker G (2016):
+Modelling multiple thresholds in meta-analysis of diagnostic test
+accuracy studies.
+\emph{BMC Medical Research Methodology},
+\bold{16}, 97
 }
 \author{
-Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}, Susanne
-  Steinhauser \email{susanne.steinhauser@uni-koeln.de}, Srinath
-  Kolampally \email{kolampal@imbi.uni-freiburg.de}, Guido
-  Schwarzer \email{sc@imbi.uni-freiburg.de}
+Gerta Rücker \email{ruecker@imbi.uni-freiburg.de},
+Susanne Steinhauser \email{susanne.steinhauser@uni-koeln.de},
+Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de},
+Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
 }

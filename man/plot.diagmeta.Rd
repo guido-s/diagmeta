@@ -176,22 +176,25 @@ plot(diag1, which = "SROC",
 plot(diag1, which = "density", line.optcut = TRUE)
 }
 \references{
-Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017), A
-novel statistical model for analyzing data of a systematic review
+Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017):
+A novel statistical model for analyzing data of a systematic review
 generates optimal cutoff values for fractional exhaled nitric oxide
-for asthma diagnosis \emph{Journal of Clinical Epidemiology},
-\bold{92}, 69--78, doi: 10.1016/j.jclinepi.2017.09.001 .
+for asthma diagnosis.
+\emph{Journal of Clinical Epidemiology},
+\bold{92}, 69--78
 
-Steinhauser S, Schumacher M, Rücker G (2016), Modelling multiple
-thresholds in meta-analysis of diagnostic test accuracy
-studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+Steinhauser S, Schumacher M, Rücker G (2016):
+Modelling multiple thresholds in meta-analysis of diagnostic test
+accuracy studies.
+\emph{BMC Medical Research Methodology},
+\bold{16}, 97
 }
 \seealso{
 \code{\link{diagmeta}}
 }
 \author{
-Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}, Susanne
-  Steinhauser \email{susanne.steinhauser@uni-koeln.de}, Srinath
-  Kolampally \email{kolampal@imbi.uni-freiburg.de}, Guido
-  Schwarzer \email{sc@imbi.uni-freiburg.de}
+Gerta Rücker \email{ruecker@imbi.uni-freiburg.de},
+Susanne Steinhauser \email{susanne.steinhauser@uni-koeln.de},
+Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de},
+Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
 }

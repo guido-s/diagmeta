@@ -17,7 +17,7 @@ discrete or continuous variable}
 }
 \value{
 A data frame with values that can be entered into
-  \code{\link{diagmeta}}.
+\code{\link{diagmeta}}.
 }
 \description{
 Function to transform individual patient data (IPD) to enter them
@@ -63,6 +63,6 @@ plot(diag1, which = "SROC", ciSens = TRUE,
   \link{print.diagmeta}, \link{summary.diagmeta}}
 }
 \author{
-Gerta Rücker \email{ruecker@imbi.uni-freiburg.de}, Srinath
-  Kolampally \email{kolampal@imbi.uni-freiburg.de}
+Gerta Rücker \email{ruecker@imbi.uni-freiburg.de},
+Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de}
 }

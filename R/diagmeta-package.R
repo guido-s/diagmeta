@@ -1,5 +1,6 @@
 #' diagmeta: Brief overview of methods and general hints
 #'
+#' @description
 #' R package \bold{diagmeta} implements the method by Steinhauser et
 #' al. (2016) for the meta-analysis of diagnostic test accuracy studies
 #' with multiple cutoffs.
@@ -9,7 +10,6 @@
 #' @docType package
 #'
 #' @details
-#'
 #' Main function of R package \bold{diagmeta} is the eponymous
 #' \code{\link{diagmeta}}. Corresponding functions for printing and
 #' plotting are available: \code{\link{print.diagmeta}},
@@ -43,14 +43,18 @@
 #' The development version of \bold{diagmeta} is available on GitHub
 #' https://github.com/guido-s/diagmeta.
 #' 
-#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Susanne
-#'   Steinhauser \email{susanne.steinhauser@@uni-koeln.de}, Srinath
-#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
-#'   Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' @author
+#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
+#' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
+#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
 #'
-#' @references Steinhauser S, Schumacher M, Rücker G (2016), Modelling
-#'   multiple thresholds in meta-analysis of diagnostic test accuracy
-#'   studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+#' @references
+#' Steinhauser S, Schumacher M, Rücker G (2016):
+#' Modelling multiple thresholds in meta-analysis of diagnostic test
+#' accuracy studies.
+#' \emph{BMC Medical Research Methodology},
+#' \bold{16}, 97
 
 
 NULL

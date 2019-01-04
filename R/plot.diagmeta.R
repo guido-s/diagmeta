@@ -1,44 +1,9 @@
 #' Plot for meta-analysis of diagnostic test accuracy studies with the
 #' multiple cutoffs model
 #' 
+#' @description
 #' Provides several plots for meta-analysis of diagnostic test
 #' accuracy studies with the multiple cutoffs model
-#' 
-#' The first argument of the plot function is an object of class
-#' "diagmeta".
-#' 
-#' The second argument \code{which} indicates which sort of plot(s)
-#' should be shown. For \code{which="reg"}, a scatter plot of the
-#' quantil-transformed proportions of negative test results with two
-#' regression lines is shown.  Points belonging to the same study are
-#' marked with the same colour. For \code{which="cdf"}, the two
-#' cumulative distribution functions are shown, corresponding to the
-#' proportions of negative test results. For \code{which="survival"},
-#' the survival functions are shown, corresponding to the proportions
-#' of positive test results. For \code{which="Youden"}, the
-#' (potentially weighted) sum of sensitivity and specificity minus 1
-#' is shown; in case of \code{lambda=0.5} (the default) this is the
-#' Youden index. For \code{which="ROC"}, study-specific ROC curves are
-#' shown. For \code{which="SROC"}, the model-based summary ROC curve
-#' is shown. For \code{which="density"}, the model-based densities of
-#' both groups are shown. For \code{which="sensspec"}, the sensitivity
-#' (decreasing with increasing cutoff) and the specificity (increasing
-#' with increasing cutoff) are shown. Instead of character strings, a
-#' numeric value or vector can be used to specify plots with numbers
-#' corresponding to the following order of plots: "regression", "cdf",
-#' "survival", "youden", "roc", "sroc", "density", and "sensspec".
-#' 
-#' Other arguments refer to further plot parameters, such as
-#' \code{lines} (whether points belonging to the same study should be
-#' joined), \code{rlines} (whether regression curves should be drawn),
-#' \code{ci} / \code{ciSens} / \code{ciSpec} / \code{ellipse} (whether
-#' confidence regions should be shown), \code{line.optcut} /
-#' \code{mark.optcut} (whether the optimal cutoff should be
-#' indicated), and additional plot parameters (see Arguments).
-#' 
-#' If no further arguments are provided, four standard plots
-#' ("survival", "Youden", "ROC", and "SROC") are produced in a 2 x 2
-#' format.
 #' 
 #' @param x An object of class \code{diagmeta}
 #' @param which A character vector indicating the type of plot, either
@@ -93,24 +58,64 @@
 #'   and maximum value for the horizontal axes.
 #' @param \dots Additional graphical arguments
 #' 
-#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Susanne
-#'   Steinhauser \email{susanne.steinhauser@@uni-koeln.de}, Srinath
-#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
-#'   Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' @details
+#' The first argument of the plot function is an object of class
+#' "diagmeta".
+#' 
+#' The second argument \code{which} indicates which sort of plot(s)
+#' should be shown. For \code{which="reg"}, a scatter plot of the
+#' quantil-transformed proportions of negative test results with two
+#' regression lines is shown.  Points belonging to the same study are
+#' marked with the same colour. For \code{which="cdf"}, the two
+#' cumulative distribution functions are shown, corresponding to the
+#' proportions of negative test results. For \code{which="survival"},
+#' the survival functions are shown, corresponding to the proportions
+#' of positive test results. For \code{which="Youden"}, the
+#' (potentially weighted) sum of sensitivity and specificity minus 1
+#' is shown; in case of \code{lambda=0.5} (the default) this is the
+#' Youden index. For \code{which="ROC"}, study-specific ROC curves are
+#' shown. For \code{which="SROC"}, the model-based summary ROC curve
+#' is shown. For \code{which="density"}, the model-based densities of
+#' both groups are shown. For \code{which="sensspec"}, the sensitivity
+#' (decreasing with increasing cutoff) and the specificity (increasing
+#' with increasing cutoff) are shown. Instead of character strings, a
+#' numeric value or vector can be used to specify plots with numbers
+#' corresponding to the following order of plots: "regression", "cdf",
+#' "survival", "youden", "roc", "sroc", "density", and "sensspec".
+#' 
+#' Other arguments refer to further plot parameters, such as
+#' \code{lines} (whether points belonging to the same study should be
+#' joined), \code{rlines} (whether regression curves should be drawn),
+#' \code{ci} / \code{ciSens} / \code{ciSpec} / \code{ellipse} (whether
+#' confidence regions should be shown), \code{line.optcut} /
+#' \code{mark.optcut} (whether the optimal cutoff should be
+#' indicated), and additional plot parameters (see Arguments).
+#' 
+#' If no further arguments are provided, four standard plots
+#' ("survival", "Youden", "ROC", and "SROC") are produced in a 2 x 2
+#' format.
+#' 
+#' @author
+#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
+#' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
+#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{diagmeta}}
 #' 
 #' @references
-#'
-#' Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017), A
-#' novel statistical model for analyzing data of a systematic review
+#' Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017):
+#' A novel statistical model for analyzing data of a systematic review
 #' generates optimal cutoff values for fractional exhaled nitric oxide
-#' for asthma diagnosis \emph{Journal of Clinical Epidemiology},
-#' \bold{92}, 69--78, doi: 10.1016/j.jclinepi.2017.09.001 .
+#' for asthma diagnosis.
+#' \emph{Journal of Clinical Epidemiology},
+#' \bold{92}, 69--78
 #' 
-#' Steinhauser S, Schumacher M, Rücker G (2016), Modelling multiple
-#' thresholds in meta-analysis of diagnostic test accuracy
-#' studies. \emph{BMC Med Res Methodol}, \bold{16}, 97.
+#' Steinhauser S, Schumacher M, Rücker G (2016):
+#' Modelling multiple thresholds in meta-analysis of diagnostic test
+#' accuracy studies.
+#' \emph{BMC Medical Research Methodology},
+#' \bold{16}, 97
 #' 
 #' @examples
 #' # FENO dataset

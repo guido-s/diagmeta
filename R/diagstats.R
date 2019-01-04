@@ -1,6 +1,7 @@
 #' Calculate statistical measures of test performance for objects of
 #' class \code{diagmeta}
 #' 
+#' @description
 #' The user can provide cutoffs, sensitivities, and / or specificities
 #' to calculate the respective quantities (with confidence
 #' intervals). Furthermore, positive predictive values (PPV), negative
@@ -14,9 +15,8 @@
 #' @param prevalence A numeric or vector with the prevalence(s)
 #' @param level The level used to calculate confidence intervals
 #' 
-#' @return A data frame of class "diagstats" with the following
-#'   variables:
-#' 
+#' @return
+#' A data frame of class "diagstats" with the following variables:
 #' \item{cutoff}{Cutoffs provided in argument "cutoff" and / or
 #'   model-based cutoff values for given sensitivities /
 #'   specificities.}
@@ -42,9 +42,10 @@
 #' \item{dens.diseased}{Value of the model-based density function at the
 #'    cutoff(s) for diseased individuals}
 #' 
-#' @author Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de}, Srinath
-#'   Kolampally \email{kolampal@@imbi.uni-freiburg.de}, Guido
-#'   Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' @author
+#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
+#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{diagmeta}} \code{\link{print.diagstats}}
 #' 
