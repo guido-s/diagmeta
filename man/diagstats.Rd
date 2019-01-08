@@ -75,6 +75,7 @@ diagstats(diag1, c(25, 50), prevalence = 0.10)
 # Results for sensitivity and specificity of 0.95
 #
 diagstats(diag1, sens = 0.95, spec = 0.95)
+
 }
 \seealso{
 \code{\link{diagmeta}} \code{\link{print.diagstats}}

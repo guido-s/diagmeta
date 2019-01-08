@@ -28,8 +28,10 @@
 #'                   model = "DIDS", log.cutoff = TRUE)
 #' 
 #' summary(diag1)
-#' @export summary.diagmeta
+#'
+#' @method summary diagmeta
 #' @export
+#' @export summary.diagmeta
 
 
 summary.diagmeta <- function(object, ...) {

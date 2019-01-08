@@ -34,8 +34,10 @@
 #' ds1 <- diagstats(diag1, c(25, 50), 0.10)
 #' ds1
 #' print(ds1, predicted = FALSE)
-#' @export print.diagstats
+#'
+#' @method print diagstats
 #' @export
+#' @export print.diagstats
 
 
 print.diagstats <- function(x,

@@ -41,6 +41,7 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
 ds1 <- diagstats(diag1, c(25, 50), 0.10)
 ds1
 print(ds1, predicted = FALSE)
+
 }
 \seealso{
 \code{\link{diagstats}} \code{\link{diagmeta}}

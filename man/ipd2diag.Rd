@@ -57,6 +57,7 @@ par(mfrow = c(1, 2))
 plot(diag1, which = "ROC", lines = TRUE)
 plot(diag1, which = "SROC", ciSens = TRUE,
      ciSpec = TRUE, lines = TRUE, shading = "hatch")
+
 }
 \seealso{
 \code{\link{diagmeta}, \link{plot.diagmeta},

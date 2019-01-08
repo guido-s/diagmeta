@@ -30,6 +30,7 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   model = "DIDS", log.cutoff = TRUE)
 
 summary(diag1)
+
 }
 \seealso{
 \code{\link{diagmeta}}

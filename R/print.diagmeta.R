@@ -27,8 +27,10 @@
 #'                   model = "DIDS", log.cutoff = TRUE)
 #' 
 #' diag1
-#' @export print.diagmeta
+#'
+#' @method print diagmeta
 #' @export
+#' @export print.diagmeta
 #' 
 #' @importFrom stats quantile
 

@@ -55,6 +55,7 @@
 #' plot(diag1, which = "ROC", lines = TRUE)
 #' plot(diag1, which = "SROC", ciSens = TRUE,
 #'      ciSpec = TRUE, lines = TRUE, shading = "hatch")
+#' 
 #' @export
 
 

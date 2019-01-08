@@ -29,8 +29,10 @@
 #' 
 #' summary(diag1)
 #' print(summary(diag1), digits = 2)
-#' @export print.summary.diagmeta
+#'
+#' @method print summary.diagmeta
 #' @export
+#' @export print.summary.diagmeta
 
 
 print.summary.diagmeta <- function(x, digits = 3, ...) {

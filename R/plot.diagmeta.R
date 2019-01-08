@@ -163,8 +163,10 @@
 #' # line
 #' #
 #' plot(diag1, which = "density", line.optcut = TRUE)
-#' @export plot.diagmeta
+#'
+#' @method plot diagmeta
 #' @export
+#' @export plot.diagmeta
 #'
 #' @importFrom grDevices cm.colors heat.colors rainbow rgb
 #'   terrain.colors topo.colors

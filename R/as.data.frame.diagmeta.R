@@ -28,8 +28,10 @@
 #'                   model = "DIDS", log.cutoff = TRUE)
 #' 
 #' as.data.frame(diag1)
-#' @export as.data.frame.diagmeta
+#'
+#' @method as.data.frame diagmeta
 #' @export
+#' @export as.data.frame.diagmeta
 
 
 as.data.frame.diagmeta <- function(x, row.names=NULL, optional=FALSE, ...) {

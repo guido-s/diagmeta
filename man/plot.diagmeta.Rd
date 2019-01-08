@@ -174,6 +174,7 @@ plot(diag1, which = "SROC",
 # line
 #
 plot(diag1, which = "density", line.optcut = TRUE)
+
 }
 \references{
 Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017):
