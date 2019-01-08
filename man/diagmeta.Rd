@@ -182,6 +182,7 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   
 summary(diag1)
 plot(diag1)
+
 }
 \references{
 Steinhauser S, Schumacher M, Rücker G (2016):

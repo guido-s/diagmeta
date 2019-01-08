@@ -3,10 +3,17 @@ Title: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
 Version: 0.3-1
 Depends: meta (>= 4.9-0)
 Imports: lme4, grDevices
-Authors@R: c(person("Gerta","Rücker", role="aut"),
-    person("Susanne","Steinhauser", role="aut"),
-    person("Srinath","Kolampally", role="aut"),
-    person("Guido","Schwarzer", email="sc@imbi.uni-freiburg.de", role=c("aut","cre")))
+Authors@R: c(person("Gerta", "Rücker",
+                    role = "aut",
+                    comment = c(ORCID = "0000-0002-2192-2560")),
+             person("Susanne", "Steinhauser",
+                    role = "aut"),
+             person("Srinath", "Kolampally",
+                    role = "aut"),
+             person("Guido", "Schwarzer",
+                    role = c("aut", "cre"),
+                    email = "sc@imbi.uni-freiburg.de",
+                    comment = c(ORCID = "0000-0001-6214-9087")))
 Author: Gerta Rücker [aut], Susanne Steinhauser [aut], Srinath Kolampally [aut], Guido Schwarzer [aut, cre]
 Maintainer: Guido Schwarzer <sc@imbi.uni-freiburg.de>
 Date: 2019-01-04

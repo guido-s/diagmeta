@@ -41,6 +41,8 @@
 #' \emph{Journal of Clinical Epidemiology},
 #' \bold{92}, 69--78
 #'
+#' @keywords datasets
+#'
 #' @examples
 #' # FENO dataset
 #' #

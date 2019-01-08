@@ -103,6 +103,8 @@
 #' 
 #' @seealso \code{\link{diagmeta}}
 #' 
+#' @keywords hplot
+#' 
 #' @references
 #' Schneider A, Linde K, Reitsma JB, Steinhauser S, Rücker G (2017):
 #' A novel statistical model for analyzing data of a systematic review

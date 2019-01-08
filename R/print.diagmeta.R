@@ -14,6 +14,8 @@
 #' 
 #' @seealso \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
 #' 
+#' @keywords print
+#' 
 #' @examples
 #' # FENO dataset
 #' #

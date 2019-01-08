@@ -14,6 +14,8 @@
 #' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
+#'
+#' @keywords print
 #' 
 #' @examples 
 #' # FENO dataset

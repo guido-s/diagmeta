@@ -48,3 +48,4 @@ print(ds1, predicted = FALSE)
 \author{
 Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
 }
+\keyword{print}

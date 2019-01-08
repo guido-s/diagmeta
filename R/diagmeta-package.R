@@ -55,6 +55,8 @@
 #' accuracy studies.
 #' \emph{BMC Medical Research Methodology},
 #' \bold{16}, 97
+#'
+#' @keywords package
 
 
 NULL

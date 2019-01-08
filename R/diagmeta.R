@@ -171,6 +171,7 @@
 #'                   
 #' summary(diag1)
 #' plot(diag1)
+#' 
 #' @export
 #'
 #' @importFrom lme4 lmer
