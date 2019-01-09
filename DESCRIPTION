@@ -1,6 +1,7 @@
 Package: diagmeta
 Title: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
 Version: 0.3-1
+Date: 2019-01-04
 Depends: meta (>= 4.9-0)
 Imports: lme4, grDevices
 Authors@R: c(person("Gerta", "Rücker",
@@ -14,9 +15,6 @@ Authors@R: c(person("Gerta", "Rücker",
                     role = c("aut", "cre"),
                     email = "sc@imbi.uni-freiburg.de",
                     comment = c(ORCID = "0000-0001-6214-9087")))
-Author: Gerta Rücker [aut], Susanne Steinhauser [aut], Srinath Kolampally [aut], Guido Schwarzer [aut, cre]
-Maintainer: Guido Schwarzer <sc@imbi.uni-freiburg.de>
-Date: 2019-01-04
 URL: https://github.com/guido-s/diagmeta
 Description: Provides methods by Steinhauser et al. (2016) <DOI:10.1186/s12874-016-0196-1> for meta-analysis of diagnostic accuracy studies with several cutpoints.
 License: GPL (>= 2)

@@ -15,7 +15,7 @@ several cutpoints.
  
 ### References
 
-[Steinhauser S, Schumacher M, Rücker G (2016): Modelling multiple thresholds in meta-analysis of diagnostic test accuracy studies. *BMC Medical Research Methodology*, **16**: 97](https://scholar.google.com/scholar?q=Steinhauser+Schumacher+Rücker+2016+BMC)
+[Steinhauser S, Schumacher M, Rücker G (2016): Modelling multiple thresholds in meta-analysis of diagnostic test accuracy studies. *BMC Medical Research Methodology*, **16**, 97](https://scholar.google.com/scholar?q=Steinhauser+Schumacher+Rücker+2016+BMC)
 
 
 ## Installation
