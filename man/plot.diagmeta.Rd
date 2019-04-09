@@ -9,9 +9,9 @@ multiple cutoffs model}
   "sroc"), xlab = "threshold", main, ci = FALSE, ciSens = FALSE,
   ciSpec = FALSE, mark.optcut = FALSE, mark.cutpoints = FALSE,
   points = TRUE, lines = FALSE, rlines = TRUE, line.optcut = TRUE,
-  col.points = "rainbow", cex = 1, pch.points = 16, cex.marks = 0.7
-  * cex, lwd = 1, lwd.optcut = 2 * lwd, shading = "none",
-  ellipse = FALSE, xlim = NULL, ...)
+  col.points = "rainbow", cex = 1, pch.points = 16,
+  col.ci = "gray", cex.marks = 0.7 * cex, lwd = 1, lwd.optcut = 2 *
+  lwd, shading = "none", ellipse = FALSE, xlim = NULL, ...)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}}
@@ -60,15 +60,18 @@ should be plotted at the optimal cutoff line for plots
 \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
 \code{"density"}}
 
-\item{col.points}{A character vector indicating color, either
-\code{"rainbow"} or \code{"topo"} or \code{"heat"} or
-\code{"terrain"} or \code{"cm"} or \code{"gray"} or
-\code{"black"}}
+\item{col.points}{A character string indicating color of points,
+either \code{"rainbow"}, \code{"topo"}, \code{"heat"},
+\code{"terrain"}, \code{"cm"}, \code{"grayscale"} or any color
+defined in \code{\link[grDevices]{colours}}}
 
 \item{cex}{A numeric indicating magnification to be used for
-plotting text and symbols.}
+plotting text and symbols}
 
 \item{pch.points}{A numeric indicating plot symbol(s) for points}
+
+\item{col.ci}{A character string indicating color of confidence
+lines}
 
 \item{cex.marks}{A numeric indicating magnification(s) to be used
 for marking cutoffs}
@@ -85,7 +88,7 @@ confidence region in \code{"SROC"} plot, either \code{"none"} or
 should be drawn around the optimal cutoff}
 
 \item{xlim}{A character or numerical vector indicating the minimum
-and maximum value for the horizontal axes.}
+and maximum value for the horizontal axes}
 
 \item{\dots}{Additional graphical arguments}
 }

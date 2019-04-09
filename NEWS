@@ -6,6 +6,11 @@
     - as.data.frame.diagmeta(), plot.diagmeta(), print.diagmeta(),
       print.diagstats(), print.summary.diagmeta(), summary.diagmeta()
 
+  * plot.diagmeta():
+    - argument 'col.points' can be any color defined in colours()
+    - new argument 'col.ci' to specify color of curves with confidence
+      limits
+
   * diagmeta():
     - check for numerical values in arguments 'TP', 'FP', 'TN', 'FN',
       and 'cutoff'

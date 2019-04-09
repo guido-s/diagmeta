@@ -38,13 +38,15 @@
 #'   should be plotted at the optimal cutoff line for plots
 #'   \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
 #'   \code{"density"}
-#' @param col.points A character vector indicating color, either
-#'   \code{"rainbow"} or \code{"topo"} or \code{"heat"} or
-#'   \code{"terrain"} or \code{"cm"} or \code{"gray"} or
-#'   \code{"black"}
+#' @param col.points A character string indicating color of points,
+#'   either \code{"rainbow"}, \code{"topo"}, \code{"heat"},
+#'   \code{"terrain"}, \code{"cm"}, \code{"grayscale"} or any color
+#'   defined in \code{\link[grDevices]{colours}}
 #' @param cex A numeric indicating magnification to be used for
-#'   plotting text and symbols.
+#'   plotting text and symbols
 #' @param pch.points A numeric indicating plot symbol(s) for points
+#' @param col.ci A character string indicating color of confidence
+#'   lines
 #' @param cex.marks A numeric indicating magnification(s) to be used
 #'   for marking cutoffs
 #' @param lwd A numeric indicating line width
@@ -55,7 +57,7 @@
 #' @param ellipse A logical indicating whether a confidence ellipse
 #'   should be drawn around the optimal cutoff
 #' @param xlim A character or numerical vector indicating the minimum
-#'   and maximum value for the horizontal axes.
+#'   and maximum value for the horizontal axes
 #' @param \dots Additional graphical arguments
 #' 
 #' @details
@@ -168,7 +170,7 @@
 #' @export
 #' @export plot.diagmeta
 #'
-#' @importFrom grDevices cm.colors heat.colors rainbow rgb
+#' @importFrom grDevices colours cm.colors heat.colors rainbow rgb
 #'   terrain.colors topo.colors
 #' @importFrom graphics abline curve par plot polygon text
 #' @importFrom stats qchisq
@@ -184,6 +186,7 @@ plot.diagmeta <- function(x,
                           rlines = TRUE, line.optcut = TRUE,
                           col.points = "rainbow",
                           cex = 1, pch.points = 16,
+                          col.ci = "gray",
                           cex.marks = 0.7 * cex,
                           lwd = 1, lwd.optcut = 2 * lwd,
                           shading = "none",
@@ -242,9 +245,13 @@ plot.diagmeta <- function(x,
   chklogical(rlines)
   chklogical(line.optcut)
   ##
+  meta:::chkchar(col.points)
   col.points <- setchar(col.points,
                         c("rainbow", "topo", "heat", "terrain",
-                          "cm", "gray", "black"))
+                          "cm", "grayscale", colours()),
+                        text = paste0("should be 'rainbow', 'topo', 'heat', ",
+                                      "'terrain', 'cm', 'grayscale', ",
+                                      "or any color defined in colours()"))
   ##
   shading <- setchar(shading,
                      c("none", "hatch", "shade"))
@@ -294,10 +301,10 @@ plot.diagmeta <- function(x,
     cols <- terrain.colors(k)[study.no]
   else if (col.points == "cm")
     cols <- cm.colors(k)[study.no]
-  else if (col.points == "gray")
+  else if (col.points == "grayscale")
     cols <- gray(1:k / (k + 1))[study.no]
-  else if (col.points == "black")
-    cols <- rep(1, k)[study.no]
+  else
+    cols <- rep(col.points, k)[study.no]
   ##
   col.points <- cols
   ##
@@ -395,25 +402,25 @@ plot.diagmeta <- function(x,
                      alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                      var.nondiseased,
                      level)$lower,
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciRegr(log(x),
                      alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                      var.nondiseased,
                      level)$upper,
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciRegr(log(x),
                      alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                      var.diseased,
                      level)$lower,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciRegr(log(x),
                      alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                      var.diseased,
                      level)$upper,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     else {
@@ -430,25 +437,25 @@ plot.diagmeta <- function(x,
                      alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                      var.nondiseased,
                      level)$lower,
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciRegr(x,
                      alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                      var.nondiseased,
                      level)$upper,
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciRegr(x,
                      alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                      var.diseased,
                      level)$lower,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciRegr(x,
                      alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                      var.diseased,
                      level)$upper,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
   }
@@ -521,7 +528,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$lower,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(log(x),
                               alpha0, var.alpha0,
@@ -530,7 +537,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$upper,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(log(x),
                               alpha1, var.alpha1,
@@ -539,7 +546,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$lower,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(log(x),
                               alpha1, var.alpha1,
@@ -548,7 +555,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$upper,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     else {
@@ -581,7 +588,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$lower,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(x,
                               alpha0, var.alpha0,
@@ -590,7 +597,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$upper,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(x,
                               alpha1, var.alpha1,
@@ -599,7 +606,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$lower,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(x,
                               alpha1, var.alpha1,
@@ -608,7 +615,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$upper,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     ##
@@ -685,7 +692,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$lower,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(log(x),
                               alpha0, var.alpha0,
@@ -694,7 +701,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$upper,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(log(x),
                               alpha1, var.alpha1,
@@ -703,7 +710,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$lower,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(log(x),
                               alpha1, var.alpha1,
@@ -712,7 +719,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$upper,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     else {
@@ -745,7 +752,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$lower,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(x,
                               alpha0, var.alpha0,
@@ -754,7 +761,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$upper,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(x,
                               alpha1, var.alpha1,
@@ -763,7 +770,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$lower,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(x,
                               alpha1, var.alpha1,
@@ -772,7 +779,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$upper,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     ##
@@ -824,7 +831,7 @@ plot.diagmeta <- function(x,
                        cov.alpha1.beta0, cov.alpha1.beta1, cov.beta0.beta1,
                        var.nondiseased, var.diseased,
                        level)$lower,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciYouden(log(x), distr, lambda,
                        alpha0, var.alpha0, beta0, var.beta0,
@@ -833,7 +840,7 @@ plot.diagmeta <- function(x,
                        cov.alpha1.beta0, cov.alpha1.beta1, cov.beta0.beta1,
                        var.nondiseased, var.diseased,
                        level)$upper,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
       ##
       if (rlines)
@@ -850,7 +857,7 @@ plot.diagmeta <- function(x,
                        cov.alpha1.beta0, cov.alpha1.beta1, cov.beta0.beta1,
                        var.nondiseased, var.diseased,
                        level)$lower,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(ciYouden(x, distr, lambda,
                        alpha0, var.alpha0, beta0, var.beta0,
@@ -859,7 +866,7 @@ plot.diagmeta <- function(x,
                        cov.alpha1.beta0, cov.alpha1.beta1, cov.beta0.beta1,
                        var.nondiseased, var.diseased,
                        level)$upper,
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
       ##
       if (rlines)
@@ -1155,7 +1162,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$lower,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(log(x),
                               alpha0, var.alpha0,
@@ -1164,7 +1171,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$upper,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(log(x),
                               alpha1, var.alpha1,
@@ -1173,7 +1180,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$lower,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(log(x),
                               alpha1, var.alpha1,
@@ -1182,7 +1189,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$upper,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     else {
@@ -1215,7 +1222,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$lower,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSpec(ciRegr(x,
                               alpha0, var.alpha0,
@@ -1224,7 +1231,7 @@ plot.diagmeta <- function(x,
                               var.nondiseased,
                               level)$upper,
                        distr),
-              lty = 2, col = "gray", lwd = lwd, add = TRUE)
+              lty = 2, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(x,
                               alpha1, var.alpha1,
@@ -1233,7 +1240,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$lower,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
         ##
         curve(calcSens(ciRegr(x,
                               alpha1, var.alpha1,
@@ -1242,7 +1249,7 @@ plot.diagmeta <- function(x,
                               var.diseased,
                               level)$upper,
                        distr),
-              lty = 1, col = "gray", lwd = lwd, add = TRUE)
+              lty = 1, col = col.ci, lwd = lwd, add = TRUE)
       }
     }
     ##
