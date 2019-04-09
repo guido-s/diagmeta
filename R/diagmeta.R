@@ -248,23 +248,28 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   TP <- eval(mf[[match("TP", names(mf))]],
              data, enclos = sys.frame(sys.parent()))
   chknull(TP)
+  chknumeric(TP, min = 0)
   k.All <- length(TP)
   ##
   FP <- eval(mf[[match("FP", names(mf))]],
              data, enclos = sys.frame(sys.parent()))
   chknull(FP)
+  chknumeric(FP, min = 0)
   ##
   TN <- eval(mf[[match("TN", names(mf))]],
              data, enclos = sys.frame(sys.parent()))
   chknull(TN)
+  chknumeric(TN, min = 0)
   ##
   FN <- eval(mf[[match("FN", names(mf))]],
              data, enclos = sys.frame(sys.parent()))
   chknull(FN)
+  chknumeric(FN, min = 0)
   ##
   cutoff <- eval(mf[[match("cutoff", names(mf))]],
                  data, enclos = sys.frame(sys.parent()))
   chknull(cutoff)
+  chknumeric(cutoff)
   ##
   studlab <- eval(mf[[match("studlab", names(mf))]],
                   data, enclos = sys.frame(sys.parent()))

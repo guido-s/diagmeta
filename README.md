@@ -45,3 +45,5 @@ bug.report(package = "diagmeta")
 
 The bug.report function is not supported in RStudio. Please send an
 email to Guido Schwarzer <sc@imbi.uni-freiburg.de> if you use RStudio.
+
+You can also report bugs on GitHub under [Issues](https://github.com/guido-s/diagmeta/issues).

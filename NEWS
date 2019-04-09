@@ -6,6 +6,10 @@
     - as.data.frame.diagmeta(), plot.diagmeta(), print.diagmeta(),
       print.diagstats(), print.summary.diagmeta(), summary.diagmeta()
 
+  * diagmeta():
+    - check for numerical values in arguments 'TP', 'FP', 'TN', 'FN',
+      and 'cutoff'
+
 
 *** diagmeta, version 0.3-0, 2018-12-11 ***
 
