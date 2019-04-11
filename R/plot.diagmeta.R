@@ -253,6 +253,9 @@ plot.diagmeta <- function(x,
                                       "'terrain', 'cm', 'grayscale', ",
                                       "or any color defined in colours()"))
   ##
+  col.ci <- setchar(col.ci, colours(),
+                    text = "should be any color defined in colours()")
+  ##
   shading <- setchar(shading,
                      c("none", "hatch", "shade"))
   ##
