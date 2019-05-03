@@ -17,7 +17,7 @@ multiple cutoffs model}
 \item{x}{An object of class \code{diagmeta}}
 
 \item{which}{A character vector indicating the type of plot, either
-\code{"reg"} or\code{"cdf"} or \code{"survival"} or
+\code{"regression"} or\code{"cdf"} or \code{"survival"} or
 \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
 \code{"density"}}
 
@@ -26,8 +26,8 @@ multiple cutoffs model}
 \item{main}{A logical indicating title to the plot}
 
 \item{ci}{A logical indicating whether confidence intervals should
-be plotted for \code{"reg"}, \code{"cdf"}, \code{"survival"},
-\code{"Youden"}, and \code{"sensspec"}}
+be plotted for \code{"regression"}, \code{"cdf"},
+\code{"survival"}, \code{"Youden"}, and \code{"sensspec"}}
 
 \item{ciSens}{A logical indicating whether confidence intervals
 should be plotted for sensitivity, given the specificity in
@@ -48,12 +48,13 @@ on \code{"ROC"} plot}
 
 \item{lines}{A logical indicating whether polygonal lines
 connecting points belonging to the same study should be printed
-in plots \code{"reg"}, \code{"cdf"}, \code{"survival"},
+in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
 \code{"Youden"}, and \code{"sensspec"}}
 
 \item{rlines}{A logical indicating whether regression lines or
-curves should be plotted for plots \code{"reg"}, \code{"cdf"},
-\code{"survival"}, \code{"Youden"}, and \code{"sensspec"}}
+curves should be plotted for plots \code{"regression"},
+\code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
+\code{"sensspec"}}
 
 \item{line.optcut}{A logical indicating whether a vertical line
 should be plotted at the optimal cutoff line for plots
@@ -101,10 +102,10 @@ The first argument of the plot function is an object of class
 "diagmeta".
 
 The second argument \code{which} indicates which sort of plot(s)
-should be shown. For \code{which="reg"}, a scatter plot of the
-quantil-transformed proportions of negative test results with two
-regression lines is shown.  Points belonging to the same study are
-marked with the same colour. For \code{which="cdf"}, the two
+should be shown. For \code{which="regression"}, a scatter plot of
+the quantil-transformed proportions of negative test results with
+two regression lines is shown.  Points belonging to the same study
+are marked with the same colour. For \code{which="cdf"}, the two
 cumulative distribution functions are shown, corresponding to the
 proportions of negative test results. For \code{which="survival"},
 the survival functions are shown, corresponding to the proportions
@@ -146,7 +147,7 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
 
 # Regression plot with confidence intervals
 #
-plot(diag1, which = "reg", lines = FALSE, ci = TRUE)
+plot(diag1, which = "regr", lines = FALSE, ci = TRUE)
 
 # Cumulative distribution plot with optimal cutoff line and
 # confidence intervals

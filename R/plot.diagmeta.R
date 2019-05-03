@@ -7,14 +7,14 @@
 #' 
 #' @param x An object of class \code{diagmeta}
 #' @param which A character vector indicating the type of plot, either
-#'   \code{"reg"} or\code{"cdf"} or \code{"survival"} or
+#'   \code{"regression"} or\code{"cdf"} or \code{"survival"} or
 #'   \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
 #'   \code{"density"}
 #' @param xlab An x axis label
 #' @param main A logical indicating title to the plot
 #' @param ci A logical indicating whether confidence intervals should
-#'   be plotted for \code{"reg"}, \code{"cdf"}, \code{"survival"},
-#'   \code{"Youden"}, and \code{"sensspec"}
+#'   be plotted for \code{"regression"}, \code{"cdf"},
+#'   \code{"survival"}, \code{"Youden"}, and \code{"sensspec"}
 #' @param ciSens A logical indicating whether confidence intervals
 #'   should be plotted for sensitivity, given the specificity in
 #'   \code{"SROC"} plot
@@ -29,11 +29,12 @@
 #'   on \code{"ROC"} plot
 #' @param lines A logical indicating whether polygonal lines
 #'   connecting points belonging to the same study should be printed
-#'   in plots \code{"reg"}, \code{"cdf"}, \code{"survival"},
+#'   in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
 #'   \code{"Youden"}, and \code{"sensspec"}
 #' @param rlines A logical indicating whether regression lines or
-#'   curves should be plotted for plots \code{"reg"}, \code{"cdf"},
-#'   \code{"survival"}, \code{"Youden"}, and \code{"sensspec"}
+#'   curves should be plotted for plots \code{"regression"},
+#'   \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
+#'   \code{"sensspec"}
 #' @param line.optcut A logical indicating whether a vertical line
 #'   should be plotted at the optimal cutoff line for plots
 #'   \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
@@ -65,10 +66,10 @@
 #' "diagmeta".
 #' 
 #' The second argument \code{which} indicates which sort of plot(s)
-#' should be shown. For \code{which="reg"}, a scatter plot of the
-#' quantil-transformed proportions of negative test results with two
-#' regression lines is shown.  Points belonging to the same study are
-#' marked with the same colour. For \code{which="cdf"}, the two
+#' should be shown. For \code{which="regression"}, a scatter plot of
+#' the quantil-transformed proportions of negative test results with
+#' two regression lines is shown.  Points belonging to the same study
+#' are marked with the same colour. For \code{which="cdf"}, the two
 #' cumulative distribution functions are shown, corresponding to the
 #' proportions of negative test results. For \code{which="survival"},
 #' the survival functions are shown, corresponding to the proportions
@@ -134,7 +135,7 @@
 #' 
 #' # Regression plot with confidence intervals
 #' #
-#' plot(diag1, which = "reg", lines = FALSE, ci = TRUE)
+#' plot(diag1, which = "regr", lines = FALSE, ci = TRUE)
 #' 
 #' # Cumulative distribution plot with optimal cutoff line and
 #' # confidence intervals
@@ -253,8 +254,9 @@ plot.diagmeta <- function(x,
                                       "'terrain', 'cm', 'grayscale', ",
                                       "or any color defined in colours()"))
   ##
-  col.ci <- setchar(col.ci, colours(),
-                    text = "should be any color defined in colours()")
+  col.ci <- setchar(col.ci, c("transparent", colours()),
+                    text = paste0("should be 'transparent' or ",
+                                  "any color defined in colours()"))
   ##
   shading <- setchar(shading,
                      c("none", "hatch", "shade"))

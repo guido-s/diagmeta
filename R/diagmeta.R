@@ -514,10 +514,10 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
     cov.beta0.beta1 <- var.beta0 + vc[3, 4]
   }
   ##
-  ## Correlation of data must be positive
+  ## Correlation between increasing cutoffs and sensitivity must be positive
   ##
   if (beta0 <= 0 | beta1 <= 0)
-    stop("Regression yields negative correlation. Try another model or get better data. :)")
+    stop("Regression yields a negative correlation between increasing cutoffs and sensitivity. This may happen, for example, if disease is associated with smaller (not larger) values. In this case, all values have to be multiplied with -1. Another possible explanation is large between-study heterogeneity, or many studies with only one cutoff.")
   
   
   ##

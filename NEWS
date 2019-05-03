@@ -1,3 +1,12 @@
+*** diagmeta, version 0.3-2, 2019-mn-dd ***
+
+ ** User-visible changes **
+
+  * diagmeta():
+    - print a more informative error message in case of negative
+      correlation between increasing cutoffs and sensitivity
+
+
 *** diagmeta, version 0.3-1, 2019-04-11 ***
 
  ** User-visible changes **
@@ -10,6 +19,8 @@
     - argument 'col.points' can be any color defined in colours()
     - new argument 'col.ci' to specify color of curves with confidence
       limits
+
+ ** Internal changes **
 
   * diagmeta():
     - check for numerical values in arguments 'TP', 'FP', 'TN', 'FN',
