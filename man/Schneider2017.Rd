@@ -32,9 +32,6 @@ for asthma diagnosis.
 \emph{Journal of Clinical Epidemiology},
 \bold{92}, 69--78
 }
-\usage{
-Schneider2017
-}
 \description{
 Meta-analysis of studies of the diagnostic test accuracy of
 fractional exhaled nitric oxide (FENO) for diagnosis of asthma.

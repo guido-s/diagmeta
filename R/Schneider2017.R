@@ -9,10 +9,10 @@
 #' al. (2017) and are published as a supplement (Appendix 1) to
 #' Schneider et al. (2017). They have been preprocessed for use in R
 #' package \bold{diagmeta}.
+#' 
+#' @name Schneider2017
 #'
 #' @docType data
-#' 
-#' @usage Schneider2017
 #'
 #' @format
 #' A data frame with the following columns:
@@ -56,4 +56,4 @@
 #' plot(diag1)
 
 
-"Schneider2017"
+NULL
