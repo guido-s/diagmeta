@@ -5,21 +5,40 @@
 \title{Plot for meta-analysis of diagnostic test accuracy studies with the
 multiple cutoffs model}
 \usage{
-\method{plot}{diagmeta}(x, which = c("survival", "youden", "roc",
-  "sroc"), xlab = "threshold", main, ci = FALSE, ciSens = FALSE,
-  ciSpec = FALSE, mark.optcut = FALSE, mark.cutpoints = FALSE,
-  points = TRUE, lines = FALSE, rlines = TRUE, line.optcut = TRUE,
-  col.points = "rainbow", cex = 1, pch.points = 16,
-  col.ci = "gray", cex.marks = 0.7 * cex, lwd = 1, lwd.optcut = 2 *
-  lwd, shading = "none", ellipse = FALSE, xlim = NULL, ...)
+\method{plot}{diagmeta}(
+  x,
+  which = c("survival", "youden", "roc", "sroc"),
+  xlab = "Threshold",
+  main,
+  ci = FALSE,
+  ciSens = FALSE,
+  ciSpec = FALSE,
+  mark.optcut = FALSE,
+  mark.cutpoints = FALSE,
+  points = TRUE,
+  lines = FALSE,
+  rlines = TRUE,
+  line.optcut = TRUE,
+  col.points = "rainbow",
+  cex = 1,
+  pch.points = 16,
+  col.ci = "gray",
+  cex.marks = 0.7 * cex,
+  lwd = 1,
+  lwd.optcut = 2 * lwd,
+  shading = "none",
+  ellipse = FALSE,
+  xlim = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}}
 
 \item{which}{A character vector indicating the type of plot, either
-\code{"regression"} or\code{"cdf"} or \code{"survival"} or
+\code{"regression"} or \code{"cdf"} or \code{"survival"} or
 \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
-\code{"density"}}
+\code{"density"} or \code{"sensspec"}, can be abbreviated}
 
 \item{xlab}{An x axis label}
 
@@ -44,7 +63,8 @@ should be marked on \code{"SROC"} plot}
 cutoffs should be marked on \code{"SROC"} plot}
 
 \item{points}{A logical indicating whether points should be plotted
-on \code{"ROC"} plot}
+in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
+\code{"Youden"}, \code{"ROC"}, and \code{"sensspec"}}
 
 \item{lines}{A logical indicating whether polygonal lines
 connecting points belonging to the same study should be printed
@@ -63,7 +83,7 @@ should be plotted at the optimal cutoff line for plots
 
 \item{col.points}{A character string indicating color of points,
 either \code{"rainbow"}, \code{"topo"}, \code{"heat"},
-\code{"terrain"}, \code{"cm"}, \code{"grayscale"} or any color
+\code{"terrain"}, \code{"cm"}, \code{"grayscale"}, or any color
 defined in \code{\link[grDevices]{colours}}}
 
 \item{cex}{A numeric indicating magnification to be used for
@@ -104,7 +124,7 @@ The first argument of the plot function is an object of class
 The second argument \code{which} indicates which sort of plot(s)
 should be shown. For \code{which="regression"}, a scatter plot of
 the quantil-transformed proportions of negative test results with
-two regression lines is shown.  Points belonging to the same study
+two regression lines is shown. Points belonging to the same study
 are marked with the same colour. For \code{which="cdf"}, the two
 cumulative distribution functions are shown, corresponding to the
 proportions of negative test results. For \code{which="survival"},
@@ -142,7 +162,7 @@ data(Schneider2017)
 diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   studlab = paste(author, year, group),
                   data = Schneider2017,
-                  model = "DIDS", log.cutoff = TRUE)
+                  log.cutoff = TRUE)
 
 
 # Regression plot with confidence intervals

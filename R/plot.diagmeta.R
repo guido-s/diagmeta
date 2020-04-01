@@ -7,9 +7,9 @@
 #' 
 #' @param x An object of class \code{diagmeta}
 #' @param which A character vector indicating the type of plot, either
-#'   \code{"regression"} or\code{"cdf"} or \code{"survival"} or
+#'   \code{"regression"} or \code{"cdf"} or \code{"survival"} or
 #'   \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
-#'   \code{"density"}
+#'   \code{"density"} or \code{"sensspec"}, can be abbreviated
 #' @param xlab An x axis label
 #' @param main A logical indicating title to the plot
 #' @param ci A logical indicating whether confidence intervals should
@@ -26,7 +26,8 @@
 #' @param mark.cutpoints A logical indicating whether the given
 #'   cutoffs should be marked on \code{"SROC"} plot
 #' @param points A logical indicating whether points should be plotted
-#'   on \code{"ROC"} plot
+#'   in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
+#'   \code{"Youden"}, \code{"ROC"}, and \code{"sensspec"}
 #' @param lines A logical indicating whether polygonal lines
 #'   connecting points belonging to the same study should be printed
 #'   in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
@@ -41,7 +42,7 @@
 #'   \code{"density"}
 #' @param col.points A character string indicating color of points,
 #'   either \code{"rainbow"}, \code{"topo"}, \code{"heat"},
-#'   \code{"terrain"}, \code{"cm"}, \code{"grayscale"} or any color
+#'   \code{"terrain"}, \code{"cm"}, \code{"grayscale"}, or any color
 #'   defined in \code{\link[grDevices]{colours}}
 #' @param cex A numeric indicating magnification to be used for
 #'   plotting text and symbols
@@ -68,7 +69,7 @@
 #' The second argument \code{which} indicates which sort of plot(s)
 #' should be shown. For \code{which="regression"}, a scatter plot of
 #' the quantil-transformed proportions of negative test results with
-#' two regression lines is shown.  Points belonging to the same study
+#' two regression lines is shown. Points belonging to the same study
 #' are marked with the same colour. For \code{which="cdf"}, the two
 #' cumulative distribution functions are shown, corresponding to the
 #' proportions of negative test results. For \code{which="survival"},
@@ -130,7 +131,7 @@
 #' diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
 #'                   studlab = paste(author, year, group),
 #'                   data = Schneider2017,
-#'                   model = "DIDS", log.cutoff = TRUE)
+#'                   log.cutoff = TRUE)
 #' 
 #' 
 #' # Regression plot with confidence intervals
@@ -179,7 +180,7 @@
 
 plot.diagmeta <- function(x,
                           which = c("survival", "youden", "roc", "sroc"),
-                          xlab = "threshold",
+                          xlab = "Threshold",
                           main,
                           ci = FALSE, ciSens = FALSE, ciSpec = FALSE,
                           mark.optcut = FALSE, mark.cutpoints = FALSE,
@@ -219,7 +220,7 @@ plot.diagmeta <- function(x,
   ##
   which <- unique(which)
   ##
-  mains <- c("Regression lines", "Cumulative density functions",
+  mains <- c("Regression lines", "Cumulative distribution functions",
              "Survival curves", "Youden index", "ROC curves",
              "SROC curve", "Density functions",
              "Sensitivity and Specificity")[match(which, plot.types)]
@@ -385,11 +386,13 @@ plot.diagmeta <- function(x,
               col = col.points[studlab == s], lwd = lwd, lty = 1)
       }
     ##
-    points(cutoff, qdiag(Spec, distr),
-           pch = 1, cex = cex, col = col.points)
-    ##
-    points(cutoff, qdiag(1 - Sens, distr),
-           pch = pch.points, cex = cex, col = col.points)      
+    if (points) {
+      points(cutoff, qdiag(Spec, distr),
+             pch = 1, cex = cex, col = col.points)
+      ##
+      points(cutoff, qdiag(1 - Sens, distr),
+             pch = pch.points, cex = cex, col = col.points)
+    }
     ##
     ## Add linear regression lines
     ##
@@ -495,11 +498,13 @@ plot.diagmeta <- function(x,
     ##
     ## Add data
     ##
-    points(cutoff, 1 - Sens,
-           pch = pch.points, cex = cex, col = col.points)
-    ##
-    points(cutoff, Spec,
-           pch = 1, cex = cex, col = col.points)
+    if (points) {
+      points(cutoff, 1 - Sens,
+             pch = pch.points, cex = cex, col = col.points)
+      ##
+      points(cutoff, Spec,
+             pch = 1, cex = cex, col = col.points)
+    }
     ##
     ## Add regression curves
     ##
@@ -650,20 +655,23 @@ plot.diagmeta <- function(x,
       for (s in studlab)
         lines(cutoff[studlab == s], 
               Sens[studlab == s],
-              col = col.points[studlab == s], lwd = lwd, lty = 2)
+              col = col.points[studlab == s], lwd = lwd, lty = 1)
       ##
       for (s in studlab)
         lines(cutoff[studlab == s], 
               1 - Spec[studlab == s],
-              col = col.points[studlab == s], lwd = lwd, lty = 1)
+              col = col.points[studlab == s], lwd = lwd, lty = 2)
     }
     ##
     ## Add data
     ##
-    points(cutoff, Sens,
-           pch = pch.points, cex = cex, col = col.points)
-    ##
-    points(cutoff, 1 - Spec, pch = 1, cex = cex, col = col.points)
+    if (points) {
+      points(cutoff, Sens,
+             pch = pch.points, cex = cex, col = col.points)
+      ##
+      if (points)
+        points(cutoff, 1 - Spec, pch = 1, cex = cex, col = col.points)
+    }
     ##
     ## Add regression curves
     ##
@@ -822,8 +830,9 @@ plot.diagmeta <- function(x,
     ##
     ## Add data
     ##
-    points(cutoff, youden,
-           pch = pch.points, col = col.points, cex = cex)
+    if (points)
+      points(cutoff, youden,
+             pch = pch.points, col = col.points, cex = cex)
     ##
     ## Plot Youden index
     ##
@@ -1131,9 +1140,11 @@ plot.diagmeta <- function(x,
     ##
     ## Add data
     ##
-    points(cutoff, Sens, pch = pch.points, cex = cex,
-           col = col.points)
-    points(cutoff, Spec, pch = 1, cex = cex, col = col.points)
+    if (points) {
+      points(cutoff, Sens, pch = pch.points, cex = cex,
+             col = col.points)
+      points(cutoff, Spec, pch = 1, cex = cex, col = col.points)
+    }
     ##
     ## Add curves
     ##

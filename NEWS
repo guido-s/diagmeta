@@ -1,10 +1,27 @@
-*** diagmeta, version 0.3-2, 2019-mn-dd ***
+*** diagmeta, version 0.4-0, 2020-mn-dd ***
 
+ ** Major changes **
+
+  * New default model in diagmeta() due to estimation problems with
+    the previous default: common random intercept and common slope
+    (argument model = "CICS")
+  
+ ** Bug fixes **
+
+  * plot.diagmeta():
+    - correct line type for survival functions
+    
  ** User-visible changes **
 
   * diagmeta():
     - print a more informative error message in case of negative
       correlation between increasing cutoffs and sensitivity
+
+  * plot.diagmeta():
+    - argument 'points' considered for plots of type "regression",
+      "cdf", "survival", "Youden", "ROC" and "sensspec"
+    
+  * Change model in example of diagmeta() help page
 
 
 *** diagmeta, version 0.3-1, 2019-04-11 ***

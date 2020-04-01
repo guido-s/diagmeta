@@ -4,8 +4,7 @@
 \alias{as.data.frame.diagmeta}
 \title{Extract data frame from diagmeta objects}
 \usage{
-\method{as.data.frame}{diagmeta}(x, row.names = NULL, optional = FALSE,
-  ...)
+\method{as.data.frame}{diagmeta}(x, row.names = NULL, optional = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}.}
@@ -32,7 +31,7 @@ data(Schneider2017)
 diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   studlab = paste(author, year, group),
                   data = Schneider2017,
-                  model = "DIDS", log.cutoff = TRUE)
+                  log.cutoff = TRUE)
 
 as.data.frame(diag1)
 

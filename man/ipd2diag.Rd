@@ -27,8 +27,9 @@ into \code{diagmeta}
 # Simulate IPD data for three studies, each with 30 patients based
 # on normally distributed marker values
 #
+set.seed(20)
 k <- 3
-n <- 30
+n <- 60
 m <- c(20, 23, 26)
 d <- 10
 s <- 5
@@ -50,7 +51,7 @@ str(diagdata)
 #
 diag1 <- diagmeta(TP, FP, TN, FN, cutoff, studlab,
                   data = diagdata, 
-                  model = "DIDS", distr = "normal")
+                  distr = "normal")
 summary(diag1)
 plot(diag1)
 par(mfrow = c(1, 2))
