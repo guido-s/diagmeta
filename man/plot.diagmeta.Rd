@@ -22,9 +22,11 @@ multiple cutoffs model}
   col.points = "rainbow",
   cex = 1,
   pch.points = 16,
+  col = "black",
   col.ci = "gray",
   cex.marks = 0.7 * cex,
   lwd = 1,
+  lwd.ci = lwd,
   lwd.optcut = 2 * lwd,
   shading = "none",
   ellipse = FALSE,
@@ -91,6 +93,8 @@ plotting text and symbols}
 
 \item{pch.points}{A numeric indicating plot symbol(s) for points}
 
+\item{col}{A character string indicating color of lines}
+
 \item{col.ci}{A character string indicating color of confidence
 lines}
 
@@ -98,6 +102,8 @@ lines}
 for marking cutoffs}
 
 \item{lwd}{A numeric indicating line width}
+
+\item{lwd.ci}{A numeric indicating line width of confidence lines}
 
 \item{lwd.optcut}{A numeric indicating line width of optimal cutoff}
 
