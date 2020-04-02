@@ -24,11 +24,15 @@ multiple cutoffs model}
   pch.points = 16,
   col = "black",
   col.ci = "gray",
+  col.optcut = "black",
   cex.marks = 0.7 * cex,
   lwd = 1,
   lwd.ci = lwd,
   lwd.optcut = 2 * lwd,
+  lwd.study = lwd,
   shading = "none",
+  col.hatching = col.ci,
+  lwd.hatching = lwd.ci,
   ellipse = FALSE,
   xlim = NULL,
   ...
@@ -98,6 +102,9 @@ plotting text and symbols}
 \item{col.ci}{A character string indicating color of confidence
 lines}
 
+\item{col.optcut}{A character string indicating color of optimal
+cutoff line}
+
 \item{cex.marks}{A numeric indicating magnification(s) to be used
 for marking cutoffs}
 
@@ -107,9 +114,18 @@ for marking cutoffs}
 
 \item{lwd.optcut}{A numeric indicating line width of optimal cutoff}
 
+\item{lwd.study}{A numeric indicating line width of individual
+studies}
+
 \item{shading}{A character indicating shading and hatching
 confidence region in \code{"SROC"} plot, either \code{"none"} or
 \code{"shade"} or \code{"hatch"}}
+
+\item{col.hatching}{A character string indicating color used in
+hatching of the confidence region}
+
+\item{lwd.hatching}{A numeric indicating line width used in hatching
+of the confidence region}
 
 \item{ellipse}{A logical indicating whether a confidence ellipse
 should be drawn around the optimal cutoff}

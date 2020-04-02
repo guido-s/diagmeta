@@ -50,14 +50,22 @@
 #' @param col A character string indicating color of lines
 #' @param col.ci A character string indicating color of confidence
 #'   lines
+#' @param col.optcut A character string indicating color of optimal
+#'   cutoff line
 #' @param cex.marks A numeric indicating magnification(s) to be used
 #'   for marking cutoffs
 #' @param lwd A numeric indicating line width
 #' @param lwd.ci A numeric indicating line width of confidence lines
 #' @param lwd.optcut A numeric indicating line width of optimal cutoff
+#' @param lwd.study A numeric indicating line width of individual
+#'   studies
 #' @param shading A character indicating shading and hatching
 #'   confidence region in \code{"SROC"} plot, either \code{"none"} or
 #'   \code{"shade"} or \code{"hatch"}
+#' @param col.hatching A character string indicating color used in
+#'   hatching of the confidence region
+#' @param lwd.hatching A numeric indicating line width used in hatching
+#'   of the confidence region
 #' @param ellipse A logical indicating whether a confidence ellipse
 #'   should be drawn around the optimal cutoff
 #' @param xlim A character or numerical vector indicating the minimum
@@ -192,9 +200,12 @@ plot.diagmeta <- function(x,
                           cex = 1, pch.points = 16,
                           col = "black",
                           col.ci = "gray",
+                          col.optcut = "black",
                           cex.marks = 0.7 * cex,
                           lwd = 1, lwd.ci = lwd, lwd.optcut = 2 * lwd,
+                          lwd.study = lwd,
                           shading = "none",
+                          col.hatching = col.ci, lwd.hatching = lwd.ci,
                           ellipse = FALSE,
                           xlim = NULL,
                           ...) {
@@ -265,6 +276,10 @@ plot.diagmeta <- function(x,
   col.ci <- setchar(col.ci, c("transparent", colours()),
                     text = paste0("should be 'transparent' or ",
                                   "any color defined in colours()"))
+  ##
+  col.optcut <- setchar(col.optcut, c("transparent", colours()),
+                        text = paste0("should be 'transparent' or ",
+                                      "any color defined in colours()"))
   ##
   shading <- setchar(shading,
                      c("none", "hatch", "shade"))
@@ -386,11 +401,11 @@ plot.diagmeta <- function(x,
       for (s in studlab) {
         lines(cutoff[studlab == s],
               qdiag(Spec[studlab == s], distr),
-              col = col.points[studlab == s], lwd = lwd, lty = 2)
+              col = col.points[studlab == s], lwd = lwd.study, lty = 2)
         ##
         lines(cutoff[studlab == s],
               qdiag(1 - Sens[studlab == s], distr),
-              col = col.points[studlab == s], lwd = lwd, lty = 1)
+              col = col.points[studlab == s], lwd = lwd.study, lty = 1)
       }
     ##
     if (points) {
@@ -496,11 +511,11 @@ plot.diagmeta <- function(x,
       for (s in studlab) {
         lines(cutoff[studlab == s], 
               Spec[studlab == s],
-              col = col.points[studlab == s], lwd = lwd, lty = 2)
+              col = col.points[studlab == s], lwd = lwd.study, lty = 2)
         ##
         lines(cutoff[studlab == s], 
               1 - Sens[studlab == s],
-              col = col.points[studlab == s], lwd = lwd, lty = 1)
+              col = col.points[studlab == s], lwd = lwd.study, lty = 1)
       }
     ##
     ## Add data
@@ -639,7 +654,7 @@ plot.diagmeta <- function(x,
     ## Draw line for optimal cutoff
     ##
     if (line.optcut)
-      abline(v = optcut)
+      abline(v = optcut, col = col.optcut, lwd = lwd.optcut)
   }
   
   
@@ -662,12 +677,12 @@ plot.diagmeta <- function(x,
       for (s in studlab)
         lines(cutoff[studlab == s], 
               Sens[studlab == s],
-              col = col.points[studlab == s], lwd = lwd, lty = 1)
+              col = col.points[studlab == s], lwd = lwd.study, lty = 1)
       ##
       for (s in studlab)
         lines(cutoff[studlab == s], 
               1 - Spec[studlab == s],
-              col = col.points[studlab == s], lwd = lwd, lty = 2)
+              col = col.points[studlab == s], lwd = lwd.study, lty = 2)
     }
     ##
     ## Add data
@@ -806,7 +821,7 @@ plot.diagmeta <- function(x,
     ## Draw line for optimal cutoff
     ##
     if (line.optcut)
-      abline(v = optcut)
+      abline(v = optcut, col = col.optcut, lwd = lwd.optcut)
   }
   
   
@@ -832,7 +847,7 @@ plot.diagmeta <- function(x,
       for (s in studlab)
         lines(cutoff[studlab == s],
               youden[studlab == s],
-              col = col.points[studlab == s], lwd = lwd)
+              col = col.points[studlab == s], lwd = lwd.study)
     }
     ##
     ## Add data
@@ -899,7 +914,7 @@ plot.diagmeta <- function(x,
     ## Draw line for optimal cutoff
     ##
     if (line.optcut)
-      abline(v = optcut)
+      abline(v = optcut, col = col.optcut, lwd = lwd.optcut)
   }
   
   
@@ -921,7 +936,7 @@ plot.diagmeta <- function(x,
     for (s in studlab)
       lines(c(1, 1 - Spec[studlab == s], 0),
             c(1, Sens[studlab == s], 0),
-            col = col.points[studlab == s], lwd = lwd)
+            col = col.points[studlab == s], lwd = lwd.study)
     ##
     ## Add data
     ##
@@ -1003,7 +1018,8 @@ plot.diagmeta <- function(x,
       else if (shading == "hatch")
         polygon(c(x.upper.Se, x.lower.Se[order(x.lower.Se)]),
                 c(y.upper.Se, y.lower.Se[order(x.lower.Se)]),
-                density = 20, angle = 90, col = "gray", border = "gray")
+                density = 20, angle = 90,
+                col = col.hatching, border = col.hatching, lwd = lwd.hatching)
       ##
       lines(x.upper.Se, y.upper.Se, col = col.ci, lwd = lwd.ci)
       lines(x.lower.Se, y.lower.Se, col = col.ci, lwd = lwd.ci)
@@ -1017,7 +1033,8 @@ plot.diagmeta <- function(x,
       else if (shading == "hatch")
         polygon(c(x.upper.Sp, x.lower.Sp[order(x.lower.Sp)]),
                 c(y.upper.Sp, y.lower.Sp[order(x.lower.Sp)]),
-                density = 20, angle = 0, col = "gray", border = "gray")
+                density = 20, angle = 0,
+                col = col.hatching, border = col.hatching, lwd = lwd.hatching)
       ##
       lines(x.upper.Sp, y.upper.Sp, col = col.ci, lwd = lwd.ci, lty = 2)
       lines(x.lower.Sp, y.lower.Sp, col = col.ci, lwd = lwd.ci, lty = 2)
@@ -1038,7 +1055,7 @@ plot.diagmeta <- function(x,
       ##
       points(pdiag(alpha0 + beta0 * ocut, distr, FALSE),
              pdiag(alpha1 + beta1 * ocut, distr, FALSE),
-             lwd = lwd.optcut, cex = 2, pch = 3, col = col)
+             lwd = lwd.optcut, cex = 2, pch = 3, col = col.optcut)
     }
     ##
     ## Add data
@@ -1116,7 +1133,7 @@ plot.diagmeta <- function(x,
     ## draw optimal cut-off
     ##
     if (line.optcut)
-      abline(v = optcut)
+      abline(v = optcut, col = col.optcut, lwd = lwd.optcut)
   }
   
   
@@ -1139,10 +1156,10 @@ plot.diagmeta <- function(x,
     if (lines) {
       for (s in studlab) {
         lines(cutoff[studlab == s], Spec[studlab == s],
-              col = col.points[studlab == s], lwd = lwd,
+              col = col.points[studlab == s], lwd = lwd.study,
               lty = 2)
         lines(cutoff[studlab == s], Sens[studlab == s],
-              col = col.points[studlab == s], lwd = lwd,
+              col = col.points[studlab == s], lwd = lwd.study,
               lty = 1)
       }
     }
@@ -1281,7 +1298,7 @@ plot.diagmeta <- function(x,
     ## Draw line for optimal cutoff
     ##
     if (line.optcut) 
-      abline(v = optcut)
+      abline(v = optcut, col = col.optcut, lwd = lwd.optcut)
   }  
   
   invisible(NULL)
