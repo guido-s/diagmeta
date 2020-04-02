@@ -998,8 +998,8 @@ plot.diagmeta <- function(x,
                 c(y.upper.Se, y.lower.Se[order(x.lower.Se)]),
                 density = 20, angle = 90, col = "gray", border = "gray")
       ##
-      lines(x.upper.Se, y.upper.Se, col = "darkgray")
-      lines(x.lower.Se, y.lower.Se, col = "darkgray")
+      lines(x.upper.Se, y.upper.Se, col = col.ci, lwd = lwd)
+      lines(x.lower.Se, y.lower.Se, col = col.ci, lwd = lwd)
     }
     ##
     if (ciSpec) {
@@ -1012,8 +1012,8 @@ plot.diagmeta <- function(x,
                 c(y.upper.Sp, y.lower.Sp[order(x.lower.Sp)]),
                 density = 20, angle = 0, col = "gray", border = "gray")
       ##
-      lines(x.upper.Sp, y.upper.Sp, col = "darkgray", lty = 2)
-      lines(x.lower.Sp, y.lower.Sp, col = "darkgray", lty = 2)
+      lines(x.upper.Sp, y.upper.Sp, col = col.ci, lwd = lwd, lty = 2)
+      lines(x.lower.Sp, y.lower.Sp, col = col.ci, lwd = lwd, lty = 2)
     }
     ##
     ## Add ROC curve
