@@ -40,7 +40,7 @@ print.summary.diagmeta <- function(x, digits = 3, ...) {
   
   meta:::chkclass(x, "summary.diagmeta")
   ##
-  meta:::chknumeric(digits, min = 0, single = TRUE)
+  meta:::chknumeric(digits, min = 0, length = 1)
 
 
   formatN <- meta:::formatN

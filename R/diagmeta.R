@@ -215,14 +215,14 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   chklevel(level)
   chklogical(log.cutoff)
   ##
-  chknumeric(incr, min = 0, single = TRUE)
+  chknumeric(incr, min = 0, length = 1)
   ##
   method.weights <- setchar(method.weights,
                             c("equal", "size", "invvar"))
   ##
-  chknumeric(lambda, min = 0, single = TRUE)
-  chknumeric(n.iter.max, min = 0, single = TRUE)
-  chknumeric(tol, min = 0, single = TRUE)
+  chknumeric(lambda, min = 0, length = 1)
+  chknumeric(n.iter.max, min = 0, length = 1)
+  chknumeric(tol, min = 0, length = 1)
   ##
   chklogical(silent)
   ##

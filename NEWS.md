@@ -1,25 +1,30 @@
-# diagmeta 0.4-1 (2020-04-07)
+## diagmeta, version 0.4-1 (2021-02-dd)
 
-## User-visible changes
+### Bug fixes
+
+* Print correct confidence region for specificities in SROC curves
+  generated with plot.diagmeta()
+
+### User-visible changes
 
 * Use Markdown for NEWS
     
 
-# diagmeta 0.4-0 (2020-04-02)
+## diagmeta, version 0.4-0 (2020-04-02)
 
-## Major changes
+### Major changes
 
 * New default model (argument 'model') in diagmeta(), i.e., common
   random intercept and common slope ("CICS"), due to estimation
   problems with the previous default ("DIDS") after changes in R
   package **lme4**
   
-## Bug fixes
+### Bug fixes
 
 * plot.diagmeta():
   - correct line types for survival functions
     
-## User-visible changes
+### User-visible changes
 
 * diagmeta():
   - print a more informative error message in case of a negative
@@ -33,9 +38,9 @@
   - use the default model in all examples
 
 
-# diagmeta 0.3-1 (2019-04-11)
+## diagmeta, version 0.3-1 (2019-04-11)
 
-## User-visible changes
+### User-visible changes
 
 * Export R functions:
   - as.data.frame.diagmeta(), plot.diagmeta(), print.diagmeta(),
@@ -46,16 +51,16 @@
   - new argument 'col.ci' to specify color of curves with confidence
     limits
 
-## Internal changes
+### Internal changes
 
 * diagmeta():
   - check for numerical values in arguments 'TP', 'FP', 'TN', 'FN',
     and 'cutoff'
 
 
-# diagmeta 0.3-0 (2018-12-11)
+## diagmeta, version 0.3-0 (2018-12-11)
 
-## User-visible changes
+### User-visible changes
 
 * plot.diagmeta():
   new plot type to show sensitivity and specificity curves
@@ -68,20 +73,20 @@
 
 * New function as.data.frame.diagmeta()
 
-## Bug fixes
+### Bug fixes
 
 * plot.diagmeta():
   - correct ROC curves for datasets with decreasing cutoff values
     for individual studies (points (0, 0) and (1, 1) were connected
     with the wrong values on the ROC curve)
 
-## Internal changes
+### Internal changes
 
 * diagmeta():
   - calculate and return lower and upper confidence limit for
     optimal cutoff (for normal distribution)
     
 
-# diagmeta 0.2-0 (2018-03-23)
+## diagmeta, version 0.2-0 (2018-03-23)
 
-## First version released on CRAN
+### First version released on CRAN

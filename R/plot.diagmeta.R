@@ -1027,12 +1027,12 @@ plot.diagmeta <- function(x,
     ##
     if (ciSpec) {
       if (shading == "shade")
-        polygon(c(x.upper.Sp, x.lower.Sp[order(x.lower.Sp)]),
-                c(y.upper.Sp, y.lower.Sp[order(x.lower.Sp)]),
+        polygon(c(x.upper.Sp, x.lower.Sp[order(y.lower.Sp)]),
+                c(y.upper.Sp, y.lower.Sp[order(y.lower.Sp)]),
                 col = rgb(0.2, 0.2, 0.2, alpha = 0.2), border = NA)
       else if (shading == "hatch")
-        polygon(c(x.upper.Sp, x.lower.Sp[order(x.lower.Sp)]),
-                c(y.upper.Sp, y.lower.Sp[order(x.lower.Sp)]),
+        polygon(c(x.upper.Sp, x.lower.Sp[order(y.lower.Sp)]),
+                c(y.upper.Sp, y.lower.Sp[order(y.lower.Sp)]),
                 density = 20, angle = 0,
                 col = col.hatching, border = col.hatching, lwd = lwd.hatching)
       ##

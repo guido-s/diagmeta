@@ -39,7 +39,7 @@ print.diagmeta <- function(x, digits = 3, ...) {
   
   meta:::chkclass(x, "diagmeta")
   ##
-  meta:::chknumeric(digits, min = 0, single = TRUE)
+  meta:::chknumeric(digits, min = 0, length = 1)
   
   cat("\nList and distribution of cutoffs:", "\nCutoffs")
   prmatrix(table(x$cutoff), collab = c("Frequency"))

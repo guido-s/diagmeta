@@ -92,15 +92,15 @@ diagstats <- function(x,
   meta:::chknumeric(cutoff)
   ##
   if (!missing(prevalence))
-    meta:::chklevel(prevalence, single = FALSE)
+    meta:::chklevel(prevalence, length = 0)
   else
     prevalence <- NA
   ##
   if (sens.given)
-    meta:::chklevel(sens, single = FALSE)
+    meta:::chklevel(sens, length = 0)
   ##
   if (spec.given)
-    meta:::chklevel(spec, single = FALSE)
+    meta:::chklevel(spec, length = 0)
   ##
   meta:::chklevel(level)
 
