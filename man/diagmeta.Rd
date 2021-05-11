@@ -120,7 +120,7 @@ components
 \item{dist}{A list containing estimated means, standard deviations,
   and variances of distributions from diseased (ending with 1) and
   non-diseased (ending with 0).}
-\item{n.iter.max}{As defined above.}
+\item{Cov.fixed}{Covariance matrix from fixed effects model.}
 \item{call}{Function call.}
 \item{version}{Version of R package \bold{diagmeta} used to create
   object.}

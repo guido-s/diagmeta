@@ -1,14 +1,24 @@
-## diagmeta, version 0.4-1 (2021-02-dd)
+## diagmeta, version 0.4-1 (2021-05-11)
 
 ### Bug fixes
 
-* Print correct confidence region for specificities in SROC curves
-  generated with plot.diagmeta()
+* plot.diagmeta():
+  - print correct confidence region for specificities in SROC curves
+  
+* diagstats():
+  - print results for requested specificity if only argument 'spec' is
+    provided
 
 ### User-visible changes
 
 * Use Markdown for NEWS
-    
+
+### Internal changes
+
+* diagmeta():
+  - new list element 'Cov.fixed' with covariance matrix from fixed
+    effects model
+
 
 ## diagmeta, version 0.4-0 (2020-04-02)
 
