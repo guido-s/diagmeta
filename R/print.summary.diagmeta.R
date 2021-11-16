@@ -42,12 +42,12 @@ print.summary.diagmeta <- function(x, digits = 3, ...) {
   ##
   chknumeric(digits, min = 0, length = 1)
   
-  cat("\nList and distribution of cutoffs:", "\nCutoffs")
-  prmatrix(table(round(x$cutoff, digits = digits)),
-           collab = "Frequency")
+  cat(paste0("*** List and distribution of cutoffs ***\n\n",
+             "Cutoffs with frequencies:"))
+  print(table(round(x$cutoff, digits = digits)))
   
   cat("\nNumber of cutoffs per study:\n")
-  prmatrix(table(x$studlab), collab = c(" "))
+  print(table(x$studlab))
   
   cat("\nQuantiles of the number of cutoffs in a study:\n")
   print(quantile(table(list(x$studlab))))
@@ -55,9 +55,10 @@ print.summary.diagmeta <- function(x, digits = 3, ...) {
   cat("\nNumber of studies by number of cutoffs:")
   print(table(table(x$studlab)))
   
-  cat("\nResults:\n")
+  cat("\n*** Details on regression results ***\n\n")
   print(x$result.lmer)
   
+  cat("\n")
   print.diagmeta(x, ...)
   
   invisible(NULL)

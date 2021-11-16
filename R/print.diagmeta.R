@@ -50,7 +50,7 @@ print.diagmeta <- function(x,
   chknumeric(digits.prop, min = 0, length = 1)
   
   
-  cat("\n*** Results of multiple cutoffs model ***\n")
+  cat("*** Results of multiple cutoffs model ***\n")
   
   Tstudlab <- sum(table(table(x$studlab)))
   ##
@@ -70,30 +70,33 @@ print.diagmeta <- function(x,
   ##
   cat(paste0("Cutoffs log transformed: ", x$log.cutoff, "\n\n", sep = ""))
   ##
-  cat(paste0("The optimal cutoff value: ",
-             formatN(x$optcut, digits)))
-  if (!is.na(x$lower.optcut))
-    cat(paste0(" ",
-               formatCI(formatN(x$lower.optcut, digits),
-                        formatN(x$upper.optcut, digits))))
-  cat("\n\n")
-  ##
-  cat("Sensitivity and specificity at optimal cutoff:\n")
-  ##
-  cat(paste0("\tSens: ",
-             formatN(x$Sens.optcut, digits.prop),
-             " ",
-             formatCI(formatN(x$lower.Sens.optcut, digits.prop),
-                      formatN(x$upper.Sens.optcut, digits.prop)),
-             "\n", sep = ""))
-  ##
-  cat(paste0("\t", "Spec: ",
-             formatN(x$Spec.optcut, digits.prop),
-             " ",
-             formatCI(formatN(x$lower.Spec.optcut, digits.prop),
-                      formatN(x$upper.Spec.optcut, digits.prop)),
-             "\n", sep = ""))
-  
+  if (is.na(x$optcut))
+    cat("The optimal cutoff iteration didn't converge.\n")
+  else {
+    cat(paste0("The optimal cutoff value: ",
+               formatN(x$optcut, digits)))
+    if (!is.na(x$lower.optcut))
+      cat(paste0(" ",
+                 formatCI(formatN(x$lower.optcut, digits),
+                          formatN(x$upper.optcut, digits))))
+    cat("\n\n")
+    ##
+    cat("Sensitivity and specificity at optimal cutoff:\n")
+    ##
+    cat(paste0("\tSens: ",
+               formatN(x$Sens.optcut, digits.prop),
+               " ",
+               formatCI(formatN(x$lower.Sens.optcut, digits.prop),
+                        formatN(x$upper.Sens.optcut, digits.prop)),
+               "\n", sep = ""))
+    ##
+    cat(paste0("\t", "Spec: ",
+               formatN(x$Spec.optcut, digits.prop),
+               " ",
+               formatCI(formatN(x$lower.Spec.optcut, digits.prop),
+                        formatN(x$upper.Spec.optcut, digits.prop)),
+               "\n", sep = ""))
+  }
   
   cat("\nArea under the curve (AUC): \n")
   ##
