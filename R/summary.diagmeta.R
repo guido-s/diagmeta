@@ -36,7 +36,7 @@
 
 summary.diagmeta <- function(object, ...) {
   
-  meta:::chkclass(object, "diagmeta")
+  chkclass(object, "diagmeta")
   
   res <- object
   ##

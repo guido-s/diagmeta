@@ -1,4 +1,4 @@
-#' @importFrom meta ci
+#' @importFrom meta ci gs
 #' @importFrom stats dlogis dnorm plogis pnorm qlogis qnorm
 #' @importFrom utils packageDescription
 
@@ -16,7 +16,7 @@
 ## Quantil function
 ##
 qdiag <- function (x, distr, lower.tail = TRUE) {
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   if (distr == "logistic") 
     res <- qlogis(x, lower.tail = lower.tail)
@@ -30,7 +30,7 @@ qdiag <- function (x, distr, lower.tail = TRUE) {
 ## Cumulative distribution function
 ##
 pdiag <- function (x, distr, lower.tail = TRUE) {
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   if (distr == "logistic") 
     res <- plogis(x, lower.tail = lower.tail)
@@ -44,7 +44,7 @@ pdiag <- function (x, distr, lower.tail = TRUE) {
 ## Density function
 ##
 ddiag <- function (x, distr) {
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   if (distr == "logistic") 
     res <- dlogis(x)
@@ -95,7 +95,7 @@ calcSens <- function(x, distr = "logistic") {
   if (all(is.na(x)))
     return(x)
   ##
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   res <- pdiag(x, distr, FALSE)
   ##
@@ -110,7 +110,7 @@ calcSpec <- function(x, distr = "logistic") {
   if (all(is.na(x)))
     return(x)
   ##
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   res <- pdiag(x, distr)
   ##
@@ -123,7 +123,7 @@ calcSpec <- function(x, distr = "logistic") {
 calcYouden <- function(x, distr, lambda,
                        alpha0, beta0, alpha1, beta1) {
   ##
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   res <- 2 * (1 - lambda) * pdiag(alpha0 + beta0 * x, distr) +
     2 * lambda * pdiag(alpha1 + beta1 * x, distr, FALSE) - 1
@@ -143,7 +143,7 @@ ciYouden <- function(x, distr, lambda,
                      var.nondiseased, var.diseased,
                      level = 0.95) {
   
-  distr <- meta:::setchar(distr, c("logistic", "normal"))
+  distr <- setchar(distr, c("logistic", "normal"))
   ##
   youden <- calcYouden.SeSp(calcSens(alpha1 + beta1 * x, distr),
                             calcSpec(alpha0 + beta0 * x, distr),

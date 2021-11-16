@@ -4,12 +4,16 @@
 \alias{print.diagmeta}
 \title{Print method for diagmeta objects}
 \usage{
-\method{print}{diagmeta}(x, digits = 3, ...)
+\method{print}{diagmeta}(x, digits = 3, digits.prop = gs("digits.prop"), ...)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}.}
 
-\item{digits}{Number of significant digits for printing.}
+\item{digits}{Number of significant digits for printing of optimal
+cutoff.}
+
+\item{digits.prop}{Number of significant digits for proportions,
+e.g., sensitivities and specificities.}
 
 \item{\dots}{Additional arguments.}
 }

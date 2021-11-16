@@ -196,13 +196,6 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (1) Check arguments
   ##
   ##
-  chklength <- meta:::chklength
-  chklevel <- meta:::chklevel
-  chklogical <- meta:::chklogical
-  chknull <- meta:::chknull
-  chknumeric <- meta:::chknumeric
-  setchar <- meta:::setchar
-  ##
   distr <- setchar(distr, c("logistic", "normal"))
   ##
   is.logistic <- distr == "logistic"
@@ -338,9 +331,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
         return(list(x = x, iter = "g"))
       },
       error = function(er) {
-        stop("Optimal cutoff iteration didn't converge. ",
-             "Use argument distribution = \"normal\".")
-        return(list(x = NULL, iter = NULL))
+        warning("Optimal cutoff iteration didn't converge. ",
+                "Consider using argument distribution = \"normal\".")
+        return(list(x = NA, iter = ""))
       })
     }
     )

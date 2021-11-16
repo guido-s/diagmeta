@@ -72,8 +72,6 @@
 #' diagstats(diag1, sens = 0.95, spec = 0.95)
 #' 
 #' @export
-#'
-#' @importFrom meta ci
 
 
 diagstats <- function(x,
@@ -83,26 +81,26 @@ diagstats <- function(x,
                       level = 0.95) {
   
   
-  meta:::chkclass(x, "diagmeta")
+  chkclass(x, "diagmeta")
   ##
   cutoff.given <- !missing(cutoff)
   sens.given <- !missing(sens)
   spec.given <- !missing(spec)
   ##
-  meta:::chknumeric(cutoff)
+  chknumeric(cutoff)
   ##
   if (!missing(prevalence))
-    meta:::chklevel(prevalence, length = 0)
+    chklevel(prevalence, length = 0)
   else
     prevalence <- NA
   ##
   if (sens.given)
-    meta:::chklevel(sens, length = 0)
+    chklevel(sens, length = 0)
   ##
   if (spec.given)
-    meta:::chklevel(spec, length = 0)
+    chklevel(spec, length = 0)
   ##
-  meta:::chklevel(level)
+  chklevel(level)
 
   
   regr <- x$regr

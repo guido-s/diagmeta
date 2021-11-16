@@ -28,10 +28,10 @@ install.packages("diagmeta")
 ### Current beta / GitHub release:
 
 Installation using R package
-[**devtools**](https://cran.r-project.org/package=devtools):
+[**remotes**](https://cran.r-project.org/package=remotes):
 ```r
-install.packages("devtools")
-devtools::install_github("guido-s/diagmeta")
+install.packages("remotes")
+remotes::install_github("guido-s/diagmeta")
 ```
 
 

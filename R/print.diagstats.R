@@ -10,7 +10,9 @@
 #'   should be printed.
 #' @param density A logical indicating whether values of the
 #'   model-based density functions should be printed.
-#' @param digits Number of significant digits for printing.
+#' @param digits Number of significant digits for printing of cutoffs.
+#' @param digits.prop Number of significant digits for proportions,
+#'   e.g., sensitivities and specificities.
 #' @param \dots Additional arguments.
 #'
 #' @author Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
@@ -44,12 +46,15 @@ print.diagstats <- function(x,
                             sensspec = TRUE,
                             predicted = TRUE,
                             density = FALSE,
-                            digits = 3, ...) {
+                            digits = 3,
+                            digits.prop = gs("digits.prop"),
+                            ...) {
   
   
-  meta:::chkclass(x, "diagstats")
+  chkclass(x, "diagstats")
   ##
-  meta:::chknumeric(digits)
+  chknumeric(digits, min = 0, length = 1)
+  chknumeric(digits.prop, min = 0, length = 1)
   
   
   drop.names <- c()
@@ -68,7 +73,9 @@ print.diagstats <- function(x,
   
   
   if (ncol(x) != 0) {
-    x <- round(x, digits)
+    cutoff <- round(x$cutoff, digits = digits)
+    x <- round(x, digits.prop)
+    x$cutoff <- cutoff
     prmatrix(x, quote = FALSE, right = TRUE,
              rowlab = rep("", nrow(x)))
   }

@@ -1,3 +1,14 @@
+## diagmeta, version 0.5.0 (2021-mm-dd)
+
+### Major changes
+
+* Behaviour of print.diagmeta() and print.summary.diagmeta() switched
+  (to be in line with other print and summary functions in R)
+
+* Do not stop with an error if optimal cut-off cannot be determined
+  for logistic distribution
+
+
 ## diagmeta, version 0.4-1 (2021-05-11)
 
 ### Bug fixes

@@ -1,7 +1,8 @@
-#' Print method for summary of diagmeta objects
+#' Print detailed results for diagmeta objects
 #' 
 #' @description
-#' Print method for objects of class \code{summary.diagmeta}.
+#' Print detailed results for objects of class
+#' \code{summary.diagmeta}.
 #' 
 #' @param x An object of class \code{summary.diagmeta}.
 #' @param digits Number of significant digits for printing.
@@ -28,7 +29,7 @@
 #'                   log.cutoff = TRUE)
 #' 
 #' summary(diag1)
-#' print(summary(diag1), digits = 2)
+#' print(summary(diag1), digits.prop = 2)
 #'
 #' @method print summary.diagmeta
 #' @export
@@ -37,79 +38,27 @@
 
 print.summary.diagmeta <- function(x, digits = 3, ...) {
   
+  chkclass(x, "summary.diagmeta")
+  ##
+  chknumeric(digits, min = 0, length = 1)
   
-  meta:::chkclass(x, "summary.diagmeta")
-  ##
-  meta:::chknumeric(digits, min = 0, length = 1)
-
-
-  formatN <- meta:::formatN
-  formatCI <- meta:::formatCI
+  cat("\nList and distribution of cutoffs:", "\nCutoffs")
+  prmatrix(table(round(x$cutoff, digits = digits)),
+           collab = "Frequency")
   
+  cat("\nNumber of cutoffs per study:\n")
+  prmatrix(table(x$studlab), collab = c(" "))
   
-  cat("\n*** Results of multiple cutoffs model ***\n")
+  cat("\nQuantiles of the number of cutoffs in a study:\n")
+  print(quantile(table(list(x$studlab))))
   
-  Tstudlab <- sum(table(table(x$studlab)))
-  ##
-  cat(paste0("\n", "Total number of studies: ", Tstudlab, "\n", sep = ""))
+  cat("\nNumber of studies by number of cutoffs:")
+  print(table(table(x$studlab)))
   
-  Tcutoffs <- length(x$studlab)
-  ##
-  cat(paste0( "Total number of cutoffs: ", Tcutoffs, "\n", sep = ""))
+  cat("\nResults:\n")
+  print(x$result.lmer)
   
-  Nunicutoffs <- length(unique(x$cutoff))
-  ##
-  cat(paste0("Number of different cutoffs: ", Nunicutoffs, "\n\n", sep = ""))
-  ##
-  cat(paste0("Model: ", x$model, "\n\n", sep = ""))
-  ##
-  cat(paste0("Type of distribution: ", x$distr, "\n\n", sep = ""))
-  ##
-  cat(paste0("Cutoffs log transformed: ", x$log.cutoff, "\n\n", sep = ""))
-  ##
-  cat(paste0("The optimal cutoff value: ",
-             formatN(round(x$optcut, digits), digits)))
-  if (!is.na(x$lower.optcut))
-    cat(paste0(" ",
-               formatCI(formatN(round(x$lower.optcut, digits), digits),
-                        formatN(round(x$upper.optcut, digits), digits))))
-  cat("\n\n")
-  ##
-  cat("Sensitivity and specificity at optimal cutoff:\n")
-  ##
-  cat(paste0("\tSens: ",
-             formatN(round(x$Sens.optcut, digits), digits),
-             " ",
-             formatCI(formatN(round(x$lower.Sens.optcut, digits), digits),
-                      formatN(round(x$upper.Sens.optcut, digits), digits)),
-             "\n", sep = ""))
-  ##
-  cat(paste0("\t", "Spec: ",
-             formatN(round(x$Spec.optcut, digits), digits),
-             " ",
-             formatCI(formatN(round(x$lower.Spec.optcut, digits), digits),
-                      formatN(round(x$upper.Spec.optcut, digits), digits)),
-             "\n", sep = ""))
-  
-  
-  cat("\nArea under the curve (AUC): \n")
-  ##
-  cat(paste0(" ",
-             formatN(round(x$AUC, digits), digits),
-             " ",
-             formatCI(formatN(round(x$AUCSens.lower, digits), digits),
-                      formatN(round(x$AUCSens.upper, digits), digits)),
-             " - confidence region for sensitivity given specificity\n",
-             sep = ""))
-  ##
-  cat(paste0(" ",
-             formatN(round(x$AUC, digits), digits),
-             " ",
-             formatCI(formatN(round(x$AUCSpec.lower, digits), digits),
-                      formatN(round(x$AUCSpec.upper, digits), digits)),
-             " - confidence region for specificity given sensitivity\n",
-             sep = ""))
-  
+  print.diagmeta(x, ...)
   
   invisible(NULL)
 }

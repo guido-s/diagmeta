@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.summary.diagmeta.R
 \name{print.summary.diagmeta}
 \alias{print.summary.diagmeta}
-\title{Print method for summary of diagmeta objects}
+\title{Print detailed results for diagmeta objects}
 \usage{
 \method{print}{summary.diagmeta}(x, digits = 3, ...)
 }
@@ -14,7 +14,8 @@
 \item{\dots}{Additional arguments.}
 }
 \description{
-Print method for objects of class \code{summary.diagmeta}.
+Print detailed results for objects of class
+\code{summary.diagmeta}.
 }
 \examples{
 # FENO dataset
@@ -27,7 +28,7 @@ diag1 <- diagmeta(tpos, fpos, tneg, fneg, cutpoint,
                   log.cutoff = TRUE)
 
 summary(diag1)
-print(summary(diag1), digits = 2)
+print(summary(diag1), digits.prop = 2)
 
 }
 \seealso{

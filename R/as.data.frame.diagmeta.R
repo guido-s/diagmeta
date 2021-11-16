@@ -36,7 +36,7 @@
 
 as.data.frame.diagmeta <- function(x, row.names=NULL, optional=FALSE, ...) {
   
-  meta:::chkclass(x, "diagmeta")
+  chkclass(x, "diagmeta")
   
   ## Remove element 'call' from object of class meta to get rid
   ## of an error message in meta-analyses with six studies:

@@ -211,11 +211,7 @@ plot.diagmeta <- function(x,
                           ...) {
   
   
-  meta:::chkclass(x, "diagmeta")
-  ##
-  setchar <- meta:::setchar
-  chklength <- meta:::chklength
-  chklogical <- meta:::chklogical
+  chkclass(x, "diagmeta")
   ##
   plot.types <- c("regression", "cdf", "survival", "youden",
                   "roc", "sroc", "density", "sensspec")
@@ -261,7 +257,7 @@ plot.diagmeta <- function(x,
   chklogical(rlines)
   chklogical(line.optcut)
   ##
-  meta:::chkchar(col.points)
+  chkchar(col.points)
   col.points <- setchar(col.points,
                         c("rainbow", "topo", "heat", "terrain",
                           "cm", "grayscale", colours()),

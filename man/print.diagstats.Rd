@@ -4,7 +4,15 @@
 \alias{print.diagstats}
 \title{Print method for diagstats objects}
 \usage{
-\method{print}{diagstats}(x, sensspec = TRUE, predicted = TRUE, density = FALSE, digits = 3, ...)
+\method{print}{diagstats}(
+  x,
+  sensspec = TRUE,
+  predicted = TRUE,
+  density = FALSE,
+  digits = 3,
+  digits.prop = gs("digits.prop"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{diagmeta}.}
@@ -18,7 +26,10 @@ should be printed.}
 \item{density}{A logical indicating whether values of the
 model-based density functions should be printed.}
 
-\item{digits}{Number of significant digits for printing.}
+\item{digits}{Number of significant digits for printing of cutoffs.}
+
+\item{digits.prop}{Number of significant digits for proportions,
+e.g., sensitivities and specificities.}
 
 \item{\dots}{Additional arguments.}
 }
