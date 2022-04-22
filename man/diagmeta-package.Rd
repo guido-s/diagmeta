@@ -22,7 +22,7 @@ are available to provide a briefer output:
 
 Additional functions provided in \bold{diagmeta} are
 \code{\link{diagstats}} to calculate additional statistical
-measures for the diagnostic test accurary meta-analysis and
+measures for the diagnostic test accuracy meta-analysis and
 \code{\link{ipd2diag}} to transform individual participant data to
 the data format required by \code{\link{diagmeta}}.
 

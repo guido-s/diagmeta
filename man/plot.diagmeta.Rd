@@ -145,7 +145,7 @@ The first argument of the plot function is an object of class
 
 The second argument \code{which} indicates which sort of plot(s)
 should be shown. For \code{which="regression"}, a scatter plot of
-the quantil-transformed proportions of negative test results with
+the quantile-transformed proportions of negative test results with
 two regression lines is shown. Points belonging to the same study
 are marked with the same colour. For \code{which="cdf"}, the two
 cumulative distribution functions are shown, corresponding to the

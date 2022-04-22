@@ -1,4 +1,4 @@
-## diagmeta, version 0.5.0 (2021-mm-dd)
+## diagmeta, version 0.5.0 (2022-04-22)
 
 ### Major changes
 
@@ -7,6 +7,27 @@
 
 * Do not stop with an error if optimal cut-off cannot be determined
   for logistic distribution
+
+* Calculate area under the curve for specificity given sensitivity
+
+### Bug fixes
+
+* diagmeta():
+  - fix for erratic confidence limits of AUC which could be outside
+    the admissible range from 0 to 1 or exclude the AUC estimate
+
+### User-visible changes
+
+* More concise printout for summary.diagmeta()
+
+### Internal changes
+
+* diagmeta():
+  - new list elements 'AUCSens' and 'AUCSpec' to calculate AUC for
+    sensitivity given specificity or vice versa (existing list element
+    'AUC' is equal to 'AUCSens')
+
+* New internal function catch() to catch value for an argument
 
 
 ## diagmeta, version 0.4-1 (2021-05-11)

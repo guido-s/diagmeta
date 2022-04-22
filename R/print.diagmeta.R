@@ -83,14 +83,14 @@ print.diagmeta <- function(x,
     ##
     cat("Sensitivity and specificity at optimal cutoff:\n")
     ##
-    cat(paste0("\tSens: ",
+    cat(paste0(" Sens: ",
                formatN(x$Sens.optcut, digits.prop),
                " ",
                formatCI(formatN(x$lower.Sens.optcut, digits.prop),
                         formatN(x$upper.Sens.optcut, digits.prop)),
                "\n", sep = ""))
     ##
-    cat(paste0("\t", "Spec: ",
+    cat(paste0(" Spec: ",
                formatN(x$Spec.optcut, digits.prop),
                " ",
                formatCI(formatN(x$lower.Spec.optcut, digits.prop),
@@ -101,7 +101,7 @@ print.diagmeta <- function(x,
   cat("\nArea under the curve (AUC): \n")
   ##
   cat(paste0(" ",
-             formatN(x$AUC, digits.prop),
+             formatN(x$AUCSens, digits.prop),
              " ",
              formatCI(formatN(x$AUCSens.lower, digits.prop),
                       formatN(x$AUCSens.upper, digits.prop)),
@@ -109,7 +109,7 @@ print.diagmeta <- function(x,
              sep = ""))
   ##
   cat(paste0(" ",
-             formatN(x$AUC, digits.prop),
+             formatN(x$AUCSpec, digits.prop),
              " ",
              formatCI(formatN(x$AUCSpec.lower, digits.prop),
                       formatN(x$AUCSpec.upper, digits.prop)),

@@ -94,7 +94,7 @@ components
 \item{Spec.optcut}{The specificity at the optimal cutoff.}
 \item{lower.Spec.optcut, upper.Spec.optcut}{Corresponding lower and
   upper confidence limits.}
-\item{AUC}{Area under the curve (AUC)}
+\item{AUCSens, AUCSpec}{Area under the curve (AUC)}
 \item{AUCSens.lower, AUCSens.upper}{Corresponding lower and upper
   confidence limits (based on the confidence region for the
   sensitivity, given the specificity)}

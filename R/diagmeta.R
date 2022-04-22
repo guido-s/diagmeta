@@ -113,7 +113,7 @@
 #' \item{Spec.optcut}{The specificity at the optimal cutoff.}
 #' \item{lower.Spec.optcut, upper.Spec.optcut}{Corresponding lower and
 #'   upper confidence limits.}
-#' \item{AUC}{Area under the curve (AUC)}
+#' \item{AUCSens, AUCSpec}{Area under the curve (AUC)}
 #' \item{AUCSens.lower, AUCSens.upper}{Corresponding lower and upper
 #'   confidence limits (based on the confidence region for the
 #'   sensitivity, given the specificity)}
@@ -230,42 +230,36 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##
   ##
   nulldata <- is.null(data)
+  sfsp <- sys.frame(sys.parent())
+  mc <- match.call()
   ##
   if (nulldata)
-    data <- sys.frame(sys.parent())
-  ##
-  mf <- match.call()
+    data <- sfsp
   ##
   ## Catch 'TP', 'FP', 'TN', 'FN', 'cutoff', and 'studlab'
   ##
-  TP <- eval(mf[[match("TP", names(mf))]],
-             data, enclos = sys.frame(sys.parent()))
+  TP <- catch("TP", mc, data, sfsp)
   chknull(TP)
   chknumeric(TP, min = 0)
   k.All <- length(TP)
   ##
-  FP <- eval(mf[[match("FP", names(mf))]],
-             data, enclos = sys.frame(sys.parent()))
+  FP <- catch("FP", mc, data, sfsp)
   chknull(FP)
   chknumeric(FP, min = 0)
   ##
-  TN <- eval(mf[[match("TN", names(mf))]],
-             data, enclos = sys.frame(sys.parent()))
+  TN <- catch("TN", mc, data, sfsp)
   chknull(TN)
   chknumeric(TN, min = 0)
   ##
-  FN <- eval(mf[[match("FN", names(mf))]],
-             data, enclos = sys.frame(sys.parent()))
+  FN <- catch("FN", mc, data, sfsp)
   chknull(FN)
   chknumeric(FN, min = 0)
   ##
-  cutoff <- eval(mf[[match("cutoff", names(mf))]],
-                 data, enclos = sys.frame(sys.parent()))
+  cutoff <- catch("cutoff", mc, data, sfsp)
   chknull(cutoff)
   chknumeric(cutoff)
   ##
-  studlab <- eval(mf[[match("studlab", names(mf))]],
-                  data, enclos = sys.frame(sys.parent()))
+  studlab <- catch("studlab", mc, data, sfsp)
   chknull(studlab)
   
   
@@ -719,11 +713,14 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   Spec <- calcSpec(t0$TE, distr)
   lowerSpec <- calcSpec(t0$lower, distr)
   upperSpec <- calcSpec(t0$upper, distr)
-  AUC <- trapz(Spec, Sens)
-  AUCSens.lower <- trapz(Spec, lowerSens)
-  AUCSens.upper <- trapz(Spec, upperSens)
-  AUCSpec.lower <- trapz(lowerSpec, Sens)
-  AUCSpec.upper <- trapz(upperSpec, Sens)
+  ##
+  AUCSens <- trapz(Spec, Sens) / diff(range(Spec, na.rm = TRUE))
+  AUCSens.lower <- trapz(Spec, lowerSens) / diff(range(Spec, na.rm = TRUE))
+  AUCSens.upper <- trapz(Spec, upperSens) / diff(range(Spec, na.rm = TRUE))
+  ##
+  AUCSpec <- -trapz(Sens, Spec) / diff(range(Sens, na.rm = TRUE))
+  AUCSpec.lower <- -trapz(Sens, lowerSpec) / diff(range(Sens, na.rm = TRUE))
+  AUCSpec.upper <- -trapz(Sens, upperSpec) / diff(range(Sens, na.rm = TRUE))
   ##
   ## ciRegr calculates confidence intervals for qdiag(spec) and
   ## qdiag(1 - sens)
@@ -771,9 +768,11 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               Spec.optcut = Sp,
               lower.Spec.optcut = lower.Sp,
               upper.Spec.optcut = upper.Sp,
-              AUC =  AUC,
+              AUC = AUCSens,
+              AUCSens =  AUCSens,
               AUCSens.lower = AUCSens.lower,
               AUCSens.upper = AUCSens.upper,
+              AUCSpec =  AUCSpec,
               AUCSpec.lower = AUCSpec.lower,
               AUCSpec.upper = AUCSpec.upper,
               ##
