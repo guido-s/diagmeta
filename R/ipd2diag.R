@@ -15,7 +15,7 @@
 #' \code{\link{diagmeta}}.
 #' 
 #' @author
-#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Gerta Rücker \email{gerta.ruecker@@uniklinik-freiburg.de},
 #' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de}
 #' 
 #' @seealso \code{\link{diagmeta}, \link{plot.diagmeta},

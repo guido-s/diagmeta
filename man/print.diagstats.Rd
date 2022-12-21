@@ -57,6 +57,6 @@ print(ds1, predicted = FALSE)
 \code{\link{diagstats}} \code{\link{diagmeta}}
 }
 \author{
-Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
+Guido Schwarzer \email{guido.schwarzer@uniklinik-freiburg.de}
 }
 \keyword{print}

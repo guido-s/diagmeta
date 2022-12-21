@@ -62,11 +62,11 @@ alpha) for tests (default is 0.95)}
 \item{incr}{A numeric between 0 and 1 that is added as a continuity
 correction}
 
-\item{n.iter.max}{A numeric indicating the maximal number of fixed
+\item{n.iter.max}{A numeric indicating the maximal number of common
 point iterations for finding the optimal cutoff}
 
 \item{tol}{A numeric indicating the tolerance for convergence of
-the fixed point iteration}
+the common point iteration}
 
 \item{silent}{A logical indicating whether iterations should be
 suppressed}
@@ -120,7 +120,7 @@ components
 \item{dist}{A list containing estimated means, standard deviations,
   and variances of distributions from diseased (ending with 1) and
   non-diseased (ending with 0).}
-\item{Cov.fixed}{Covariance matrix from fixed effects model.}
+\item{Cov.common}{Covariance matrix from common effects model.}
 \item{call}{Function call.}
 \item{version}{Version of R package \bold{diagmeta} used to create
   object.}
@@ -211,8 +211,8 @@ accuracy studies.
 \code{\link{plot.diagmeta}, \link{summary.diagmeta}}
 }
 \author{
-Gerta Rücker \email{ruecker@imbi.uni-freiburg.de},
+Gerta Rücker \email{gerta.ruecker@uniklinik-freiburg.de},
 Susanne Steinhauser \email{susanne.steinhauser@uni-koeln.de},
 Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de},
-Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
+Guido Schwarzer \email{guido.schwarzer@uniklinik-freiburg.de}
 }

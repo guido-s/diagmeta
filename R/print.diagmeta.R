@@ -11,7 +11,7 @@
 #' @param \dots Additional arguments.
 #'
 #' @author
-#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Gerta Rücker \email{gerta.ruecker@@uniklinik-freiburg.de},
 #' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
 #' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de}
 #' 

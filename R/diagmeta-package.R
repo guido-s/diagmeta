@@ -37,17 +37,17 @@
 #' \item type \code{bug.report(package = "diagmeta")} if you do not
 #'   use RStudio,
 #' \item send an email to Guido Schwarzer
-#'     \email{sc@imbi.uni-freiburg.de} if you use RStudio.
+#'     \email{guido.schwarzer@@uniklinik-freiburg.de} if you use RStudio.
 #' }
 #'
 #' The development version of \bold{diagmeta} is available on GitHub
 #' https://github.com/guido-s/diagmeta.
 #' 
 #' @author
-#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Gerta Rücker \email{gerta.ruecker@@uniklinik-freiburg.de},
 #' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
 #' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
-#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' Guido Schwarzer \email{guido.schwarzer@@uniklinik-freiburg.de}
 #'
 #' @references
 #' Steinhauser S, Schumacher M, Rücker G (2016):

@@ -40,10 +40,10 @@
 #'   correction
 #' @param level A numeric indicating the significance level (1 -
 #'   alpha) for tests (default is 0.95)
-#' @param n.iter.max A numeric indicating the maximal number of fixed
+#' @param n.iter.max A numeric indicating the maximal number of common
 #'   point iterations for finding the optimal cutoff
 #' @param tol A numeric indicating the tolerance for convergence of
-#'   the fixed point iteration
+#'   the common point iteration
 #' @param silent A logical indicating whether iterations should be
 #'   suppressed
 #' @param \dots additional arguments
@@ -139,16 +139,16 @@
 #' \item{dist}{A list containing estimated means, standard deviations,
 #'   and variances of distributions from diseased (ending with 1) and
 #'   non-diseased (ending with 0).}
-#' \item{Cov.fixed}{Covariance matrix from fixed effects model.}
+#' \item{Cov.common}{Covariance matrix from common effects model.}
 #' \item{call}{Function call.}
 #' \item{version}{Version of R package \bold{diagmeta} used to create
 #'   object.}
 #' 
 #' @author
-#' Gerta Rücker \email{ruecker@@imbi.uni-freiburg.de},
+#' Gerta Rücker \email{gerta.ruecker@@uniklinik-freiburg.de},
 #' Susanne Steinhauser \email{susanne.steinhauser@@uni-koeln.de},
 #' Srinath Kolampally \email{kolampal@@imbi.uni-freiburg.de},
-#' Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' Guido Schwarzer \email{guido.schwarzer@@uniklinik-freiburg.de}
 #' 
 #' @seealso \code{\link{plot.diagmeta}, \link{summary.diagmeta}}
 #' 
@@ -476,7 +476,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##
   slme1 <- summary(lme1)
   ##
-  ## Fixed effects
+  ## Common effects
   ##
   cf <- coef(slme1)
   vc <- vcov(slme1)
@@ -725,16 +725,16 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## ciRegr calculates confidence intervals for qdiag(spec) and
   ## qdiag(1 - sens)
   ##
-  Cov.fixed <- rbind(c(var.alpha0, cov.alpha0.alpha1,
-                       cov.alpha0.beta0, cov.alpha0.beta1),
-                     c(cov.alpha0.alpha1, var.alpha1,
-                       cov.alpha1.beta0, cov.alpha1.beta1),
-                     c(cov.alpha0.beta0, cov.alpha1.beta0,
-                       var.beta0, cov.beta0.beta1),
-                     c(cov.alpha0.beta1, cov.alpha1.beta1,
-                       cov.beta0.beta1,  var.beta1))
+  Cov.common <- rbind(c(var.alpha0, cov.alpha0.alpha1,
+                        cov.alpha0.beta0, cov.alpha0.beta1),
+                      c(cov.alpha0.alpha1, var.alpha1,
+                        cov.alpha1.beta0, cov.alpha1.beta1),
+                      c(cov.alpha0.beta0, cov.alpha1.beta0,
+                        var.beta0, cov.beta0.beta1),
+                      c(cov.alpha0.beta1, cov.alpha1.beta1,
+                        cov.beta0.beta1,  var.beta1))
   ##
-  rownames(Cov.fixed) <- colnames(Cov.fixed) <-
+  rownames(Cov.common) <- colnames(Cov.common) <-
     c("alpha0", "alpha1", "beta0", "beta1")
   
   
@@ -803,13 +803,16 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                           mean1 = mean1, var.mean1 = var.mean1,
                           sd1 = sd1, var.sd1 = var.sd1),
               ##
-              Cov.fixed = Cov.fixed,
+              Cov.common = Cov.common,
               ##
               n.iter.max = n.iter.max, tol = tol, iter = iter,
               call = match.call(),
               version = packageDescription("diagmeta")$Version
               )
-  
+  ##
+  ## Backward compatibility
+  ##
+  res$Cov.fixed <- res$Cov.common
   
   class(res) <- "diagmeta"
   

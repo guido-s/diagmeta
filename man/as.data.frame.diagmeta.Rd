@@ -40,5 +40,5 @@ as.data.frame(diag1)
 \code{\link{diagmeta}} \code{\link{summary.diagmeta}}
 }
 \author{
-Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
+Guido Schwarzer \email{guido.schwarzer@uniklinik-freiburg.de}
 }

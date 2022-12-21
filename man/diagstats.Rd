@@ -81,7 +81,7 @@ diagstats(diag1, sens = 0.95, spec = 0.95)
 \code{\link{diagmeta}} \code{\link{print.diagstats}}
 }
 \author{
-Gerta Rücker \email{ruecker@imbi.uni-freiburg.de},
+Gerta Rücker \email{gerta.ruecker@uniklinik-freiburg.de},
 Srinath Kolampally \email{kolampal@imbi.uni-freiburg.de},
-Guido Schwarzer \email{sc@imbi.uni-freiburg.de}
+Guido Schwarzer \email{guido.schwarzer@uniklinik-freiburg.de}
 }

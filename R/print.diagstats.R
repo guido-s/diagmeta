@@ -15,7 +15,7 @@
 #'   e.g., sensitivities and specificities.
 #' @param \dots Additional arguments.
 #'
-#' @author Guido Schwarzer \email{sc@@imbi.uni-freiburg.de}
+#' @author Guido Schwarzer \email{guido.schwarzer@@uniklinik-freiburg.de}
 #' 
 #' @seealso \code{\link{diagstats}} \code{\link{diagmeta}}
 #' 

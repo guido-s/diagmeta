@@ -1,3 +1,14 @@
+## diagmeta, version 0.5.1 (2022-12-21)
+
+### User-visible changes
+
+* Change maintainer's email address
+
+### Internal changes
+
+* Rename list element 'Cov.fixed' to 'Cov.common'
+
+
 ## diagmeta, version 0.5.0 (2022-04-22)
 
 ### Major changes
