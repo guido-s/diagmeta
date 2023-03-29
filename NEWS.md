@@ -8,18 +8,21 @@
     c("regression", "cdf", "sensspec","youden", "roc", "sroc")
 
 
-## diagmeta, version 0.5.1 (2022-12-21)
+## diagmeta, version 0.5-1 (2022-12-21)
 
 ### User-visible changes
 
 * Change maintainer's email address
+
+* New release branch on GitHub starting with **diagmeta**, version
+  0.5-1
 
 ### Internal changes
 
 * Rename list element 'Cov.fixed' to 'Cov.common'
 
 
-## diagmeta, version 0.5.0 (2022-04-22)
+## diagmeta, version 0.5-0 (2022-04-22)
 
 ### Major changes
 
