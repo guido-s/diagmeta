@@ -1,3 +1,13 @@
+## diagmeta, version 0.6.0 (2023-mm-dd)
+
+### User-visible changes
+
+* plot.diagmeta():
+  - default set of graphs changed from
+    c("survival", "youden", "roc", "sroc") to
+    c("regression", "cdf", "sensspec","youden", "roc", "sroc")
+
+
 ## diagmeta, version 0.5.1 (2022-12-21)
 
 ### User-visible changes

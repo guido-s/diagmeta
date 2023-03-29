@@ -189,7 +189,8 @@
 
 
 plot.diagmeta <- function(x,
-                          which = c("survival", "youden", "roc", "sroc"),
+                          which = c("regression", "cdf", "sensspec",
+                                    "youden", "roc", "sroc"),
                           xlab = "Threshold",
                           main,
                           ci = FALSE, ciSens = FALSE, ciSpec = FALSE,
