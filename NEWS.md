@@ -1,11 +1,19 @@
 ## diagmeta, version 0.6.0 (2023-mm-dd)
 
+### Major changes
+
+* Order of panels in plot.diagmeta() can be specified by the user
+
 ### User-visible changes
 
 * plot.diagmeta():
-  - default set of graphs changed from
+  - default set of graphs (argument 'which') changed from
     c("survival", "youden", "roc", "sroc") to
     c("regression", "cdf", "sensspec","youden", "roc", "sroc")
+
+### Internal changes
+
+* New internal function plot.diagmeta-internal()
 
 
 ## diagmeta, version 0.5-1 (2022-12-21)
