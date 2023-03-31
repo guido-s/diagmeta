@@ -22,7 +22,6 @@
 
 * Change maintainer's email address
 
-
 * New branch 'release' on GitHub starting with **diagmeta**, version
   0.5-1
 
