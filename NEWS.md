@@ -22,7 +22,8 @@
 
 * Change maintainer's email address
 
-* New release branch on GitHub starting with **diagmeta**, version
+
+* New branch 'release' on GitHub starting with **diagmeta**, version
   0.5-1
 
 ### Internal changes
