@@ -46,10 +46,17 @@ as.data.frame.diagmeta <- function(x, row.names=NULL, optional=FALSE, ...) {
   ##     on the function call.
   ##
   x$call <- NULL
+  #
+  direction <- replaceNULL(x$direction, "increasing")
+  #
+  min.cutoff <- replaceNULL(x$min.cutoff, min(x$data.lmer$Cutoff, na.rm = TRUE))
+  max.cutoff <- replaceNULL(x$max.cutoff, max(x$data.lmer$Cutoff, na.rm = TRUE))
   
   sel <- as.vector(lapply(x, length) == length(x$TP))
   
   res <- as.data.frame(x[names(x)[sel]], ...)
+  #
+  res$cutoff <- invert(res$cutoff, direction, min.cutoff, max.cutoff)
   
   attr(res, "version") <- packageDescription("diagmeta")$Version
   

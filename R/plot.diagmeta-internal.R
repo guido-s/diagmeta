@@ -2,7 +2,7 @@
 ## Linear regression lines in logit / probit space
 ##
 regression <- function(cutoff, Sens, Spec, studlab,
-                       distr, log.cutoff,
+                       direction, distr, log.cutoff,
                        xlab, ylab, xlim, log.axis,
                        mains, which,
                        lines, lwd.study, rlines,
@@ -16,7 +16,7 @@ regression <- function(cutoff, Sens, Spec, studlab,
                        col, lwd,
                        points, cex, col.points, pch.points,
                        ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                       Cutoff, mark.cutpoints,
+                       min.cutoff, max.cutoff, mark.cutpoints,
                        optcut, mark.optcut,
                        line.optcut, col.optcut,
                        lwd.optcut,
@@ -58,33 +58,33 @@ regression <- function(cutoff, Sens, Spec, studlab,
   ##
   if (log.cutoff) {
     if (rlines) {
-      curve(alpha0 + beta0 * log(x),
+      curve(alpha0 + beta0 * log(invert(x, direction, min.cutoff, max.cutoff)),
             lty = 2, col = col, lwd = lwd, add = TRUE)
-      curve(alpha1 + beta1 * log(x),
+      curve(alpha1 + beta1 * log(invert(x, direction, min.cutoff, max.cutoff)),
             lty = 1, col = col, lwd = lwd, add = TRUE)
     }
     ##
     if (ci) {
       ##
-      curve(ciRegr(log(x),
+      curve(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                    alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                    var.nondiseased,
                    level)$lower,
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciRegr(log(x),
+      curve(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                    alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                    var.nondiseased,
                    level)$upper,
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciRegr(log(x),
+      curve(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                    alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                    var.diseased,
                    level)$lower,
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciRegr(log(x),
+      curve(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                    alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                    var.diseased,
                    level)$upper,
@@ -93,33 +93,33 @@ regression <- function(cutoff, Sens, Spec, studlab,
   }
   else {
     if (rlines) {
-      curve(alpha0 + beta0 * x,
+      curve(alpha0 + beta0 * invert(x, direction, min.cutoff, max.cutoff),
             lty = 2, col = col, lwd = lwd, add = TRUE)
-      curve(alpha1 + beta1 * x,
+      curve(alpha1 + beta1 * invert(x, direction, min.cutoff, max.cutoff),
             lty = 1, col = col, lwd = lwd, add = TRUE)
     }
     ##
     if (ci) {
       ##
-      curve(ciRegr(x,
+      curve(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                    alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                    var.nondiseased,
                    level)$lower,
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciRegr(x,
+      curve(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                    alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                    var.nondiseased,
                    level)$upper,
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciRegr(x,
+      curve(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                    alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                    var.diseased,
                    level)$lower,
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciRegr(x,
+      curve(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                    alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                    var.diseased,
                    level)$upper,
@@ -136,7 +136,7 @@ regression <- function(cutoff, Sens, Spec, studlab,
 ## distribution function)
 ##
 cdf <- function(cutoff, Sens, Spec, studlab,
-                distr, log.cutoff,
+                direction, distr, log.cutoff,
                 xlab, ylab, xlim, log.axis,
                 mains, which,
                 lines, lwd.study, rlines,
@@ -150,7 +150,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                 col, lwd,
                 points, cex, col.points, pch.points,
                 ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                Cutoff, mark.cutpoints,
+                min.cutoff, max.cutoff, mark.cutpoints,
                 optcut, mark.optcut,
                 line.optcut, col.optcut,
                 lwd.optcut,
@@ -195,7 +195,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
   if (log.cutoff) {
     ##
     if (rlines) {
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -204,7 +204,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col, lwd = lwd, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -215,7 +215,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (ci) {
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -224,7 +224,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -233,7 +233,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -242,7 +242,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -255,7 +255,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
   else {
     ##
     if (rlines) {
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -264,7 +264,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col, lwd = lwd, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -275,7 +275,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (ci) {
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -284,7 +284,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -293,7 +293,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -302,7 +302,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -326,7 +326,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
 ## Data and biomarker distributions functions (survival function)
 ##
 survival <- function(cutoff, Sens, Spec, studlab,
-                     distr, log.cutoff,
+                     direction, distr, log.cutoff,
                      xlab, ylab, xlim, log.axis,
                      mains, which,
                      lines, lwd.study, rlines,
@@ -340,7 +340,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      col, lwd,
                      points, cex, col.points, pch.points,
                      ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                     Cutoff, mark.cutpoints,
+                     min.cutoff, max.cutoff, mark.cutpoints,
                      optcut, mark.optcut,
                      line.optcut, col.optcut,
                      lwd.optcut,
@@ -386,7 +386,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
   if (log.cutoff) {
     ##
     if (rlines) {
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -395,7 +395,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col, lwd = lwd, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -406,7 +406,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (ci) {
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -415,7 +415,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -424,7 +424,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -433,7 +433,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -446,7 +446,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
   else {
     ##
     if (rlines) {
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -455,7 +455,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col, lwd = lwd, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -466,7 +466,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (ci) {
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -475,7 +475,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -484,7 +484,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -493,7 +493,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -519,7 +519,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
 ## (-> need to weight the data, too)
 ##
 youden <- function(cutoff, Sens, Spec, studlab,
-                   distr, log.cutoff,
+                   direction, distr, log.cutoff,
                    xlab, ylab, xlim, log.axis,
                    mains, which,
                    lines, lwd.study, rlines,
@@ -533,7 +533,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
                    col, lwd,
                    points, cex, col.points, pch.points,
                    ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                   Cutoff, mark.cutpoints,
+                   min.cutoff, max.cutoff, mark.cutpoints,
                    optcut, mark.optcut,
                    line.optcut, col.optcut,
                    lwd.optcut,
@@ -570,7 +570,8 @@ youden <- function(cutoff, Sens, Spec, studlab,
   ##
   if (log.cutoff) {
     if (ci) {
-      curve(ciYouden(log(x), distr, lambda,
+      curve(ciYouden(log(invert(x, direction, min.cutoff, max.cutoff)),
+                     distr, lambda,
                      alpha0, var.alpha0, beta0, var.beta0,
                      cov.alpha0.alpha1, cov.alpha0.beta0, cov.alpha0.beta1,
                      alpha1, var.alpha1, beta1, var.beta1,
@@ -579,7 +580,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
                      level)$lower,
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciYouden(log(x), distr, lambda,
+      curve(ciYouden(log(invert(x, direction, min.cutoff, max.cutoff)), distr, lambda,
                      alpha0, var.alpha0, beta0, var.beta0,
                      cov.alpha0.alpha1, cov.alpha0.beta0, cov.alpha0.beta1,
                      alpha1, var.alpha1, beta1, var.beta1,
@@ -590,13 +591,13 @@ youden <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (rlines)
-      curve(calcYouden(log(x), distr, lambda,
+      curve(calcYouden(log(invert(x, direction, min.cutoff, max.cutoff)), distr, lambda,
                        alpha0, beta0, alpha1, beta1),
             col = col, lwd = lwd, add = TRUE)     
   }
   else {
     if (ci) {
-      curve(ciYouden(x, distr, lambda,
+      curve(ciYouden(invert(x, direction, min.cutoff, max.cutoff), distr, lambda,
                      alpha0, var.alpha0, beta0, var.beta0,
                      cov.alpha0.alpha1, cov.alpha0.beta0, cov.alpha0.beta1,
                      alpha1, var.alpha1, beta1, var.beta1,
@@ -605,7 +606,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
                      level)$lower,
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(ciYouden(x, distr, lambda,
+      curve(ciYouden(invert(x, direction, min.cutoff, max.cutoff), distr, lambda,
                      alpha0, var.alpha0, beta0, var.beta0,
                      cov.alpha0.alpha1, cov.alpha0.beta0, cov.alpha0.beta1,
                      alpha1, var.alpha1, beta1, var.beta1,
@@ -616,7 +617,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (rlines)
-      curve(calcYouden(x, distr, lambda,
+      curve(calcYouden(invert(x, direction, min.cutoff, max.cutoff), distr, lambda,
                        alpha0, beta0, alpha1, beta1),
             col = col, add = TRUE)     
   }
@@ -634,7 +635,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
 ## Study-specific ROC curves
 ##
 roc <- function(cutoff, Sens, Spec, studlab,
-                distr, log.cutoff,
+                direction, distr, log.cutoff,
                 xlab, ylab, xlim, log.axis,
                 mains, which,
                 lines, lwd.study, rlines,
@@ -648,7 +649,7 @@ roc <- function(cutoff, Sens, Spec, studlab,
                 col, lwd,
                 points, cex, col.points, pch.points,
                 ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                Cutoff, mark.cutpoints,
+                min.cutoff, max.cutoff, mark.cutpoints,
                 optcut, mark.optcut,
                 line.optcut, col.optcut,
                 lwd.optcut,
@@ -658,7 +659,16 @@ roc <- function(cutoff, Sens, Spec, studlab,
                 youden,
                 x,
                 ...) {
-  ##
+  #
+  if (direction == "increasing") {
+    xy1 <- 1
+    xy2 <- 0
+  }
+  else {
+    xy1 <- 0
+    xy2 <- 1
+  }
+  #
   plot(1 - Spec, Sens,
        type = "n", las = 1,
        xlab = "1 - Specificity", ylab = "Sensitivity",
@@ -668,8 +678,8 @@ roc <- function(cutoff, Sens, Spec, studlab,
   ## Add lines
   ##
   for (s in studlab)
-    lines(c(1, 1 - Spec[studlab == s], 0),
-          c(1, Sens[studlab == s], 0),
+    lines(c(xy1, 1 - Spec[studlab == s], xy2),
+          c(xy1, Sens[studlab == s], xy2),
           col = col.points[studlab == s], lwd = lwd.study)
   ##
   ## Add data
@@ -686,7 +696,7 @@ roc <- function(cutoff, Sens, Spec, studlab,
 ## SROC curve
 ##
 sroc <- function(cutoff, Sens, Spec, studlab,
-                 distr, log.cutoff,
+                 direction, distr, log.cutoff,
                  xlab, ylab, xlim, log.axis,
                  mains, which,
                  lines, lwd.study, rlines,
@@ -700,7 +710,7 @@ sroc <- function(cutoff, Sens, Spec, studlab,
                  col, lwd,
                  points, cex, col.points, pch.points,
                  ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                 Cutoff, mark.cutpoints,
+                 min.cutoff, max.cutoff, mark.cutpoints,
                  optcut, mark.optcut,
                  line.optcut, col.optcut,
                  lwd.optcut,
@@ -864,7 +874,7 @@ sroc <- function(cutoff, Sens, Spec, studlab,
 ## Biomarker distributions (densities)
 ##
 density <- function(cutoff, Sens, Spec, studlab,
-                    distr, log.cutoff,
+                    direction, distr, log.cutoff,
                     xlab, ylab, xlim, log.axis,
                     mains, which,
                     lines, lwd.study, rlines,
@@ -878,7 +888,7 @@ density <- function(cutoff, Sens, Spec, studlab,
                     col, lwd,
                     points, cex, col.points, pch.points,
                     ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                    Cutoff, mark.cutpoints,
+                    min.cutoff, max.cutoff, mark.cutpoints,
                     optcut, mark.optcut,
                     line.optcut, col.optcut,
                     lwd.optcut,
@@ -890,25 +900,25 @@ density <- function(cutoff, Sens, Spec, studlab,
                     ...) {
   ##
   if (log.cutoff) {
-    curve(beta0 * ddiag(beta0 * log(x) + alpha0, distr),
+    curve(beta0 * ddiag(beta0 * log(invert(x, direction, min.cutoff, max.cutoff)) + alpha0, distr),
           log = "x", las = 1,
-          from = min(exp(Cutoff)), to = max(exp(Cutoff)),
+          from = exp(min.cutoff), to = exp(max.cutoff),
           xlab = xlab, ylab = "",
           main = mains[match("density", which)],
           lty = 2, col = col, lwd = lwd)
     ##
-    curve(beta1 * ddiag(beta1 * log(x) + alpha1, distr),
+    curve(beta1 * ddiag(beta1 * log(invert(x, direction, min.cutoff, max.cutoff)) + alpha1, distr),
           lty = 1, col = col, lwd = lwd, add = TRUE)
   }
   else {
-    curve(beta0 * ddiag(beta0 * x + alpha0, distr),
+    curve(beta0 * ddiag(beta0 * invert(x, direction, min.cutoff, max.cutoff) + alpha0, distr),
           las = 1,
-          from = min(Cutoff), to = max(Cutoff),
+          from = min.cutoff, to = max.cutoff,
           xlab = xlab, ylab = "",
           main = mains[match("density", which)],
           lty = 2, col = col, lwd = lwd)
     ##
-    curve(beta1 * ddiag(beta1 * x + alpha1, distr),
+    curve(beta1 * ddiag(beta1 * invert(x, direction, min.cutoff, max.cutoff) + alpha1, distr),
           lty = 1, col = col, lwd = lwd, add = TRUE)
   }
   ##
@@ -925,7 +935,7 @@ density <- function(cutoff, Sens, Spec, studlab,
 ## Sensitivity and specificity
 ##
 sensspec <- function(cutoff, Sens, Spec, studlab,
-                     distr, log.cutoff,
+                     direction, distr, log.cutoff,
                      xlab, ylab, xlim, log.axis,
                      mains, which,
                      lines, lwd.study, rlines,
@@ -939,7 +949,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      col, lwd,
                      points, cex, col.points, pch.points,
                      ci, ciSens, ciSpec, level, col.ci, lwd.ci,
-                     Cutoff, mark.cutpoints,
+                     min.cutoff, max.cutoff, mark.cutpoints,
                      optcut, mark.optcut,
                      line.optcut, col.optcut,
                      lwd.optcut,
@@ -983,7 +993,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
   if (log.cutoff) {
     ##
     if (rlines) {
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -992,7 +1002,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col, lwd = lwd, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -1003,7 +1013,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (ci) {
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -1012,7 +1022,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(log(x),
+      curve(calcSpec(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -1021,7 +1031,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -1030,7 +1040,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(log(x),
+      curve(calcSens(ciRegr(log(invert(x, direction, min.cutoff, max.cutoff)),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -1043,7 +1053,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
   else {
     ##
     if (rlines) {
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -1052,7 +1062,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col, lwd = lwd, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -1063,7 +1073,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
     }
     ##
     if (ci) {
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -1072,7 +1082,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSpec(ciRegr(x,
+      curve(calcSpec(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha0, var.alpha0,
                             beta0, var.beta0,
                             cov.alpha0.beta0,
@@ -1081,7 +1091,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 2, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,
@@ -1090,7 +1100,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      distr),
             lty = 1, col = col.ci, lwd = lwd.ci, add = TRUE)
       ##
-      curve(calcSens(ciRegr(x,
+      curve(calcSens(ciRegr(invert(x, direction, min.cutoff, max.cutoff),
                             alpha1, var.alpha1,
                             beta1, var.beta1,
                             cov.alpha1.beta1,

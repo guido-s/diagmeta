@@ -2,9 +2,17 @@
 
 ### Major changes
 
+* Data sets with negative association between biomarker values and probability
+  of target condition can be used without data manipulation 
+
 * Order of panels in plot.diagmeta() can be specified by the user
 
 ### User-visible changes
+
+* diagmeta();
+  - new argument 'direction' to specify whether the probability of the target
+    condition (e.g., a disease) is increasing or decreasing with higher values
+    of the biomarker
 
 * plot.diagmeta():
   - default set of graphs (argument 'which') changed from

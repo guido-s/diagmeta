@@ -6,14 +6,13 @@
 #' or an ordinal score together with a cutoff. The decision whether
 #' the target condition is present or not (positive or negative test
 #' result) depends on whether the observed value is above or below the
-#' cutoff. Here we assume that higher values of the biomarker indicate
-#' a greater probability for the target condition (e.g., a disease);
-#' otherwise, the poling must be changed by multiplying all values of
-#' the biomarker by -1. Sensitivity and specificity of the test depend
+#' cutoff.
+#' 
+#' Sensitivity and specificity of the test depend
 #' on the chosen cutoff and vary with the cutoff. In meta-analysis of
 #' diagnostic accuracy studies, results are often reported for
 #' multiple cutoffs within a study, and the cutoffs may differ between
-#' studies.  The multiple cutoffs model creates a link between the
+#' studies. The multiple cutoffs model creates a link between the
 #' range of cutoffs and the respective pairs of sensitivity and
 #' specificity and thus allows identifying cutoffs at which the test
 #' is likely to perform best (Steinhauser et al., 2016).
@@ -30,6 +29,10 @@
 #' @param lambda A numeric between 0 and 1 indicating the weight of
 #'   the sensitivity (such that specificity receives weight 1 -
 #'   lambda)
+#' @param direction A character string specifying whether the probability of
+#'   the target condition (e.g., a disease) is \code{"increasing"} or
+#'   \code{"decreasing"} with higher values of the biomarker, can be
+#'   abbreviated.
 #' @param log.cutoff A logical indicating whether the cutoffs should
 #'   be log-transformed
 #' @param method.weights A character indicating the method for
@@ -53,6 +56,15 @@
 #' and the numbers of true positives, false positives, true negatives
 #' and false negatives. Different studies may contribute a varying
 #' number of cutoffs, as well as different sets of cutoffs.
+#' 
+#' By default (argument \code{direction = "increasing"}), we assume
+#' that higher values of the biomarker indicate a greater probability for the
+#' target condition (e.g., a disease). This association can be reversed setting
+#' argument \code{direction = "decreasing"}. In this case, the following
+#' transformation is used internally to reverse the values for the biomarker:
+#' \code{min(cutoff) + max(cutoff) - cutoff}.
+#' In printouts and figures, the original biomarker values are depicted;
+#' likewise the optimal cutoff is printed on the original scale.
 #' 
 #' The multiple cutoffs model is a multi-level random effects
 #' model. At the study level, for the group of patients without the
@@ -182,7 +194,9 @@
 diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                      ##
                      distr = "logistic", model = "CICS", equalvar = FALSE,
-                     lambda = 0.5, log.cutoff = FALSE,
+                     lambda = 0.5,
+                     direction = "increasing",
+                     log.cutoff = FALSE,
                      method.weights = "invvar",
                      ##
                      level = 0.95, incr = 0.5,
@@ -214,6 +228,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                             c("equal", "size", "invvar"))
   ##
   chknumeric(lambda, min = 0, length = 1)
+  direction <- setchar(direction, c("increasing", "decreasing"))
   chknumeric(n.iter.max, min = 0, length = 1)
   chknumeric(tol, min = 0, length = 1)
   ##
@@ -279,13 +294,13 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
          "Consider using, e.g., madad() from R package mada.")
   
   
-  ##
-  ##
-  ## (4) Auxiliary function
-  ##     (to calculate weighted cut-off point of two logistic
-  ##      distributions by an iterative fixpoint procedure)
-  ##
-  ##
+  #
+  #
+  # (4) Auxiliary function
+  #     (to calculate weighted cut-off point of two logistic
+  #      distributions by an iterative fixpoint procedure)
+  #
+  
   g <- function(x)
     mean1 - sd1 * acosh(lambda / (1 - lambda) * sd0 / sd1 *
                         (1 + cosh((x - mean0) / sd0)) - 1)
@@ -386,16 +401,25 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   iter <- ""
   
   
-  ##
-  ##
-  ## (6) Model fitting
-  ##
-  ##
-  ## Data frame consisting of rows with data for each cutoff of each
-  ## study, first for all non-diseased individuals and then everything
-  ## again for the diseased individuals (each cutoff of each study is
-  ## named twice)
-  ##
+  #
+  #
+  # (6) Model fitting
+  #
+  #
+  
+  # Invert cutoff values für reversed association between disease and biomarker
+  # value
+  #
+  min.cutoff <- min(cutoff, na.rm = TRUE)
+  max.cutoff <- max(cutoff, na.rm = TRUE)
+  #
+  cutoff <- invert(cutoff, direction, min.cutoff, max.cutoff)
+  
+  # Data frame consisting of rows with data for each cutoff of each
+  # study, first for all non-diseased individuals and then everything
+  # again for the diseased individuals (each cutoff of each study is
+  # named twice)
+  #
   Group <- c(rep(0, length(studlab)), rep(1, length(studlab)))
   ##
   if (log.cutoff)
@@ -745,7 +769,10 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##
   res <- list(studlab = studlab,
               TP = TP, FP = FP, TN = TN, FN = FN,
-              cutoff = cutoff,
+              cutoff = invert(cutoff, direction, min.cutoff, max.cutoff),
+              #
+              min.cutoff = min.cutoff, max.cutoff = max.cutoff,
+              direction = direction,
               ##
               Sens = 1 - (FN + incr) / (N1 + 2 * incr),
               Spec = (TN + incr) / (N0 + 2 * incr),
@@ -757,11 +784,13 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               incr = incr, method.weights = method.weights,
               ##
               k = k,
-              ##
-              optcut = ci.optcut$TE,
-              lower.optcut = ci.optcut$lower,
-              upper.optcut = ci.optcut$upper,
-              ##
+              #
+              optcut = invert(ci.optcut$TE, direction, min.cutoff, max.cutoff),
+              lower.optcut =
+                invert(ci.optcut$lower, direction, min.cutoff, max.cutoff),
+              upper.optcut =
+                invert(ci.optcut$upper, direction, min.cutoff, max.cutoff),
+              #
               Sens.optcut = Se,
               lower.Sens.optcut = lower.Se,
               upper.Sens.optcut = upper.Se,

@@ -17,6 +17,7 @@ diagmeta(
   model = "CICS",
   equalvar = FALSE,
   lambda = 0.5,
+  direction = "increasing",
   log.cutoff = FALSE,
   method.weights = "invvar",
   level = 0.95,
@@ -47,6 +48,11 @@ biomarker in both groups are thought equal (see Details)}
 \item{lambda}{A numeric between 0 and 1 indicating the weight of
 the sensitivity (such that specificity receives weight 1 -
 lambda)}
+
+\item{direction}{A character string specifying whether the probability of
+the target condition (e.g., a disease) is \code{"increasing"} or
+\code{"decreasing"} with higher values of the biomarker, can be
+abbreviated.}
 
 \item{log.cutoff}{A logical indicating whether the cutoffs should
 be log-transformed}
@@ -130,14 +136,13 @@ Diagnostic tests may be based on an ordinal or continuous biomarker
 or an ordinal score together with a cutoff. The decision whether
 the target condition is present or not (positive or negative test
 result) depends on whether the observed value is above or below the
-cutoff. Here we assume that higher values of the biomarker indicate
-a greater probability for the target condition (e.g., a disease);
-otherwise, the poling must be changed by multiplying all values of
-the biomarker by -1. Sensitivity and specificity of the test depend
+cutoff.
+
+Sensitivity and specificity of the test depend
 on the chosen cutoff and vary with the cutoff. In meta-analysis of
 diagnostic accuracy studies, results are often reported for
 multiple cutoffs within a study, and the cutoffs may differ between
-studies.  The multiple cutoffs model creates a link between the
+studies. The multiple cutoffs model creates a link between the
 range of cutoffs and the respective pairs of sensitivity and
 specificity and thus allows identifying cutoffs at which the test
 is likely to perform best (Steinhauser et al., 2016).
@@ -147,6 +152,15 @@ Each row of the data set provides at least a study label, a cutoff
 and the numbers of true positives, false positives, true negatives
 and false negatives. Different studies may contribute a varying
 number of cutoffs, as well as different sets of cutoffs.
+
+By default (argument \code{direction = "increasing"}), we assume
+that higher values of the biomarker indicate a greater probability for the
+target condition (e.g., a disease). This association can be reversed setting
+argument \code{direction = "decreasing"}. In this case, the following
+transformation is used internally to reverse the values for the biomarker:
+\code{min(cutoff) + max(cutoff) - cutoff}.
+In printouts and figures, the original biomarker values are depicted;
+likewise the optimal cutoff is printed on the original scale.
 
 The multiple cutoffs model is a multi-level random effects
 model. At the study level, for the group of patients without the

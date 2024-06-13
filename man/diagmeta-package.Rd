@@ -50,6 +50,13 @@ accuracy studies.
 \emph{BMC Medical Research Methodology},
 \bold{16}, 97
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/guido-s/diagmeta}
+}
+
+}
 \author{
 Gerta Rücker \email{gerta.ruecker@uniklinik-freiburg.de},
 Susanne Steinhauser \email{susanne.steinhauser@uni-koeln.de},

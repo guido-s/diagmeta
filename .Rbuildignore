@@ -5,3 +5,6 @@ README.md
 roxygen2.*[.]R
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^.*\.Rproj$
+^\.Rproj\.user$
+.github

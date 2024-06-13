@@ -6,8 +6,6 @@
 #' with multiple cutoffs.
 #'
 #' @name diagmeta-package
-#' 
-#' @docType package
 #'
 #' @details
 #' Main function of R package \bold{diagmeta} is the eponymous
@@ -57,6 +55,9 @@
 #' \bold{16}, 97
 #'
 #' @keywords package
+#'
+
+"_PACKAGE"
 
 
 NULL

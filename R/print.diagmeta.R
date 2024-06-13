@@ -45,10 +45,14 @@ print.diagmeta <- function(x,
   
   
   chkclass(x, "diagmeta")
-  ##
+  #
   chknumeric(digits, min = 0, length = 1)
   chknumeric(digits.prop, min = 0, length = 1)
-  
+  #
+  direction <- replaceNULL(x$direction, "increasing")
+  #
+  min.cutoff <- replaceNULL(x$min.cutoff, min(x$data.lmer$Cutoff, na.rm = TRUE))
+  max.cutoff <- replaceNULL(x$max.cutoff, max(x$data.lmer$Cutoff, na.rm = TRUE))
   
   cat("*** Results of multiple cutoffs model ***\n")
   
@@ -64,6 +68,8 @@ print.diagmeta <- function(x,
   ##
   cat(paste0("Number of different cutoffs: ", Nunicutoffs, "\n\n", sep = ""))
   ##
+  cat(paste0("Direction: ", direction, "\n\n", sep = ""))
+  ##
   cat(paste0("Model: ", x$model, "\n\n", sep = ""))
   ##
   cat(paste0("Type of distribution: ", x$distr, "\n\n", sep = ""))
@@ -74,11 +80,16 @@ print.diagmeta <- function(x,
     cat("The optimal cutoff iteration didn't converge.\n")
   else {
     cat(paste0("The optimal cutoff value: ",
-               formatN(x$optcut, digits)))
+               formatN(invert(x$optcut, direction, min.cutoff, max.cutoff),
+                       digits)))
     if (!is.na(x$lower.optcut))
       cat(paste0(" ",
-                 formatCI(formatN(x$lower.optcut, digits),
-                          formatN(x$upper.optcut, digits))))
+                 formatCI(
+                   formatN(invert(x$lower.optcut, direction,
+                                  min.cutoff, max.cutoff),
+                           digits),
+                   formatN(invert(x$upper.optcut, direction,
+                                  min.cutoff, max.cutoff), digits))))
     cat("\n\n")
     ##
     cat("Sensitivity and specificity at optimal cutoff:\n")

@@ -346,6 +346,11 @@ plot.diagmeta <- function(x,
     ylab <- ""
   
   
+  direction <- replaceNULL(x$direction, "increasing")
+  #
+  min.cutoff <- replaceNULL(x$min.cutoff, min(x$data.lmer$Cutoff, na.rm = TRUE))
+  max.cutoff <- replaceNULL(x$max.cutoff, max(x$data.lmer$Cutoff, na.rm = TRUE))
+  #
   distr <- x$distr
   level <- x$level
   lambda <- x$lambda
@@ -370,20 +375,20 @@ plot.diagmeta <- function(x,
   var.diseased <- x$var.diseased
   ##
   NN <- x$data.lmer$NN
-  Cutoff <- x$data.lmer$Cutoff
   ##
   log.cutoff <- x$log.cutoff
   ##
   log.axis <- if (log.cutoff) "x" else ""
   ##
   youden <- calcYouden.SeSp(Sens, Spec, lambda)
-  
+    
   
   for (i in which)
     do.call(i,
-            list(cutoff = cutoff, Sens = Sens, Spec = Spec,
+            list(cutoff = cutoff,
+                 Sens = Sens, Spec = Spec,
                  studlab = studlab,
-                 distr = distr, log.cutoff = log.cutoff,
+                 direction = direction, distr = distr, log.cutoff = log.cutoff,
                  xlab = xlab, ylab = ylab, xlim = xlim, log.axis = log.axis,
                  mains = mains, which = which,
                  lines = lines, lwd.study = lwd.study, rlines = rlines,
@@ -404,7 +409,8 @@ plot.diagmeta <- function(x,
                  pch.points = pch.points,
                  ci = ci, ciSens = ciSens, ciSpec = ciSpec,
                  level = level, col.ci = col.ci, lwd.ci = lwd.ci,
-                 Cutoff = Cutoff, mark.cutpoints = mark.cutpoints,
+                 min.cutoff = min.cutoff, max.cutoff = max.cutoff,
+                 mark.cutpoints = mark.cutpoints,
                  optcut = optcut, mark.optcut = mark.optcut,
                  line.optcut = line.optcut, col.optcut = col.optcut,
                  lwd.optcut = lwd.optcut,

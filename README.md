@@ -35,8 +35,6 @@ remotes::install_github("guido-s/diagmeta")
 ```
 
 
-
-
 ### Bug Reports:
 
 You can report bugs on GitHub under

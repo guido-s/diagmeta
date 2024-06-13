@@ -101,7 +101,12 @@ diagstats <- function(x,
     chklevel(spec, length = 0)
   ##
   chklevel(level)
-
+  #
+  direction <- replaceNULL(x$direction, "increasing")
+  #
+  min.cutoff <- replaceNULL(x$min.cutoff, min(x$data.lmer$Cutoff, na.rm = TRUE))
+  max.cutoff <- replaceNULL(x$max.cutoff, max(x$data.lmer$Cutoff, na.rm = TRUE))
+  
   
   regr <- x$regr
   ##
@@ -123,7 +128,8 @@ diagstats <- function(x,
     }
     ##
     if (cutoff.given)
-      cutoff <- c(cutoff, cutoff1, cutoff2)
+      cutoff <-
+        c(invert(cutoff, direction, min.cutoff, max.cutoff), cutoff1, cutoff2)
     else
       cutoff <- c(cutoff1, cutoff2)
   }
@@ -134,7 +140,7 @@ diagstats <- function(x,
       cutoff1 <- exp(cutoff1)
     ##
     if (cutoff.given)
-      cutoff <- c(cutoff, cutoff1)
+      cutoff <- c(invert(cutoff, direction, min.cutoff, max.cutoff), cutoff1)
     else
       cutoff <- cutoff1
   }
@@ -145,10 +151,12 @@ diagstats <- function(x,
       cutoff2 <- exp(cutoff2)
     ##
     if (cutoff.given)
-      cutoff <- c(cutoff, cutoff2)
+      cutoff <- c(invert(cutoff, direction, min.cutoff, max.cutoff), cutoff2)
     else
       cutoff <- cutoff2
   }
+  else
+    cutoff <- invert(cutoff, direction, min.cutoff, max.cutoff)
   
   
   if (x$log.cutoff)
@@ -214,18 +222,22 @@ diagstats <- function(x,
   if (x$log.cutoff)
     cutoff <- exp(cutoff)
   
-  
-  res <- data.frame(cutoff = cutoff,
+    
+  res <- data.frame(cutoff = invert(cutoff, direction, min.cutoff, max.cutoff),
                     Sens = Sens, seSens = seSens,
                     lower.Sens = lower.Sens, upper.Sens = upper.Sens,
                     Spec = Spec, seSpec = seSpec,
                     lower.Spec = lower.Spec, upper.Spec = upper.Spec,
+                    LRpos = Sens / (1 - Spec),
+                    LRneg = (1 - Sens) / Spec,
                     prevalence = prevalence,
                     PPV = PPV, NPV = NPV, PD = PD,
                     dens.nondiseased = dens.nondiseased,
                     dens.diseased = dens.diseased)
-  ##
+  #
+  res <- res[order(res$cutoff), ]
+  #
   class(res) <- c("diagstats", "data.frame")
-  ##
+  #
   res
 }
