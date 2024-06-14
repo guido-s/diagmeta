@@ -79,17 +79,11 @@ print.diagmeta <- function(x,
   if (is.na(x$optcut))
     cat("The optimal cutoff iteration didn't converge.\n")
   else {
-    cat(paste0("The optimal cutoff value: ",
-               formatN(invert(x$optcut, direction, min.cutoff, max.cutoff),
-                       digits)))
+    cat(paste0("The optimal cutoff value: ", formatN(x$optcut, digits)))
     if (!is.na(x$lower.optcut))
       cat(paste0(" ",
-                 formatCI(
-                   formatN(invert(x$lower.optcut, direction,
-                                  min.cutoff, max.cutoff),
-                           digits),
-                   formatN(invert(x$upper.optcut, direction,
-                                  min.cutoff, max.cutoff), digits))))
+                 formatCI(formatN(x$lower.optcut), digits),
+                 formatN(x$upper.optcut, digits)))
     cat("\n\n")
     ##
     cat("Sensitivity and specificity at optimal cutoff:\n")

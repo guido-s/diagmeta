@@ -55,8 +55,6 @@ as.data.frame.diagmeta <- function(x, row.names=NULL, optional=FALSE, ...) {
   sel <- as.vector(lapply(x, length) == length(x$TP))
   
   res <- as.data.frame(x[names(x)[sel]], ...)
-  #
-  res$cutoff <- invert(res$cutoff, direction, min.cutoff, max.cutoff)
   
   attr(res, "version") <- packageDescription("diagmeta")$Version
   

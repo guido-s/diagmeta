@@ -155,7 +155,7 @@ diagstats <- function(x,
     else
       cutoff <- cutoff2
   }
-  else
+  else if (cutoff.given)
     cutoff <- invert(cutoff, direction, min.cutoff, max.cutoff)
   
   
@@ -222,7 +222,7 @@ diagstats <- function(x,
   if (x$log.cutoff)
     cutoff <- exp(cutoff)
   
-    
+  
   res <- data.frame(cutoff = invert(cutoff, direction, min.cutoff, max.cutoff),
                     Sens = Sens, seSens = seSens,
                     lower.Sens = lower.Sens, upper.Sens = upper.Sens,

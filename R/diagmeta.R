@@ -771,7 +771,10 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               TP = TP, FP = FP, TN = TN, FN = FN,
               cutoff = invert(cutoff, direction, min.cutoff, max.cutoff),
               #
-              min.cutoff = min.cutoff, max.cutoff = max.cutoff,
+              min.cutoff =
+                invert(min.cutoff, direction, min.cutoff, max.cutoff),
+              max.cutoff =
+                invert(max.cutoff, direction, min.cutoff, max.cutoff),
               direction = direction,
               ##
               Sens = 1 - (FN + incr) / (N1 + 2 * incr),
@@ -785,7 +788,8 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               ##
               k = k,
               #
-              optcut = invert(ci.optcut$TE, direction, min.cutoff, max.cutoff),
+              optcut =
+                invert(ci.optcut$TE, direction, min.cutoff, max.cutoff),
               lower.optcut =
                 invert(ci.optcut$lower, direction, min.cutoff, max.cutoff),
               upper.optcut =
