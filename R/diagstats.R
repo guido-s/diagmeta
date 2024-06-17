@@ -128,8 +128,7 @@ diagstats <- function(x,
     }
     ##
     if (cutoff.given)
-      cutoff <-
-        c(invert(cutoff, direction, min.cutoff, max.cutoff), cutoff1, cutoff2)
+      cutoff <- c(cutoff, cutoff1, cutoff2)
     else
       cutoff <- c(cutoff1, cutoff2)
   }
@@ -140,7 +139,7 @@ diagstats <- function(x,
       cutoff1 <- exp(cutoff1)
     ##
     if (cutoff.given)
-      cutoff <- c(invert(cutoff, direction, min.cutoff, max.cutoff), cutoff1)
+      cutoff <- c(cutoff, cutoff1)
     else
       cutoff <- cutoff1
   }
@@ -151,13 +150,10 @@ diagstats <- function(x,
       cutoff2 <- exp(cutoff2)
     ##
     if (cutoff.given)
-      cutoff <- c(invert(cutoff, direction, min.cutoff, max.cutoff), cutoff2)
+      cutoff <- c(cutoff, cutoff2)
     else
       cutoff <- cutoff2
   }
-  else if (cutoff.given)
-    cutoff <- invert(cutoff, direction, min.cutoff, max.cutoff)
-  
   
   if (x$log.cutoff)
     cutoff <- log(cutoff)
@@ -223,7 +219,7 @@ diagstats <- function(x,
     cutoff <- exp(cutoff)
   
   
-  res <- data.frame(cutoff = invert(cutoff, direction, min.cutoff, max.cutoff),
+  res <- data.frame(cutoff = cutoff,
                     Sens = Sens, seSens = seSens,
                     lower.Sens = lower.Sens, upper.Sens = upper.Sens,
                     Spec = Spec, seSpec = seSpec,

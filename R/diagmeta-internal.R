@@ -195,9 +195,32 @@ trapz <- function (x, y) {
   return(as.double((x[idx] - x[idx - 1]) %*% (y[idx] + y[idx - 1])) / 2)
 }
 
-invert <- function(x, direction, min, max) {
-  if (direction == "increasing")
-    return(x)
-  else
-    return(min + max - x)
+transf <- function(x, direction, log.cutoff, min, max) {
+  if (direction == "increasing") {
+    if (log.cutoff)
+      return(log(x))
+    else
+      return(x)
+  }
+  else {
+    if (log.cutoff)
+      return(log(min) + log(max) - log(x))
+    else
+      return(min + max - x)
+  }
+}
+
+backtransf <- function(x, direction, log.cutoff, min, max) {
+  if (direction == "increasing") {
+    if (log.cutoff)
+      return(exp(x))
+    else
+      return(x)
+  }
+  else {
+    if (log.cutoff)
+      return(exp(log(min) + log(max) - x))
+    else
+      return(min + max - x)
+  }
 }

@@ -31,21 +31,10 @@ regression <- function(cutoff, Sens, Spec, studlab,
     xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
+  xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
   #
-  if (direction == "decreasing" && log.cutoff) {
-    xvals.inv <- log(xvals)
-    xvals <- rev(xvals)
-    xlab <- paste(xlab, "(inverted scale)")
-  }
-  else {
-    xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-    #
-    if (log.cutoff)
-      xvals.inv <- log(xvals.inv)
-    #
-    if (direction == "decreasing")
-      xlim <- c(xlim[2], xlim[1])
-  }
+  #if (direction == "decreasing")
+  #  xlim <- c(xlim[2], xlim[1])
   #
   plot(c(cutoff, cutoff), qdiag(c(Spec, 1 - Sens), distr),
        type = "n", las = 1, log = log.axis,
@@ -74,35 +63,35 @@ regression <- function(cutoff, Sens, Spec, studlab,
   # Add linear regression lines
   #
   if (rlines) {
-    lines(xvals, alpha0 + beta0 * xvals.inv, lty = 2, col = col, lwd = lwd)
-    lines(xvals, alpha1 + beta1 * xvals.inv, lty = 1, col = col, lwd = lwd)
+    lines(xvals, alpha0 + beta0 * xvals.tr, lty = 2, col = col, lwd = lwd)
+    lines(xvals, alpha1 + beta1 * xvals.tr, lty = 1, col = col, lwd = lwd)
   }
   #
   if (ci) {
     #
     lines(xvals,
-          ciRegr(xvals.inv,
+          ciRegr(xvals.tr,
                  alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                  var.nondiseased,
                  level)$lower,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          ciRegr(xvals.inv,
+          ciRegr(xvals.tr,
                  alpha0, var.alpha0, beta0, var.beta0, cov.alpha0.beta0,
                  var.nondiseased,
                  level)$upper,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          ciRegr(xvals.inv,
+          ciRegr(xvals.tr,
                  alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                  var.diseased,
                  level)$lower,
           lty = 1, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          ciRegr(xvals.inv,
+          ciRegr(xvals.tr,
                  alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                  var.diseased,
                  level)$upper,
@@ -147,16 +136,16 @@ cdf <- function(cutoff, Sens, Spec, studlab,
     xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
-  xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-  if (log.cutoff)
-    xvals.inv <- log(xvals.inv)
+  xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
+  #
+  if (direction == "decreasing")
+    xlim <- c(xlim[2], xlim[1])
   #
   plot(c(cutoff, cutoff), c(Spec, 1 - Sens),
        type = "n", las = 1, log = log.axis,
        xlab = xlab, ylab = "Prob(negative test)",
        main = mains[match("cdf", which)],
-       xlim = if (direction == "increasing") xlim else rev(xlim),
-       ylim = c(0, 1), ...)
+       xlim = xlim, ylim = c(0, 1), ...)
   #
   # Add lines
   #
@@ -181,7 +170,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
   #
   if (rlines) {
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -191,7 +180,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col, lwd = lwd)
     ##
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -203,7 +192,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
   #
   if (ci) {
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -213,7 +202,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -223,7 +212,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -233,7 +222,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
           lty = 1, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -285,16 +274,16 @@ survival <- function(cutoff, Sens, Spec, studlab,
     xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
-  xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-  if (log.cutoff)
-    xvals.inv <- log(xvals.inv)
+  xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
+  #
+  if (direction == "decreasing")
+    xlim <- c(xlim[2], xlim[1])
   #
   plot(c(cutoff, cutoff), 1 - c(Spec, 1 - Sens),
        type = "n", las = 1, log = log.axis,
        xlab = xlab, ylab = "Prob(positive test)",
        main = mains[match("survival", which)],
-       xlim = if (direction == "increasing") xlim else rev(xlim),
-       ylim = c(0, 1), ...)
+       xlim = xlim, ylim = c(0, 1), ...)
   #
   # Add lines
   #
@@ -321,7 +310,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
   #
   if (rlines) {
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -331,7 +320,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col, lwd = lwd)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -343,7 +332,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
   #
   if (ci) {
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -353,7 +342,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -363,7 +352,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -373,7 +362,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
           lty = 1, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -427,9 +416,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
     xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
-  xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-  if (log.cutoff)
-    xvals.inv <- log(xvals.inv)
+  xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
   #
   plot(cutoff, youden,
        type = "n",
@@ -455,7 +442,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
   #
   if (ci) {
     lines(xvals,
-          ciYouden(xvals.inv,
+          ciYouden(xvals.tr,
                    distr, lambda,
                    alpha0, var.alpha0, beta0, var.beta0,
                    cov.alpha0.alpha1, cov.alpha0.beta0, cov.alpha0.beta1,
@@ -466,7 +453,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
           lty = 1, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          ciYouden(xvals.inv,
+          ciYouden(xvals.tr,
                    distr, lambda,
                    alpha0, var.alpha0, beta0, var.beta0,
                    cov.alpha0.alpha1, cov.alpha0.beta0, cov.alpha0.beta1,
@@ -479,7 +466,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
   #
   if (rlines)
     lines(xvals,
-          calcYouden(xvals.inv, distr, lambda, alpha0, beta0, alpha1, beta1),
+          calcYouden(xvals.tr, distr, lambda, alpha0, beta0, alpha1, beta1),
           col = col, lwd = lwd)
   #
   # Draw line for optimal cutoff
@@ -763,21 +750,19 @@ density <- function(cutoff, Sens, Spec, studlab,
     xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
-  xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-  if (log.cutoff)
-    xvals.inv <- log(xvals.inv)
+  xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
   #
-  ymax <- max(c(beta0 * ddiag(alpha0 + beta0 * xvals.inv, distr),
-                beta1 * ddiag(alpha1 + beta1 * xvals.inv, distr)))
+  ymax <- max(c(beta0 * ddiag(alpha0 + beta0 * xvals.tr, distr),
+                beta1 * ddiag(alpha1 + beta1 * xvals.tr, distr)))
   #
-  plot(xvals, beta0 * ddiag(alpha0 + beta0 * xvals.inv, distr),
+  plot(xvals, beta0 * ddiag(alpha0 + beta0 * xvals.tr, distr),
        xlim = xlim, ylim = c(0, ymax),
        las = 1, type = "l",
        xlab = xlab, ylab = "",
        main = mains[match("density", which)],
        lty = 2, col = col, lwd = lwd)
   #
-  lines(xvals, beta1 * ddiag(alpha1 + beta1 * xvals.inv, distr),
+  lines(xvals, beta1 * ddiag(alpha1 + beta1 * xvals.tr, distr),
         lty = 1, col = col, lwd = lwd)
   #
   # draw optimal cut-off
@@ -822,9 +807,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
     xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
-  xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-  if (log.cutoff)
-    xvals.inv <- log(xvals.inv)
+  xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
   #
   plot(c(cutoff, cutoff), c(Spec, Sens),
        type = "n",
@@ -855,7 +838,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
   #
   if (rlines) {
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -865,7 +848,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col, lwd = lwd)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -877,7 +860,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
   #
   if (ci) {
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -887,7 +870,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSpec(ciRegr(xvals.inv,
+          calcSpec(ciRegr(xvals.tr,
                           alpha0, var.alpha0,
                           beta0, var.beta0,
                           cov.alpha0.beta0,
@@ -897,7 +880,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
           lty = 2, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,
@@ -907,7 +890,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
           lty = 1, col = col.ci, lwd = lwd.ci)
     #
     lines(xvals,
-          calcSens(ciRegr(xvals.inv,
+          calcSens(ciRegr(xvals.tr,
                           alpha1, var.alpha1,
                           beta1, var.beta1,
                           cov.alpha1.beta1,

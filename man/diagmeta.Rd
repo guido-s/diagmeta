@@ -181,7 +181,10 @@ Users have the choice between the normal (argument
 \code{distr="normal"}) and the logistic distribution (argument
 \code{distr="logistic"} which is the default). In addition, it is
 possible to log-transform the cutoffs (argument \code{log.cutoff},
-default is \code{FALSE}).
+default is \code{FALSE}). For log-transformed cutoffs and argument
+\code{direction = "decreasing"}, the following
+transformation is used internally to reverse the values for the biomarker:
+\code{min(log(cutoff)) + max(log(cutoff)) - log(cutoff)}.
 
 The cdf, transformed using the quantile function of the chosen
 distribution, is modelled by one of eight mixed linear models

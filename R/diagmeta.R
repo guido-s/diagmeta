@@ -85,7 +85,10 @@
 #' \code{distr="normal"}) and the logistic distribution (argument
 #' \code{distr="logistic"} which is the default). In addition, it is
 #' possible to log-transform the cutoffs (argument \code{log.cutoff},
-#' default is \code{FALSE}).
+#' default is \code{FALSE}). For log-transformed cutoffs and argument
+#' \code{direction = "decreasing"}, the following
+#' transformation is used internally to reverse the values for the biomarker:
+#' \code{min(log(cutoff)) + max(log(cutoff)) - log(cutoff)}.
 #' 
 #' The cdf, transformed using the quantile function of the chosen
 #' distribution, is modelled by one of eight mixed linear models
@@ -413,7 +416,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   min.cutoff <- min(cutoff, na.rm = TRUE)
   max.cutoff <- max(cutoff, na.rm = TRUE)
   #
-  cutoff <- invert(cutoff, direction, min.cutoff, max.cutoff)
+  cutoff.tr <- transf(cutoff, direction, log.cutoff, min.cutoff, max.cutoff)
   
   # Data frame consisting of rows with data for each cutoff of each
   # study, first for all non-diseased individuals and then everything
@@ -421,12 +424,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   # named twice)
   #
   Group <- c(rep(0, length(studlab)), rep(1, length(studlab)))
-  ##
-  if (log.cutoff)
-    Cutoff <- log(c(cutoff, cutoff))
-  else
-    Cutoff <- c(cutoff, cutoff)
-  ##
+  #
+  Cutoff <- c(cutoff.tr, cutoff.tr)
+  #
   Study <- c(studlab, studlab)
   ##
   if (equalvar) {
@@ -680,14 +680,8 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
         2 * dalpha1 * dbeta0 * cov.alpha1.beta0
     }
   }
-  ##
+  #
   ci.optcut <- ci(optcut, sqrt(var.optcut), level = level)
-  ##
-  if (log.cutoff) {
-    ci.optcut$TE    <- exp(ci.optcut$TE)
-    ci.optcut$lower <- exp(ci.optcut$lower)
-    ci.optcut$upper <- exp(ci.optcut$upper)
-  }
   
   
   ##
@@ -762,14 +756,15 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
     c("alpha0", "alpha1", "beta0", "beta1")
   
   
-  ##
-  ##
-  ## (10) List with results
-  ##
-  ##
+  #
+  #
+  # (10) List with results
+  #
+  #
+    
   res <- list(studlab = studlab,
               TP = TP, FP = FP, TN = TN, FN = FN,
-              cutoff = invert(cutoff, direction, min.cutoff, max.cutoff),
+              cutoff = cutoff,
               #
               min.cutoff = min.cutoff,
               max.cutoff = max.cutoff,
@@ -787,11 +782,14 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               k = k,
               #
               optcut =
-                invert(ci.optcut$TE, direction, min.cutoff, max.cutoff),
+                backtransf(ci.optcut$TE, direction, log.cutoff,
+                  min.cutoff, max.cutoff),
               lower.optcut =
-                invert(ci.optcut$lower, direction, min.cutoff, max.cutoff),
+                backtransf(ci.optcut$lower, direction, log.cutoff,
+                           min.cutoff, max.cutoff),
               upper.optcut =
-                invert(ci.optcut$upper, direction, min.cutoff, max.cutoff),
+                backtransf(ci.optcut$upper, direction, log.cutoff,
+                           min.cutoff, max.cutoff),
               #
               Sens.optcut = Se,
               lower.Sens.optcut = lower.Se,
