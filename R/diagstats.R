@@ -235,7 +235,7 @@ diagstats <- function(x,
                     dens.nondiseased = dens.nondiseased,
                     dens.diseased = dens.diseased)
   #
-  res <- res[order(res$cutoff), ]
+  #res <- res[order(res$cutoff), ]
   #
   class(res) <- c("diagstats", "data.frame")
   #
