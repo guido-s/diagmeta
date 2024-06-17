@@ -1,6 +1,6 @@
-##
-## Linear regression lines in logit / probit space
-##
+#
+# Linear regression lines in logit / probit space
+#
 regression <- function(cutoff, Sens, Spec, studlab,
                        direction, distr, log.cutoff,
                        xlab, ylab, xlim, log.axis,
@@ -28,12 +28,24 @@ regression <- function(cutoff, Sens, Spec, studlab,
                        ...) {
   #
   if (is.null(xlim))
-    xlim <- sort(c(min.cutoff, max.cutoff))
+    xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
-  xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
-  if (log.cutoff)
-    xvals.inv <- log(xvals.inv)
+  #
+  if (direction == "decreasing" && log.cutoff) {
+    xvals.inv <- log(xvals)
+    xvals <- rev(xvals)
+    xlab <- paste(xlab, "(inverted scale)")
+  }
+  else {
+    xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
+    #
+    if (log.cutoff)
+      xvals.inv <- log(xvals.inv)
+    #
+    if (direction == "decreasing")
+      xlim <- c(xlim[2], xlim[1])
+  }
   #
   plot(c(cutoff, cutoff), qdiag(c(Spec, 1 - Sens), distr),
        type = "n", las = 1, log = log.axis,
@@ -62,10 +74,8 @@ regression <- function(cutoff, Sens, Spec, studlab,
   # Add linear regression lines
   #
   if (rlines) {
-    lines(xvals, alpha0 + beta0 * xvals.inv,
-          lty = 2, col = col, lwd = lwd)
-    lines(xvals, alpha1 + beta1 * xvals.inv,
-          lty = 1, col = col, lwd = lwd)
+    lines(xvals, alpha0 + beta0 * xvals.inv, lty = 2, col = col, lwd = lwd)
+    lines(xvals, alpha1 + beta1 * xvals.inv, lty = 1, col = col, lwd = lwd)
   }
   #
   if (ci) {
@@ -134,7 +144,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
                 ...) {
   #
   if (is.null(xlim))
-    xlim <- sort(c(min.cutoff, max.cutoff))
+    xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
   xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
@@ -272,7 +282,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
                      ...) {
   #
   if (is.null(xlim))
-    xlim <- sort(c(min.cutoff, max.cutoff))
+    xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
   xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
@@ -414,7 +424,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
                    ...) {
   #
   if (is.null(xlim))
-    xlim <- sort(c(min.cutoff, max.cutoff))
+    xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
   xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
@@ -750,7 +760,7 @@ density <- function(cutoff, Sens, Spec, studlab,
                     ...) {
   #
   if (is.null(xlim))
-    xlim <- sort(c(min.cutoff, max.cutoff))
+    xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
   xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
@@ -809,7 +819,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
                      ...) {
   #
   if (is.null(xlim))
-    xlim <- sort(c(min.cutoff, max.cutoff))
+    xlim <- c(min.cutoff, max.cutoff)
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
   xvals.inv <- invert(xvals, direction, min.cutoff, max.cutoff)
