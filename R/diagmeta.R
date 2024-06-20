@@ -682,7 +682,27 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   }
   #
   ci.optcut <- ci(optcut, sqrt(var.optcut), level = level)
-  
+  #
+  ci.optcut$TE <-
+    backtransf(ci.optcut$TE, direction, log.cutoff,
+               min.cutoff, max.cutoff)
+  #
+  lower.tmp <- ci.optcut$lower
+  ci.optcut$lower <-
+    backtransf(
+      if (direction == "increasing")
+        ci.optcut$lower
+      else
+        ci.optcut$upper,
+      direction, log.cutoff, min.cutoff, max.cutoff)
+  #
+  ci.optcut$upper <-
+    backtransf(
+      if (direction == "increasing")
+        ci.optcut$upper
+      else
+        lower.tmp,
+      direction, log.cutoff, min.cutoff, max.cutoff)
   
   ##
   ##
@@ -761,7 +781,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   # (10) List with results
   #
   #
-    
+  
   res <- list(studlab = studlab,
               TP = TP, FP = FP, TN = TN, FN = FN,
               cutoff = cutoff,
@@ -781,15 +801,9 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
               ##
               k = k,
               #
-              optcut =
-                backtransf(ci.optcut$TE, direction, log.cutoff,
-                  min.cutoff, max.cutoff),
-              lower.optcut =
-                backtransf(ci.optcut$lower, direction, log.cutoff,
-                           min.cutoff, max.cutoff),
-              upper.optcut =
-                backtransf(ci.optcut$upper, direction, log.cutoff,
-                           min.cutoff, max.cutoff),
+              optcut = ci.optcut$TE,
+              lower.optcut = ci.optcut$lower,
+              upper.optcut = ci.optcut$upper,
               #
               Sens.optcut = Se,
               lower.Sens.optcut = lower.Se,
