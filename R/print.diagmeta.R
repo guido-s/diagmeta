@@ -82,10 +82,10 @@ print.diagmeta <- function(x,
     cat(paste0("The optimal cutoff value: ", formatN(x$optcut, digits)))
     if (!is.na(x$lower.optcut))
       cat(paste0(" ",
-                 formatCI(formatN(x$lower.optcut), digits),
-                 formatN(x$upper.optcut, digits)))
+                 formatCI(formatN(x$lower.optcut, digits),
+                          formatN(x$upper.optcut, digits))))
     cat("\n\n")
-    ##
+    #
     cat("Sensitivity and specificity at optimal cutoff:\n")
     ##
     cat(paste0(" Sens: ",
