@@ -1,4 +1,4 @@
-## diagmeta, version 0.6.0 (2023-mm-dd)
+## diagmeta, version 0.6.0 (2024-mm-dd)
 
 ### Major changes
 
@@ -18,6 +18,8 @@
   - default set of graphs (argument 'which') changed from
     c("survival", "youden", "roc", "sroc") to
     c("regression", "cdf", "sensspec","youden", "roc", "sroc")
+  - new argument 'ylim' to specify the y-limits of all plot (selected plots
+    must have a similar y-axis)
 
 ### Internal changes
 

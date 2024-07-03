@@ -70,6 +70,8 @@
 #'   should be drawn around the optimal cutoff
 #' @param xlim A character or numerical vector indicating the minimum
 #'   and maximum value for the horizontal axes
+#' @param ylim A numerical vector indicating the minimum and maximum value for
+#'   the vertical axes
 #' @param \dots Additional graphical arguments
 #' 
 #' @details
@@ -208,7 +210,7 @@ plot.diagmeta <- function(x,
                           shading = "none",
                           col.hatching = col.ci, lwd.hatching = lwd.ci,
                           ellipse = FALSE,
-                          xlim = NULL,
+                          xlim = NULL, ylim = NULL,
                           ...) {
   
   
@@ -390,6 +392,7 @@ plot.diagmeta <- function(x,
                  studlab = studlab,
                  direction = direction, distr = distr, log.cutoff = log.cutoff,
                  xlab = xlab, ylab = ylab, xlim = xlim, log.axis = log.axis,
+                 ylim = ylim,
                  mains = mains, which = which,
                  lines = lines, lwd.study = lwd.study, rlines = rlines,
                  alpha0 = alpha0, var.alpha0 = var.alpha0,

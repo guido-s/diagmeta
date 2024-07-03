@@ -3,7 +3,7 @@
 #
 regression <- function(cutoff, Sens, Spec, studlab,
                        direction, distr, log.cutoff,
-                       xlab, ylab, xlim, log.axis,
+                       xlab, ylab, xlim, log.axis, ylim,
                        mains, which,
                        lines, lwd.study, rlines,
                        alpha0, var.alpha0, beta0, var.beta0,
@@ -32,9 +32,6 @@ regression <- function(cutoff, Sens, Spec, studlab,
   #
   xvals <- seq(xlim[1], xlim[2], length.out = 500)
   xvals.tr <- transf(xvals, direction, log.cutoff, min.cutoff, max.cutoff)
-  #
-  #if (direction == "decreasing")
-  #  xlim <- c(xlim[2], xlim[1])
   #
   plot(c(cutoff, cutoff), qdiag(c(Spec, 1 - Sens), distr),
        type = "n", las = 1, log = log.axis,
@@ -108,7 +105,7 @@ regression <- function(cutoff, Sens, Spec, studlab,
 ##
 cdf <- function(cutoff, Sens, Spec, studlab,
                 direction, distr, log.cutoff,
-                xlab, ylab, xlim, log.axis,
+                xlab, ylab, xlim, log.axis, ylim,
                 mains, which,
                 lines, lwd.study, rlines,
                 alpha0, var.alpha0, beta0, var.beta0,
@@ -145,7 +142,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
        type = "n", las = 1, log = log.axis,
        xlab = xlab, ylab = "Prob(negative test)",
        main = mains[match("cdf", which)],
-       xlim = xlim, ylim = c(0, 1), ...)
+       xlim = xlim, ylim = if (is.null(ylim)) c(0, 1) else ylim, ...)
   #
   # Add lines
   #
@@ -162,7 +159,6 @@ cdf <- function(cutoff, Sens, Spec, studlab,
   #
   if (points) {
     points(cutoff, 1 - Sens, pch = pch.points, cex = cex, col = col.points)
-    #
     points(cutoff, Spec, pch = 1, cex = cex, col = col.points)
   }
   #
@@ -246,7 +242,7 @@ cdf <- function(cutoff, Sens, Spec, studlab,
 ##
 survival <- function(cutoff, Sens, Spec, studlab,
                      direction, distr, log.cutoff,
-                     xlab, ylab, xlim, log.axis,
+                     xlab, ylab, xlim, log.axis, ylim,
                      mains, which,
                      lines, lwd.study, rlines,
                      alpha0, var.alpha0, beta0, var.beta0,
@@ -283,7 +279,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
        type = "n", las = 1, log = log.axis,
        xlab = xlab, ylab = "Prob(positive test)",
        main = mains[match("survival", which)],
-       xlim = xlim, ylim = c(0, 1), ...)
+       xlim = xlim, ylim = if (is.null(ylim)) c(0, 1) else ylim, ...)
   #
   # Add lines
   #
@@ -388,7 +384,7 @@ survival <- function(cutoff, Sens, Spec, studlab,
 ##
 youden <- function(cutoff, Sens, Spec, studlab,
                    direction, distr, log.cutoff,
-                   xlab, ylab, xlim, log.axis,
+                   xlab, ylab, xlim, log.axis, ylim,
                    mains, which,
                    lines, lwd.study, rlines,
                    alpha0, var.alpha0, beta0, var.beta0,
@@ -423,7 +419,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
        las = 1, log = log.axis,
        ylab = "(Weighted) Youden index", xlab = xlab,
        main = mains[match("youden", which)],
-       xlim = xlim, ylim = c(0, 1), ...)
+       xlim = xlim, ylim = if (is.null(ylim)) c(0, 1) else ylim, ...)
   #
   # Add lines
   #
@@ -483,7 +479,7 @@ youden <- function(cutoff, Sens, Spec, studlab,
 ##
 roc <- function(cutoff, Sens, Spec, studlab,
                 direction, distr, log.cutoff,
-                xlab, ylab, xlim, log.axis,
+                xlab, ylab, xlim, log.axis, ylim,
                 mains, which,
                 lines, lwd.study, rlines,
                 alpha0, var.alpha0, beta0, var.beta0,
@@ -520,7 +516,7 @@ roc <- function(cutoff, Sens, Spec, studlab,
        type = "n", las = 1,
        xlab = "1 - Specificity", ylab = "Sensitivity",
        main = mains[match("roc", which)],
-       xlim = c(0, 1), ylim = c(0, 1), ...)
+       xlim = c(0, 1), ylim = if (is.null(ylim)) c(0, 1) else ylim, ...)
   ##
   ## Add lines
   ##
@@ -532,8 +528,7 @@ roc <- function(cutoff, Sens, Spec, studlab,
   ## Add data
   ##
   if (points)
-    points(1 - Spec, Sens,
-           pch = pch.points, col = col.points, cex = cex)
+    points(1 - Spec, Sens, pch = pch.points, col = col.points, cex = cex)
   ##
   invisible(NULL)
 }
@@ -544,7 +539,7 @@ roc <- function(cutoff, Sens, Spec, studlab,
 ##
 sroc <- function(cutoff, Sens, Spec, studlab,
                  direction, distr, log.cutoff,
-                 xlab, ylab, xlim, log.axis,
+                 xlab, ylab, xlim, log.axis, ylim,
                  mains, which,
                  lines, lwd.study, rlines,
                  alpha0, var.alpha0, beta0, var.beta0,
@@ -567,26 +562,24 @@ sroc <- function(cutoff, Sens, Spec, studlab,
                  youden,
                  x,
                  ...) {
-  ##
+  #
   plot(1 - Spec, Sens,
        type = "n", las = 1,
        xlab = "1 - Specificity", ylab = "Sensitivity",
        main = mains[match("sroc", which)],
-       xlim = c(0, 1), ylim = c(0, 1), ...)
-  ##
-  if (log.cutoff)
-    cuts <- log(unique(cutoff))
-  else
-    cuts <- unique(cutoff)
-  ##
+       xlim = c(0, 1), ylim = if (is.null(ylim)) c(0, 1) else ylim, ...)
+  #
+  cuts <- unique(cutoff)
   cuts <- cuts[order(cuts)]
-  ##
-  tcuts0 <- ciRegr(cuts,
+  #
+  cuts.tr <- transf(cuts, direction, log.cutoff, min.cutoff, max.cutoff)
+  #
+  tcuts0 <- ciRegr(cuts.tr,
                    alpha0, var.alpha0, beta0, var.beta0,
                    cov.alpha0.beta0, var.nondiseased,
                    level)
   ##
-  tcuts1 <- ciRegr(cuts,
+  tcuts1 <- ciRegr(cuts.tr,
                    alpha1, var.alpha1, beta1, var.beta1,
                    cov.alpha1.beta1, var.diseased,
                    level)
@@ -610,12 +603,9 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   ##
   x.upper.Se <- 1 - Spec.cuts
   x.upper.Sp <- 1 - upperSpec.cuts
-  ##
-  if (log.cutoff)
-    ocut <- log(optcut)
-  else
-    ocut <- optcut
-  ##
+  #
+  ocut <- transf(optcut, direction, log.cutoff, min.cutoff, max.cutoff)
+  #
   ce <- ciEllipse(ocut, 
                   alpha0, var.alpha0, beta0, var.beta0,
                   alpha1, var.alpha1, beta1, var.beta1,
@@ -627,15 +617,15 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   ##
   if (ciSens) {
     if(shading == "shade")
-      polygon(c(x.upper.Se,x.lower.Se[order(x.lower.Se)]),
-              c(y.upper.Se,y.lower.Se[order(x.lower.Se)]),
+      polygon(c(x.upper.Se, x.lower.Se[order(x.lower.Se)]),
+              c(y.upper.Se, y.lower.Se[order(x.lower.Se)]),
               col = rgb(0.5, 0.5, 0.5, alpha = 0.2), border = NA)
     else if (shading == "hatch")
       polygon(c(x.upper.Se, x.lower.Se[order(x.lower.Se)]),
               c(y.upper.Se, y.lower.Se[order(x.lower.Se)]),
               density = 20, angle = 90,
               col = col.hatching, border = col.hatching, lwd = lwd.hatching)
-    ##
+    #
     lines(x.upper.Se, y.upper.Se, col = col.ci, lwd = lwd.ci)
     lines(x.lower.Se, y.lower.Se, col = col.ci, lwd = lwd.ci)
   }
@@ -662,16 +652,10 @@ sroc <- function(cutoff, Sens, Spec, studlab,
               distr, FALSE),
         lwd = lwd, col = col, add = TRUE)
   ##
-  if (mark.optcut) {
-    if (log.cutoff)
-      ocut <- log(optcut)
-    else
-      ocut <- optcut
-    ##
+  if (mark.optcut)
     points(pdiag(alpha0 + beta0 * ocut, distr, FALSE),
            pdiag(alpha1 + beta1 * ocut, distr, FALSE),
            lwd = lwd.optcut, cex = 2, pch = 3, col = col.optcut)
-  }
   ##
   ## Add data
   ##
@@ -681,19 +665,14 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   ## Add text
   ##
   if (mark.cutpoints) {
-    if (log.cutoff)
-      cuts <- log(unique(cutoff))
-    else
-      cuts <- unique(cutoff)
+    text.cuts <- as.character(round(cuts, 2))
     ##
-    text.cuts <- as.character(round(unique(cutoff), 2))
-    ##
-    points(pdiag(alpha0 + beta0 * cuts, distr, FALSE),
-           pdiag(alpha1 + beta1 * cuts, distr, FALSE),
+    points(pdiag(alpha0 + beta0 * cuts.tr, distr, FALSE),
+           pdiag(alpha1 + beta1 * cuts.tr, distr, FALSE),
            pch = 3, cex = cex)
     ##
-    text(1.02 - pdiag(alpha0 + beta0 * cuts, distr),
-         0.98 - pdiag(alpha1 + beta1 * cuts, distr),
+    text(1.02 - pdiag(alpha0 + beta0 * cuts.tr, distr),
+         0.98 - pdiag(alpha1 + beta1 * cuts.tr, distr),
          text.cuts, cex = cex.marks)
   }
   ##
@@ -704,7 +683,7 @@ sroc <- function(cutoff, Sens, Spec, studlab,
     xx <- yy <- rep(0, n) 
     q <- sqrt(qchisq(0.05, 2, lower.tail = FALSE))
     ##
-    for (t in 1:n) {
+    for (t in seq_len(n)) {
       xx[t] <- pdiag(-ce$logit.spec +
                      q * ce$se.y0 * cos(t / 100 + acos(ce$r)), distr)
       yy[t] <- pdiag(ce$logit.sens +
@@ -722,7 +701,7 @@ sroc <- function(cutoff, Sens, Spec, studlab,
 ##
 density <- function(cutoff, Sens, Spec, studlab,
                     direction, distr, log.cutoff,
-                    xlab, ylab, xlim, log.axis,
+                    xlab, ylab, xlim, log.axis, ylim,
                     mains, which,
                     lines, lwd.study, rlines,
                     alpha0, var.alpha0, beta0, var.beta0,
@@ -756,7 +735,7 @@ density <- function(cutoff, Sens, Spec, studlab,
                 beta1 * ddiag(alpha1 + beta1 * xvals.tr, distr)))
   #
   plot(xvals, beta0 * ddiag(alpha0 + beta0 * xvals.tr, distr),
-       xlim = xlim, ylim = c(0, ymax),
+       xlim = xlim, ylim = if (is.null(ylim)) c(0, ymax) else ylim,
        las = 1, type = "l",
        xlab = xlab, ylab = "",
        main = mains[match("density", which)],
@@ -779,7 +758,7 @@ density <- function(cutoff, Sens, Spec, studlab,
 ##
 sensspec <- function(cutoff, Sens, Spec, studlab,
                      direction, distr, log.cutoff,
-                     xlab, ylab, xlim, log.axis,
+                     xlab, ylab, xlim, log.axis, ylim,
                      mains, which,
                      lines, lwd.study, rlines,
                      alpha0, var.alpha0, beta0, var.beta0,
@@ -814,7 +793,7 @@ sensspec <- function(cutoff, Sens, Spec, studlab,
        las = 1, log = log.axis,
        ylab = "Sensitivity / Specificity", xlab = xlab,
        main = mains[match("sensspec", which)],
-       xlim = xlim, ylim = c(0, 1), ...)
+       xlim = xlim, ylim = if (is.null(ylim)) c(0, 1) else ylim, ...)
   #
   # Add lines
   #   

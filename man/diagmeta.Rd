@@ -46,8 +46,8 @@ positives, false positives, true negatives and false negatives}
 biomarker in both groups are thought equal (see Details)}
 
 \item{lambda}{A numeric between 0 and 1 indicating the weight of
-the sensitivity (such that specificity receives weight 1 -
-lambda)}
+the population with higher values of the underlying biomarker (such that
+the group with lower values receives weight 1 - lambda).}
 
 \item{direction}{A character string specifying whether the probability of
 the target condition (e.g., a disease) is \code{"increasing"} or

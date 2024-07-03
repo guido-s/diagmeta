@@ -106,7 +106,8 @@ diagstats <- function(x,
   #
   min.cutoff <- replaceNULL(x$min.cutoff, min(x$data.lmer$Cutoff, na.rm = TRUE))
   max.cutoff <- replaceNULL(x$max.cutoff, max(x$data.lmer$Cutoff, na.rm = TRUE))
-  
+  #
+  log.cutoff <- x$log.cutoff
   
   regr <- x$regr
   ##
@@ -121,12 +122,12 @@ diagstats <- function(x,
   if (sens.given & spec.given) {
     cutoff1 <- (qdiag(1 - sens, distr) - alpha1) / beta1
     cutoff2 <- (qdiag(spec, distr) - alpha0) / beta0
-    ##
-    if (x$log.cutoff) {
-      cutoff1 <- exp(cutoff1)
-      cutoff2 <- exp(cutoff2)
-    }
-    ##
+    #
+    cutoff1 <-
+      backtransf(cutoff1, direction, log.cutoff, min.cutoff, max.cutoff)
+    cutoff2 <-
+      backtransf(cutoff2, direction, log.cutoff, min.cutoff, max.cutoff)
+    #
     if (cutoff.given)
       cutoff <- c(cutoff, cutoff1, cutoff2)
     else
@@ -134,10 +135,10 @@ diagstats <- function(x,
   }
   else if (sens.given) {
     cutoff1 <- (qdiag(1 - sens, distr) - alpha1) / beta1
-    ##
-    if (x$log.cutoff)
-      cutoff1 <- exp(cutoff1)
-    ##
+    #
+    cutoff1 <-
+      backtransf(cutoff1, direction, log.cutoff, min.cutoff, max.cutoff)
+    #
     if (cutoff.given)
       cutoff <- c(cutoff, cutoff1)
     else
@@ -145,18 +146,15 @@ diagstats <- function(x,
   }
   else if (spec.given) {
     cutoff2 <- (qdiag(spec, distr) - alpha0) / beta0
-    ##
-    if (x$log.cutoff)
-      cutoff2 <- exp(cutoff2)
-    ##
+    #
+    cutoff2 <-
+      backtransf(cutoff2, direction, log.cutoff, min.cutoff, max.cutoff)
+    #
     if (cutoff.given)
       cutoff <- c(cutoff, cutoff2)
     else
       cutoff <- cutoff2
   }
-  
-  if (x$log.cutoff)
-    cutoff <- log(cutoff)
   
   
   if (length(cutoff) != length(prevalence)) {
@@ -175,22 +173,23 @@ diagstats <- function(x,
     }
   }
   
+  cutoff.tr <- transf(cutoff, direction, x$log.cutoff, min.cutoff, max.cutoff)
   
-  Sens <- 1 - pdiag(beta1 * cutoff + alpha1, distr)
-  Spec <- pdiag(beta0 * cutoff + alpha0, distr)
+  Sens <- 1 - pdiag(beta1 * cutoff.tr + alpha1, distr)
+  Spec <- pdiag(beta0 * cutoff.tr + alpha0, distr)
   ##
   seSens <- sqrt(regr$var.alpha1 +
-                 cutoff^2 * regr$var.beta1 +
-                 2 * cutoff * regr$cov.alpha1.beta1 +
+                 cutoff.tr^2 * regr$var.beta1 +
+                 2 * cutoff.tr * regr$cov.alpha1.beta1 +
                  x$var.diseased)
   ##
   seSpec <- sqrt(regr$var.alpha0 +
-                 cutoff^2 * regr$var.beta0 +
-                 2 * cutoff * regr$cov.alpha0.beta0 +
+                 cutoff.tr^2 * regr$var.beta0 +
+                 2 * cutoff.tr * regr$cov.alpha0.beta0 +
                  x$var.nondiseased)
   ##
-  ci1 <- ci(beta1 * cutoff + alpha1, seSens, level = level)
-  ci0 <- ci(beta0 * cutoff + alpha0, seSpec, level = level)
+  ci1 <- ci(beta1 * cutoff.tr + alpha1, seSens, level = level)
+  ci0 <- ci(beta0 * cutoff.tr + alpha0, seSpec, level = level)
   ##
   lower.Sens <- 1 - pdiag(ci1$upper, distr)
   upper.Sens <- 1 - pdiag(ci1$lower, distr)
@@ -202,8 +201,8 @@ diagstats <- function(x,
   ## PPV, NPV and probability of disease (depending on cutoff, because
   ## Sens and Spec depend on cutoff)
   ##
-  dens.nondiseased <- beta0 * ddiag(beta0 * cutoff + alpha0, distr)
-  dens.diseased    <- beta1 * ddiag(beta1 * cutoff + alpha1, distr)
+  dens.nondiseased <- beta0 * ddiag(beta0 * cutoff.tr + alpha0, distr)
+  dens.diseased    <- beta1 * ddiag(beta1 * cutoff.tr + alpha1, distr)
   ##
   PPV <- Sens * prevalence /
     (prevalence * Sens + (1 - prevalence) * (1 - Spec))
@@ -213,10 +212,6 @@ diagstats <- function(x,
   ##
   PD <- prevalence * dens.diseased /
     (prevalence * dens.diseased + (1 - prevalence) * dens.nondiseased)
-  
-  
-  if (x$log.cutoff)
-    cutoff <- exp(cutoff)
   
   
   res <- data.frame(cutoff = cutoff,

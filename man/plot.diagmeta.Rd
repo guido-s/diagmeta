@@ -35,6 +35,7 @@ multiple cutoffs model}
   lwd.hatching = lwd.ci,
   ellipse = FALSE,
   xlim = NULL,
+  ylim = NULL,
   ...
 )
 }
@@ -132,6 +133,9 @@ should be drawn around the optimal cutoff}
 
 \item{xlim}{A character or numerical vector indicating the minimum
 and maximum value for the horizontal axes}
+
+\item{ylim}{A numerical vector indicating the minimum and maximum value for
+the vertical axes}
 
 \item{\dots}{Additional graphical arguments}
 }

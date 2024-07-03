@@ -27,8 +27,8 @@
 #' @param equalvar A logical indicating whether the variances of the
 #'   biomarker in both groups are thought equal (see Details)
 #' @param lambda A numeric between 0 and 1 indicating the weight of
-#'   the sensitivity (such that specificity receives weight 1 -
-#'   lambda)
+#'   the population with higher values of the underlying biomarker (such that
+#'   the group with lower values receives weight 1 - lambda).
 #' @param direction A character string specifying whether the probability of
 #'   the target condition (e.g., a disease) is \code{"increasing"} or
 #'   \code{"decreasing"} with higher values of the biomarker, can be
@@ -551,7 +551,8 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
     stop("Regression yields a positive correlation between ",
          "increasing cutoffs and sensitivity. This may happen, for example, ",
          "if disease is associated with smaller (not larger) values. ",
-         "In this case, all values have to be multiplied with -1. ",
+         "In this case, argument 'direction = \"decreasing\"' can be used to ",
+         "reverse the association. ",
          "Another possible explanation is large between-study heterogeneity, ",
          "or many studies with only one cutoff.")
   
