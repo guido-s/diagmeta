@@ -1,10 +1,11 @@
 # diagmeta: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
 Official Git repository of R package **diagmeta**
 
-[![Build Status](https://travis-ci.org/guido-s/diagmeta.svg?branch=master)](https://travis-ci.org/guido-s/diagmeta)
-[![CRAN Version](http://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta)
-[![Monthly Downloads](http://cranlogs.r-pkg.org/badges/diagmeta)](http://cranlogs.r-pkg.org/badges/diagmeta)
-[![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/diagmeta)](http://cranlogs.r-pkg.org/badges/grand-total/diagmeta)
+[![License: GPL (>=2)](https://img.shields.io/badge/license-GPL-blue)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![CRAN Version](https://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta)
+[![GitHub develop](https://img.shields.io/badge/develop-0.6--0-purple)](https://img.shields.io/badge/develop-0.6--0-purple)
+[![Monthly Downloads](https://cranlogs.r-pkg.org/badges/diagmeta)](https://cranlogs.r-pkg.org/badges/diagmeta)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/diagmeta)](https://cranlogs.r-pkg.org/badges/grand-total/diagmeta)
 
 
 ## Description
@@ -20,12 +21,12 @@ several cutpoints.
 
 ## Installation
 
-### Current official [![CRAN Version](http://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta) release:
+### Current official [![CRAN Version](https://www.r-pkg.org/badges/version/diagmeta)](https://cran.r-project.org/package=diagmeta) release:
 ```r
 install.packages("diagmeta")
 ```
 
-### Current beta / GitHub release:
+### Current [![GitHub develop](https://img.shields.io/badge/develop-0.6--0-purple)](https://img.shields.io/badge/develop-0.6--0-purple) release on GitHub:
 
 Installation using R package
 [**remotes**](https://cran.r-project.org/package=remotes):

@@ -55,9 +55,7 @@
 #' \bold{16}, 97
 #'
 #' @keywords package
-#'
 
 "_PACKAGE"
-
 
 NULL
