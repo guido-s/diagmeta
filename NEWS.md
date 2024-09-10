@@ -7,6 +7,12 @@
 
 * Order of panels in plot.diagmeta() can be specified by the user
 
+### Bug fixes
+
+* plot.diagmeta():
+  - use chull() to determine the correct order of x- and y-values to print
+    confidence regions for sensitivity and specificity in the SROC curve
+
 ### User-visible changes
 
 * diagmeta(), ipd2diag();
