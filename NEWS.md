@@ -14,6 +14,13 @@
     condition (e.g., a disease) is increasing or decreasing with higher values
     of the biomarker
 
+* ipd2diag();
+  - new argument 'data' to provide data set with information on arguments
+    'studlab', 'value', and 'status'
+
+* diagmeta():
+  - input to first argument 'TP' can be an object created with ipd2diag()
+
 * plot.diagmeta():
   - default set of graphs (argument 'which') changed from
     c("survival", "youden", "roc", "sroc") to
@@ -24,6 +31,9 @@
 ### Internal changes
 
 * New internal function plot.diagmeta-internal()
+
+* ipd2diag();
+  - additional class 'ipd2diag' and attribute 'direction'
 
 
 ## diagmeta, version 0.5-1 (2022-12-21)

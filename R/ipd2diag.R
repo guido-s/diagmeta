@@ -56,16 +56,14 @@
 #' 
 #' # Run diagmeta()
 #' #
-#' diag1 <- diagmeta(TP, FP, TN, FN, cutoff, studlab,
-#'                   data = diagdata, 
-#'                   distr = "normal")
+#' diag1 <- diagmeta(diagdata, distr = "normal")
 #' summary(diag1)
 #' plot(diag1)
 #' par(mfrow = c(1, 2))
 #' plot(diag1, which = "ROC", lines = TRUE)
 #' plot(diag1, which = "SROC", ciSens = TRUE,
-#'      ciSpec = TRUE, lines = TRUE, shading = "hatch")
-#' 
+#'   ciSpec = TRUE, lines = TRUE, shading = "hatch")
+#'
 #' @export
 
 
