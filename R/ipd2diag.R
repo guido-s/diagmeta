@@ -9,10 +9,19 @@
 #'   discrete or continuous variable
 #' @param status A vector with information of the individual's status
 #'   (0 = non-diseased, 1 = diseased)
+#' @param data An optional data frame containing the study information
+#' @param direction A character string specifying whether the probability of
+#'   the target condition (e.g., a disease) is \code{"increasing"} or
+#'   \code{"decreasing"} with higher values of the biomarker, can be
+#'   abbreviated (see \code{\link{diagmeta}}).
 #' 
 #' @return
-#' A data frame with values that can be entered into
-#' \code{\link{diagmeta}}.
+#' A data frame with additional class 'ipd2diag' containing the following
+#' variables:
+#' \item{studlab}{As defined above.}
+#' \item{cutoff}{Cutoff values.}
+#' \item{TP, FP, TN, FN}{Number of true positives, false positives,
+#'   true negatives and false negatives.}
 #' 
 #' @author
 #' Gerta Rücker \email{gerta.ruecker@@uniklinik-freiburg.de},
@@ -60,10 +69,58 @@
 #' @export
 
 
-ipd2diag <- function(studlab, value, status) {
+ipd2diag <- function(studlab, value, status, data = NULL,
+                     direction = "increasing") {
   
+  #
+  #
+  # (1) Read data
+  #
+  #
+  
+  nulldata <- is.null(data)
+  sfsp <- sys.frame(sys.parent())
+  mc <- match.call()
+  #
+  if (nulldata)
+    data <- sfsp
+  #
+  # Catch 'studlab', 'value', and 'status'
+  #
+  studlab <- catch("studlab", mc, data, sfsp)
+  chknull(studlab)
+  k.All <- length(studlab)
+  #
+  value <- catch("value", mc, data, sfsp)
+  chknull(value)
+  chknumeric(value)
+  chklength(value, k.All, "value", name = "studlab")
+  #
+  status <- catch("status", mc, data, sfsp)
+  chknull(status)
+  chklength(status, k.All, "status", name = "studlab")
+  #
+  if (is.logical(status))
+    status <- as.numeric(status)
+  #
+  direction <- setchar(direction, c("increasing", "decreasing"))
+  
+  
+  #
+  #
+  # (2) Generate data set as input to diagmeta()
+  #
+  #
+  
+  if (direction == "decreasing")
+    value <- -value
+  #
   cutoffs <- unique(value)
-  cutoffs <- cutoffs[order(cutoffs)]
+  #
+  if (direction == "decreasing")
+    cutoffs <- cutoffs[rev(order(cutoffs))]
+  else
+    cutoffs <- cutoffs[order(cutoffs)]
   ##
   diagdata <- data.frame(studlab = NA, cutoff = NA,
                          TP = NA, FP = NA, FN = NA, TN = NA)[-1,]
@@ -74,11 +131,18 @@ ipd2diag <- function(studlab, value, status) {
       FP <- sum(studlab == s & status == 0 & value >= c)
       FN <- sum(studlab == s & status == 1 & value < c)
       TN <- sum(studlab == s & status == 0 & value < c)
+      #
       diagdata <- rbind(diagdata,
                         data.frame(studlab = s, cutoff = c,
                                    TP = TP, FP = FP, FN = FN, TN = TN))
     }
   }
-  ##
+  #
+  if (direction == "decreasing")
+    diagdata$cutoff <- -diagdata$cutoff
+  #
+  attr(diagdata, "direction") <- direction
+  class(diagdata) <- c("ipd2diag", class(diagdata))
+  #
   diagdata
 }

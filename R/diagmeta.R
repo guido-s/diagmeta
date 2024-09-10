@@ -17,15 +17,18 @@
 #' specificity and thus allows identifying cutoffs at which the test
 #' is likely to perform best (Steinhauser et al., 2016).
 #' 
-#' @param TP,FP,TN,FN Numeric vectors giving the number of true
-#'   positives, false positives, true negatives and false negatives
-#' @param cutoff A number vector indicating the cutoff values
-#' @param studlab A numeric or a character vector with study labels
-#' @param data An optional data frame containing the study information
-#' @param distr A character indicating the distribution (see Details)
-#' @param model A character indicating the model (see Details)
+#' @param TP Numeric vectors giving the number of true positives or and
+#'   object created with \code{\link{ipd2diag}}.
+#' @param FP Numeric vector giving the number of false positives.
+#' @param TN Numeric vector giving the number of true negatives.
+#' @param FN Numeric vector giving the number of false negatives.
+#' @param cutoff A number vector indicating the cutoff values.
+#' @param studlab A numeric or a character vector with study labels.
+#' @param data An optional data frame containing the study information.
+#' @param distr A character indicating the distribution (see Details).
+#' @param model A character indicating the model (see Details).
 #' @param equalvar A logical indicating whether the variances of the
-#'   biomarker in both groups are thought equal (see Details)
+#'   biomarker in both groups are thought equal (see Details).
 #' @param lambda A numeric between 0 and 1 indicating the weight of
 #'   the population with higher values of the underlying biomarker (such that
 #'   the group with lower values receives weight 1 - lambda).
@@ -34,22 +37,22 @@
 #'   \code{"decreasing"} with higher values of the biomarker, can be
 #'   abbreviated.
 #' @param log.cutoff A logical indicating whether the cutoffs should
-#'   be log-transformed
+#'   be log-transformed.
 #' @param method.weights A character indicating the method for
 #'   weighting the studies: \code{invvar} (default) means inverse
 #'   variance weighting, \code{size} means weighting by group sample
-#'   size, \code{equal} means that all studies are equally weighted
+#'   size, \code{equal} means that all studies are equally weighted.
 #' @param incr A numeric between 0 and 1 that is added as a continuity
-#'   correction
+#'   correction.
 #' @param level A numeric indicating the significance level (1 -
-#'   alpha) for tests (default is 0.95)
+#'   alpha) for tests (default is 0.95).
 #' @param n.iter.max A numeric indicating the maximal number of common
-#'   point iterations for finding the optimal cutoff
+#'   point iterations for finding the optimal cutoff.
 #' @param tol A numeric indicating the tolerance for convergence of
-#'   the common point iteration
+#'   the common point iteration.
 #' @param silent A logical indicating whether iterations should be
-#'   suppressed
-#' @param \dots additional arguments
+#'   suppressed.
+#' @param \dots Additional arguments.
 #' 
 #' @details
 #' Each row of the data set provides at least a study label, a cutoff
@@ -198,7 +201,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                      ##
                      distr = "logistic", model = "CICS", equalvar = FALSE,
                      lambda = 0.5,
-                     direction = "increasing",
+                     direction,
                      log.cutoff = FALSE,
                      method.weights = "invvar",
                      ##
@@ -213,6 +216,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (1) Check arguments
   ##
   ##
+  
   distr <- setchar(distr, c("logistic", "normal"))
   ##
   is.logistic <- distr == "logistic"
@@ -231,22 +235,25 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
                             c("equal", "size", "invvar"))
   ##
   chknumeric(lambda, min = 0, length = 1)
-  direction <- setchar(direction, c("increasing", "decreasing"))
+  #
+  missing.direction <- missing(direction)
+  if (!missing.direction)
+    direction <- setchar(direction, c("increasing", "decreasing"))
+  else
+    direction <- "increasing"
+  #
   chknumeric(n.iter.max, min = 0, length = 1)
   chknumeric(tol, min = 0, length = 1)
   ##
   chklogical(silent)
-  ##
-  ## Additional arguments / checks
-  ##
-  fun <- "diagmeta"
-  
+    
   
   ##
   ##
   ## (2) Read data
   ##
   ##
+  
   nulldata <- is.null(data)
   sfsp <- sys.frame(sys.parent())
   mc <- match.call()
@@ -258,27 +265,54 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##
   TP <- catch("TP", mc, data, sfsp)
   chknull(TP)
-  chknumeric(TP, min = 0)
+  #
+  if (inherits(TP, "ipd2diag")) {
+    if (!missing(FP))
+      warning("Argument 'FP' ignored as 'ipd2diag' object is provided.")
+    if (!missing(TN))
+      warning("Argument 'TN' ignored as 'ipd2diag' object is provided.")
+    if (!missing(FN))
+      warning("Argument 'FN' ignored as 'ipd2diag' object is provided.")
+    if (!missing(cutoff))
+      warning("Argument 'cutoff' ignored as 'ipd2diag' object is provided.")
+    if (!missing(studlab))
+      warning("Argument 'studlab' ignored as 'ipd2diag' object is provided.")
+    if (!missing.direction)
+      warning("Argument 'direction' ignored as 'ipd2diag' object is provided.")
+    #
+    FP <- TP$FP
+    TN <- TP$TN
+    FN <- TP$FN
+    cutoff <- TP$cutoff
+    studlab <- TP$studlab
+    direction <- attr(TP, "direction")
+    #
+    TP <- TP$TP
+  }
+  else {
+    chknumeric(TP, min = 0)
+    #
+    FP <- catch("FP", mc, data, sfsp)
+    chknull(FP)
+    chknumeric(FP, min = 0)
+    #
+    TN <- catch("TN", mc, data, sfsp)
+    chknull(TN)
+    chknumeric(TN, min = 0)
+    #
+    FN <- catch("FN", mc, data, sfsp)
+    chknull(FN)
+    chknumeric(FN, min = 0)
+    #
+    cutoff <- catch("cutoff", mc, data, sfsp)
+    chknull(cutoff)
+    chknumeric(cutoff)
+    #
+    studlab <- catch("studlab", mc, data, sfsp)
+    chknull(studlab)
+  }
+  #
   k.All <- length(TP)
-  ##
-  FP <- catch("FP", mc, data, sfsp)
-  chknull(FP)
-  chknumeric(FP, min = 0)
-  ##
-  TN <- catch("TN", mc, data, sfsp)
-  chknull(TN)
-  chknumeric(TN, min = 0)
-  ##
-  FN <- catch("FN", mc, data, sfsp)
-  chknull(FN)
-  chknumeric(FN, min = 0)
-  ##
-  cutoff <- catch("cutoff", mc, data, sfsp)
-  chknull(cutoff)
-  chknumeric(cutoff)
-  ##
-  studlab <- catch("studlab", mc, data, sfsp)
-  chknull(studlab)
   
   
   ##
@@ -286,12 +320,13 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (3) Check of essential variables
   ##
   ##
-  chklength(FP, k.All, fun, name = "TP")
-  chklength(TN, k.All, fun, name = "TP")
-  chklength(FN, k.All, fun, name = "TP")
-  chklength(cutoff, k.All, fun, name = "TP")
-  chklength(studlab, k.All, fun, name = "TP")
-  ##
+    
+  chklength(FP, k.All, "FP", name = "TP")
+  chklength(TN, k.All, "TN", name = "TP")
+  chklength(FN, k.All, "FN", name = "TP")
+  chklength(cutoff, k.All, "cutoff", name = "TP")
+  chklength(studlab, k.All, "studlab", name = "TP")
+  #
   if (length(unique(cutoff)) == 1)
     stop("Model cannot be use with a single cutoff. ",
          "Consider using, e.g., madad() from R package mada.")
@@ -357,6 +392,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (5) Assignments
   ##
   ##
+  
   k <- length(unique(studlab))
   ##
   N0 <- FP + TN   # number of non-diseased patients
@@ -563,6 +599,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ##     variances
   ##
   ##
+  
   mean0 <- - alpha0 / beta0  # Mean disease-free
   mean1 <- - alpha1 / beta1  # Mean diseased
   ##
@@ -588,6 +625,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (8) Distributions
   ##
   ##
+  
   if (is.logistic) {
     ## Cutoffs of two logistics, weighted with lambda and 1 - lambda
     wmean <- (1 - lambda) * mean0 + lambda * mean1
@@ -710,6 +748,7 @@ diagmeta <- function(TP, FP, TN, FN, cutoff, studlab, data = NULL,
   ## (9) Calculate sensitivity and specificity at optimal cutpoint
   ##
   ##
+  
   ci.regr1 <- ciRegr(optcut,
                      alpha1, var.alpha1, beta1, var.beta1, cov.alpha1.beta1,
                      var.diseased,

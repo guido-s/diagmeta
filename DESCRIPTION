@@ -1,7 +1,7 @@
 Package: diagmeta
 Title: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
 Version: 0.6-0
-Date: 2024-07-03
+Date: 2024-09-10
 Depends: meta (>= 5.0-0)
 Imports: lme4, grDevices
 Authors@R: c(person("Gerta", "Rücker",
@@ -19,4 +19,4 @@ URL: https://github.com/guido-s/diagmeta
 Description: Provides methods by Steinhauser et al. (2016) <DOI:10.1186/s12874-016-0196-1> for meta-analysis of diagnostic accuracy studies with several cutpoints.
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

@@ -4,7 +4,7 @@
 \alias{ipd2diag}
 \title{Individual participant data to enter them into diagmeta}
 \usage{
-ipd2diag(studlab, value, status)
+ipd2diag(studlab, value, status, data = NULL, direction = "increasing")
 }
 \arguments{
 \item{studlab}{A vector with study labels}
@@ -14,10 +14,21 @@ discrete or continuous variable}
 
 \item{status}{A vector with information of the individual's status
 (0 = non-diseased, 1 = diseased)}
+
+\item{data}{An optional data frame containing the study information}
+
+\item{direction}{A character string specifying whether the probability of
+the target condition (e.g., a disease) is \code{"increasing"} or
+\code{"decreasing"} with higher values of the biomarker, can be
+abbreviated (see \code{\link{diagmeta}}).}
 }
 \value{
-A data frame with values that can be entered into
-\code{\link{diagmeta}}.
+A data frame with additional class 'ipd2diag' containing the following
+variables:
+\item{studlab}{As defined above.}
+\item{cutoff}{Cutoff values.}
+\item{TP, FP, TN, FN}{Number of true positives, false positives,
+  true negatives and false negatives.}
 }
 \description{
 Function to transform individual patient data (IPD) to enter them

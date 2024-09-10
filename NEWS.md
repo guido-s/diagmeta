@@ -9,7 +9,7 @@
 
 ### User-visible changes
 
-* diagmeta();
+* diagmeta(), ipd2diag();
   - new argument 'direction' to specify whether the probability of the target
     condition (e.g., a disease) is increasing or decreasing with higher values
     of the biomarker

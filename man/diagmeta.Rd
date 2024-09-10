@@ -17,7 +17,7 @@ diagmeta(
   model = "CICS",
   equalvar = FALSE,
   lambda = 0.5,
-  direction = "increasing",
+  direction,
   log.cutoff = FALSE,
   method.weights = "invvar",
   level = 0.95,
@@ -29,21 +29,27 @@ diagmeta(
 )
 }
 \arguments{
-\item{TP, FP, TN, FN}{Numeric vectors giving the number of true
-positives, false positives, true negatives and false negatives}
+\item{TP}{Numeric vectors giving the number of true positives or and
+object created with \code{\link{ipd2diag}}.}
 
-\item{cutoff}{A number vector indicating the cutoff values}
+\item{FP}{Numeric vector giving the number of false positives.}
 
-\item{studlab}{A numeric or a character vector with study labels}
+\item{TN}{Numeric vector giving the number of true negatives.}
 
-\item{data}{An optional data frame containing the study information}
+\item{FN}{Numeric vector giving the number of false negatives.}
 
-\item{distr}{A character indicating the distribution (see Details)}
+\item{cutoff}{A number vector indicating the cutoff values.}
 
-\item{model}{A character indicating the model (see Details)}
+\item{studlab}{A numeric or a character vector with study labels.}
+
+\item{data}{An optional data frame containing the study information.}
+
+\item{distr}{A character indicating the distribution (see Details).}
+
+\item{model}{A character indicating the model (see Details).}
 
 \item{equalvar}{A logical indicating whether the variances of the
-biomarker in both groups are thought equal (see Details)}
+biomarker in both groups are thought equal (see Details).}
 
 \item{lambda}{A numeric between 0 and 1 indicating the weight of
 the population with higher values of the underlying biomarker (such that
@@ -55,29 +61,29 @@ the target condition (e.g., a disease) is \code{"increasing"} or
 abbreviated.}
 
 \item{log.cutoff}{A logical indicating whether the cutoffs should
-be log-transformed}
+be log-transformed.}
 
 \item{method.weights}{A character indicating the method for
 weighting the studies: \code{invvar} (default) means inverse
 variance weighting, \code{size} means weighting by group sample
-size, \code{equal} means that all studies are equally weighted}
+size, \code{equal} means that all studies are equally weighted.}
 
 \item{level}{A numeric indicating the significance level (1 -
-alpha) for tests (default is 0.95)}
+alpha) for tests (default is 0.95).}
 
 \item{incr}{A numeric between 0 and 1 that is added as a continuity
-correction}
+correction.}
 
 \item{n.iter.max}{A numeric indicating the maximal number of common
-point iterations for finding the optimal cutoff}
+point iterations for finding the optimal cutoff.}
 
 \item{tol}{A numeric indicating the tolerance for convergence of
-the common point iteration}
+the common point iteration.}
 
 \item{silent}{A logical indicating whether iterations should be
-suppressed}
+suppressed.}
 
-\item{\dots}{additional arguments}
+\item{\dots}{Additional arguments.}
 }
 \value{
 An object of class "diagmeta" with corresponding print, summary,
