@@ -616,13 +616,17 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   
   ##
   if (ciSens) {
-    if(shading == "shade")
-      polygon(c(x.upper.Se, x.lower.Se[order(x.lower.Se)]),
-              c(y.upper.Se, y.lower.Se[order(x.lower.Se)]),
+    xvals <- c(x.upper.Se, x.lower.Se[order(x.lower.Se)])
+    yvals <- c(y.upper.Se, y.lower.Se[order(y.lower.Se)])
+    #
+    hull_indices <- chull(cbind(xvals, yvals))
+    hull_indices <- c(hull_indices, hull_indices[1])
+    #
+    if (shading == "shade")
+      polygon(xvals[hull_indices], yvals[hull_indices],
               col = rgb(0.5, 0.5, 0.5, alpha = 0.2), border = NA)
     else if (shading == "hatch")
-      polygon(c(x.upper.Se, x.lower.Se[order(x.lower.Se)]),
-              c(y.upper.Se, y.lower.Se[order(x.lower.Se)]),
+      polygon(xvals[hull_indices], yvals[hull_indices],
               density = 20, angle = 90,
               col = col.hatching, border = col.hatching, lwd = lwd.hatching)
     #
@@ -631,13 +635,17 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   }
   ##
   if (ciSpec) {
+    xvals <- c(x.upper.Sp, x.lower.Sp[order(y.lower.Sp)])
+    yvals <- c(y.upper.Sp, y.lower.Sp[order(y.lower.Sp)])
+    #
+    hull_indices <- chull(cbind(xvals, yvals))
+    hull_indices <- c(hull_indices, hull_indices[1])
+    #
     if (shading == "shade")
-      polygon(c(x.upper.Sp, x.lower.Sp[order(y.lower.Sp)]),
-              c(y.upper.Sp, y.lower.Sp[order(y.lower.Sp)]),
+      polygon(xvals[hull_indices], yvals[hull_indices],
               col = rgb(0.2, 0.2, 0.2, alpha = 0.2), border = NA)
     else if (shading == "hatch")
-      polygon(c(x.upper.Sp, x.lower.Sp[order(y.lower.Sp)]),
-              c(y.upper.Sp, y.lower.Sp[order(y.lower.Sp)]),
+      polygon(xvals[hull_indices], yvals[hull_indices],
               density = 20, angle = 0,
               col = col.hatching, border = col.hatching, lwd = lwd.hatching)
     ##

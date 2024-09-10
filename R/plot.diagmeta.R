@@ -184,7 +184,7 @@
 #' @export
 #' @export plot.diagmeta
 #'
-#' @importFrom grDevices colours cm.colors heat.colors rainbow rgb
+#' @importFrom grDevices chull colours cm.colors heat.colors rainbow rgb
 #'   terrain.colors topo.colors
 #' @importFrom graphics abline curve par plot polygon text
 #' @importFrom stats qchisq
