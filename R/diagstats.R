@@ -8,39 +8,43 @@
 #' predictive values (NPV), and probabilities of disease (PD) are
 #' calculated if the prevalence is provided.
 #' 
-#' @param x An object of class \code{diagmeta}
-#' @param cutoff A numeric or vector with cutoff value(s)
-#' @param sens A numeric or vector with sensitivity value(s)
-#' @param spec A numeric or vector with specificity value(s)
-#' @param prevalence A numeric or vector with the prevalence(s)
-#' @param level The level used to calculate confidence intervals
+#' @param x An object of class \code{diagmeta}.
+#' @param cutoff A numeric or vector with cutoff value(s).
+#' @param sens A numeric or vector with sensitivity value(s).
+#' @param spec A numeric or vector with specificity value(s).
+#' @param prevalence A numeric or vector with the prevalence(s).
+#' @param level The level used to calculate confidence intervals.
 #' 
 #' @return
 #' A data frame of class "diagstats" with the following variables:
-#' \item{cutoff}{Cutoffs provided in argument "cutoff" and / or
+#' \item{cutoff}{Cutoffs provided in argument \code{cutoff} and / or
 #'   model-based cutoff values for given sensitivities /
 #'   specificities.}
-#' \item{Sens}{Sensitivities provided in argument "sens" and / or
+#' \item{Sens}{Sensitivities provided in argument \code{sens} and / or
 #'   model-based estimates of the sensitivity for given cutoffs /
-#'   specificities}
-#' \item{seSens}{Standard error of sensitivity}
+#'   specificities.}
 #' \item{lower.Sens, upper.Sens}{Lower and upper confidence limits of
-#'   the sensitivity}
-#' \item{Spec}{Specificities provided in argument "spec" and / or
+#'   the sensitivities.}
+#' \item{Spec}{Specificities provided in argument \code{spec} and / or
 #'   model-based estimates of the specificity for given cutoffs /
-#'   sensitivities}
-#' \item{seSpec}{Standard error of specificity}
+#'   sensitivities.}
 #' \item{lower.Spec, upper.Spec}{Lower and upper confidence limits of
-#'   the specificity}
+#'   the specificities.}
 #' \item{prevalence}{As defined above.}
-#' \item{PPV}{Positive predictive value (based on the cutoff)}
-#' \item{NPV}{Negative predictive value (based on the cutoff)}
+#' \item{PPV}{Positive predictive value (based on the prevalence).}
+#' \item{lower.PPV, upper.PPV}{Lower and upper confidence limits of
+#'   positive predictive values.}
+#' \item{NPV}{Negative predictive value (based on the prevalence)}
+#' \item{lower.NPV, upper.NPV}{Lower and upper confidence limits of
+#'   negative predictive values.}
 #' \item{PD}{Probability of disease if the given cutoff value was
-#'   observed as the measurement for an individual}
+#'   observed as the measurement for an individual.}
+#' \item{lower.PD, upper.PD}{Lower and upper confidence limits of
+#'   probabilities of disease.}
 #' \item{dens.nondiseased}{Value of the model-based density function at the
-#'    cutoff(s) for non-diseased individuals}
+#'    cutoff(s) for non-diseased individuals.}
 #' \item{dens.diseased}{Value of the model-based density function at the
-#'    cutoff(s) for diseased individuals}
+#'    cutoff(s) for diseased individuals.}
 #' 
 #' @author
 #' Gerta Rücker \email{gerta.ruecker@@uniklinik-freiburg.de},
@@ -115,7 +119,18 @@ diagstats <- function(x,
   alpha1 <- regr$alpha1
   beta0 <- regr$beta0
   beta1 <- regr$beta1
-  ##
+  #
+  var.alpha0 <- regr$var.alpha0
+  var.alpha1 <- regr$var.alpha1
+  var.beta0 <- regr$var.beta0
+  var.beta1 <- regr$var.beta1
+  cov.alpha0.alpha1 <- regr$cov.alpha0.alpha1
+  cov.alpha0.beta0 <- regr$cov.alpha0.beta0
+  cov.alpha0.beta1 <- regr$cov.alpha0.beta1
+  cov.alpha1.beta0 <- regr$cov.alpha1.beta0 
+  cov.alpha1.beta1 <- regr$cov.alpha1.beta1
+  cov.beta0.beta1 <- regr$cov.beta0.beta1  
+  #
   distr <- x$distr
   
   
@@ -206,27 +221,83 @@ diagstats <- function(x,
   ##
   PPV <- Sens * prevalence /
     (prevalence * Sens + (1 - prevalence) * (1 - Spec))
-  ##
+  varPPV <-
+    Spec^2 * (var.alpha0 + cutoff.tr^2 * var.beta0 +
+                2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased) +
+    (1 - Sens)^2 * (var.alpha1 + cutoff.tr^2 * var.beta1 +
+                      2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased) -
+    2 * Spec * (1 - Sens) *
+    (cov.alpha0.alpha1 + cutoff.tr * cov.alpha0.beta1 +
+       cutoff.tr * cov.alpha1.beta0 + cutoff.tr^2 * cov.beta0.beta1)
+  ciPPV <- ci(qdiag(PPV, distr), sqrt(varPPV), level = level)
+  lower.PPV <- pdiag(ciPPV$lower, distr)
+  upper.PPV <- pdiag(ciPPV$upper, distr)  
+  #
   NPV <- Spec * (1 - prevalence) /
     (prevalence * (1 - Sens) + (1 - prevalence) * Spec)
-  ##
+  varNPV <-
+    (1 - Spec)^2 * (var.alpha0 + cutoff.tr^2 * var.beta0 +
+                      2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased) +
+    Sens^2 * (var.alpha1 + cutoff.tr^2 * var.beta1 +
+                2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased) -
+    2 * Sens * (1 - Spec) *
+    (cov.alpha0.alpha1 + cutoff.tr * cov.alpha0.beta1 +
+       cutoff.tr * cov.alpha1.beta0 + cutoff.tr^2 * cov.beta0.beta1)
+  ciNPV <- ci(qdiag(NPV, distr), sqrt(varNPV), level = level)
+  lower.NPV <- pdiag(ciNPV$lower, distr)
+  upper.NPV <- pdiag(ciNPV$upper, distr)  
+  #
   PD <- prevalence * dens.diseased /
     (prevalence * dens.diseased + (1 - prevalence) * dens.nondiseased)
-  
-  
-  res <- data.frame(cutoff = cutoff,
-                    Sens = Sens, seSens = seSens,
-                    lower.Sens = lower.Sens, upper.Sens = upper.Sens,
-                    Spec = Spec, seSpec = seSpec,
-                    lower.Spec = lower.Spec, upper.Spec = upper.Spec,
-                    LRpos = Sens / (1 - Spec),
-                    LRneg = (1 - Sens) / Spec,
-                    prevalence = prevalence,
-                    PPV = PPV, NPV = NPV, PD = PD,
-                    dens.nondiseased = dens.nondiseased,
-                    dens.diseased = dens.diseased)
+  varPD <- 
+    (1 - 2 * Spec)^2 *
+    (var.alpha0 + cutoff.tr^2 * var.beta0 +
+       2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased) +
+    (2 * Sens - 1)^2 *
+    (var.alpha1 + cutoff.tr^2 * var.beta1 +
+       2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased) -
+    2 * (2 * Sens - 1) * (1 - 2 * Spec) *
+    (cov.alpha0.alpha1 + cutoff.tr * cov.alpha0.beta1 +
+       cutoff.tr * cov.alpha1.beta0 + cutoff.tr^2 * cov.beta0.beta1)
+  ciPD <- ci(qdiag(PD, distr), sqrt(varPD), level = level)
+  lower.PD <- pdiag(ciPD$lower, distr)
+  upper.PD <- pdiag(ciPD$upper, distr)  
   #
-  #res <- res[order(res$cutoff), ]
+  DOR <- Sens * Spec / (1 - Sens) / (1 - Spec)
+  varDOR <- 
+    var.alpha0 + cutoff.tr^2 * var.beta0 +
+    2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased +
+    var.alpha1 + cutoff.tr^2 * var.beta1 +
+    2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased - 
+    2 * cov.alpha0.alpha1 -
+    2 * cutoff.tr * cov.alpha0.beta1 - 
+    2 * cutoff.tr * cov.alpha1.beta0 -
+    2 * cutoff.tr^2 * cov.beta0.beta1
+  ciDOR <- ci(log(DOR), sqrt(varDOR), level = level)
+  lower.DOR <- exp(ciDOR$lower)
+  upper.DOR <- exp(ciDOR$upper)
+  #
+  LRpos <- Sens / (1 - Spec)
+  ci.LRpos <- ci(log(LRpos), sqrt(varPPV), level = level)
+  lower.LRpos <- exp(ci.LRpos$lower)
+  upper.LRpos <- exp(ci.LRpos$upper)
+  #
+  LRneg <- (1 - Sens) / Spec
+  ci.LRneg <- ci(log(LRneg), sqrt(varNPV), level = level)
+  lower.LRneg <- exp(ci.LRneg$lower)
+  upper.LRneg <- exp(ci.LRneg$upper)
+  
+  
+  res <- data.frame(cutoff,
+                    Sens, lower.Sens, upper.Sens,
+                    Spec, lower.Spec, upper.Spec,
+                    LRpos, lower.LRpos, upper.LRpos,
+                    LRneg, lower.LRneg, upper.LRneg,
+                    prevalence,
+                    PPV,lower.PPV, upper.PPV,
+                    NPV, lower.NPV, upper.NPV,
+                    PD, lower.PD, upper.PD,
+                    dens.nondiseased, dens.diseased)
   #
   class(res) <- c("diagstats", "data.frame")
   #

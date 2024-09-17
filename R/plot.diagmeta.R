@@ -5,74 +5,74 @@
 #' Provides several plots for meta-analysis of diagnostic test
 #' accuracy studies with the multiple cutoffs model
 #' 
-#' @param x An object of class \code{diagmeta}
+#' @param x An object of class \code{diagmeta}.
 #' @param which A character vector indicating the type of plot, either
 #'   \code{"regression"} or \code{"cdf"} or \code{"survival"} or
 #'   \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
-#'   \code{"density"} or \code{"sensspec"}, can be abbreviated
-#' @param xlab An x axis label
-#' @param main A logical indicating title to the plot
+#'   \code{"density"} or \code{"sensspec"}, can be abbreviated.
+#' @param xlab An x axis label.
+#' @param main A logical indicating title to the plot.
 #' @param ci A logical indicating whether confidence intervals should
 #'   be plotted for \code{"regression"}, \code{"cdf"},
-#'   \code{"survival"}, \code{"Youden"}, and \code{"sensspec"}
+#'   \code{"survival"}, \code{"Youden"}, and \code{"sensspec"}.
 #' @param ciSens A logical indicating whether confidence intervals
 #'   should be plotted for sensitivity, given the specificity in
-#'   \code{"SROC"} plot
+#'   \code{"SROC"} plot.
 #' @param ciSpec A logical indicating whether confidence intervals
 #'   should be plotted for specificity, given the sensitivity in
-#'   \code{"SROC"} plot
+#'   \code{"SROC"} plot.
 #' @param mark.optcut A logical indicating whether the optimal cutoff
-#'   should be marked on \code{"SROC"} plot
+#'   should be marked on \code{"SROC"} plot.
 #' @param mark.cutpoints A logical indicating whether the given
-#'   cutoffs should be marked on \code{"SROC"} plot
+#'   cutoffs should be marked on \code{"SROC"} plot.
 #' @param points A logical indicating whether points should be plotted
 #'   in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
-#'   \code{"Youden"}, \code{"ROC"}, and \code{"sensspec"}
+#'   \code{"Youden"}, \code{"ROC"}, and \code{"sensspec"}.
 #' @param lines A logical indicating whether polygonal lines
 #'   connecting points belonging to the same study should be printed
 #'   in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
-#'   \code{"Youden"}, and \code{"sensspec"}
+#'   \code{"Youden"}, and \code{"sensspec"}.
 #' @param rlines A logical indicating whether regression lines or
 #'   curves should be plotted for plots \code{"regression"},
 #'   \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
-#'   \code{"sensspec"}
+#'   \code{"sensspec"}.
 #' @param line.optcut A logical indicating whether a vertical line
 #'   should be plotted at the optimal cutoff line for plots
 #'   \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
-#'   \code{"density"}
+#'   \code{"density"}.
 #' @param col.points A character string indicating color of points,
 #'   either \code{"rainbow"}, \code{"topo"}, \code{"heat"},
 #'   \code{"terrain"}, \code{"cm"}, \code{"grayscale"}, or any color
-#'   defined in \code{\link[grDevices]{colours}}
+#'   defined in \code{\link[grDevices]{colours}}.
 #' @param cex A numeric indicating magnification to be used for
-#'   plotting text and symbols
-#' @param pch.points A numeric indicating plot symbol(s) for points
-#' @param col A character string indicating color of lines
+#'   plotting text and symbols.
+#' @param pch.points A numeric indicating plot symbol(s) for points.
+#' @param col A character string indicating color of lines.
 #' @param col.ci A character string indicating color of confidence
-#'   lines
+#'   lines.
 #' @param col.optcut A character string indicating color of optimal
-#'   cutoff line
+#'   cutoff line.
 #' @param cex.marks A numeric indicating magnification(s) to be used
-#'   for marking cutoffs
-#' @param lwd A numeric indicating line width
-#' @param lwd.ci A numeric indicating line width of confidence lines
-#' @param lwd.optcut A numeric indicating line width of optimal cutoff
+#'   for marking cutoffs.
+#' @param lwd A numeric indicating line width.
+#' @param lwd.ci A numeric indicating line width of confidence lines.
+#' @param lwd.optcut A numeric indicating line width of optimal cutoff.
 #' @param lwd.study A numeric indicating line width of individual
-#'   studies
+#'   studies.
 #' @param shading A character indicating shading and hatching
 #'   confidence region in \code{"SROC"} plot, either \code{"none"} or
-#'   \code{"shade"} or \code{"hatch"}
+#'   \code{"shade"} or \code{"hatch"}.
 #' @param col.hatching A character string indicating color used in
-#'   hatching of the confidence region
+#'   hatching of the confidence region.
 #' @param lwd.hatching A numeric indicating line width used in hatching
-#'   of the confidence region
+#'   of the confidence region.
 #' @param ellipse A logical indicating whether a confidence ellipse
-#'   should be drawn around the optimal cutoff
+#'   should be drawn around the optimal cutoff.
 #' @param xlim A character or numerical vector indicating the minimum
-#'   and maximum value for the horizontal axes
+#'   and maximum value for the horizontal axes.
 #' @param ylim A numerical vector indicating the minimum and maximum value for
-#'   the vertical axes
-#' @param \dots Additional graphical arguments
+#'   the vertical axes.
+#' @param \dots Additional graphical arguments.
 #' 
 #' @details
 #' The first argument of the plot function is an object of class

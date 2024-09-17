@@ -4,12 +4,12 @@
 #' Function to transform individual patient data (IPD) to enter them
 #' into \code{diagmeta}
 #' 
-#' @param studlab A vector with study labels
+#' @param studlab A vector with study labels.
 #' @param value A vector with individual patients' measurements of a
-#'   discrete or continuous variable
+#'   discrete or continuous variable.
 #' @param status A vector with information of the individual's status
-#'   (0 = non-diseased, 1 = diseased)
-#' @param data An optional data frame containing the study information
+#'   (0 = non-diseased, 1 = diseased).
+#' @param data An optional data frame containing the study information.
 #' @param direction A character string specifying whether the probability of
 #'   the target condition (e.g., a disease) is \code{"increasing"} or
 #'   \code{"decreasing"} with higher values of the biomarker, can be

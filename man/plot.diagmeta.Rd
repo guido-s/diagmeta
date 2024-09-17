@@ -40,104 +40,104 @@ multiple cutoffs model}
 )
 }
 \arguments{
-\item{x}{An object of class \code{diagmeta}}
+\item{x}{An object of class \code{diagmeta}.}
 
 \item{which}{A character vector indicating the type of plot, either
 \code{"regression"} or \code{"cdf"} or \code{"survival"} or
 \code{"Youden"} or \code{"ROC"} or \code{"SROC"} or
-\code{"density"} or \code{"sensspec"}, can be abbreviated}
+\code{"density"} or \code{"sensspec"}, can be abbreviated.}
 
-\item{xlab}{An x axis label}
+\item{xlab}{An x axis label.}
 
-\item{main}{A logical indicating title to the plot}
+\item{main}{A logical indicating title to the plot.}
 
 \item{ci}{A logical indicating whether confidence intervals should
 be plotted for \code{"regression"}, \code{"cdf"},
-\code{"survival"}, \code{"Youden"}, and \code{"sensspec"}}
+\code{"survival"}, \code{"Youden"}, and \code{"sensspec"}.}
 
 \item{ciSens}{A logical indicating whether confidence intervals
 should be plotted for sensitivity, given the specificity in
-\code{"SROC"} plot}
+\code{"SROC"} plot.}
 
 \item{ciSpec}{A logical indicating whether confidence intervals
 should be plotted for specificity, given the sensitivity in
-\code{"SROC"} plot}
+\code{"SROC"} plot.}
 
 \item{mark.optcut}{A logical indicating whether the optimal cutoff
-should be marked on \code{"SROC"} plot}
+should be marked on \code{"SROC"} plot.}
 
 \item{mark.cutpoints}{A logical indicating whether the given
-cutoffs should be marked on \code{"SROC"} plot}
+cutoffs should be marked on \code{"SROC"} plot.}
 
 \item{points}{A logical indicating whether points should be plotted
 in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
-\code{"Youden"}, \code{"ROC"}, and \code{"sensspec"}}
+\code{"Youden"}, \code{"ROC"}, and \code{"sensspec"}.}
 
 \item{lines}{A logical indicating whether polygonal lines
 connecting points belonging to the same study should be printed
 in plots \code{"regression"}, \code{"cdf"}, \code{"survival"},
-\code{"Youden"}, and \code{"sensspec"}}
+\code{"Youden"}, and \code{"sensspec"}.}
 
 \item{rlines}{A logical indicating whether regression lines or
 curves should be plotted for plots \code{"regression"},
 \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
-\code{"sensspec"}}
+\code{"sensspec"}.}
 
 \item{line.optcut}{A logical indicating whether a vertical line
 should be plotted at the optimal cutoff line for plots
 \code{"cdf"}, \code{"survival"}, \code{"Youden"}, and
-\code{"density"}}
+\code{"density"}.}
 
 \item{col.points}{A character string indicating color of points,
 either \code{"rainbow"}, \code{"topo"}, \code{"heat"},
 \code{"terrain"}, \code{"cm"}, \code{"grayscale"}, or any color
-defined in \code{\link[grDevices]{colours}}}
+defined in \code{\link[grDevices]{colours}}.}
 
 \item{cex}{A numeric indicating magnification to be used for
-plotting text and symbols}
+plotting text and symbols.}
 
-\item{pch.points}{A numeric indicating plot symbol(s) for points}
+\item{pch.points}{A numeric indicating plot symbol(s) for points.}
 
-\item{col}{A character string indicating color of lines}
+\item{col}{A character string indicating color of lines.}
 
 \item{col.ci}{A character string indicating color of confidence
-lines}
+lines.}
 
 \item{col.optcut}{A character string indicating color of optimal
-cutoff line}
+cutoff line.}
 
 \item{cex.marks}{A numeric indicating magnification(s) to be used
-for marking cutoffs}
+for marking cutoffs.}
 
-\item{lwd}{A numeric indicating line width}
+\item{lwd}{A numeric indicating line width.}
 
-\item{lwd.ci}{A numeric indicating line width of confidence lines}
+\item{lwd.ci}{A numeric indicating line width of confidence lines.}
 
-\item{lwd.optcut}{A numeric indicating line width of optimal cutoff}
+\item{lwd.optcut}{A numeric indicating line width of optimal cutoff.}
 
 \item{lwd.study}{A numeric indicating line width of individual
-studies}
+studies.}
 
 \item{shading}{A character indicating shading and hatching
 confidence region in \code{"SROC"} plot, either \code{"none"} or
-\code{"shade"} or \code{"hatch"}}
+\code{"shade"} or \code{"hatch"}.}
 
 \item{col.hatching}{A character string indicating color used in
-hatching of the confidence region}
+hatching of the confidence region.}
 
 \item{lwd.hatching}{A numeric indicating line width used in hatching
-of the confidence region}
+of the confidence region.}
 
 \item{ellipse}{A logical indicating whether a confidence ellipse
-should be drawn around the optimal cutoff}
+should be drawn around the optimal cutoff.}
 
 \item{xlim}{A character or numerical vector indicating the minimum
-and maximum value for the horizontal axes}
+and maximum value for the horizontal axes.}
 
 \item{ylim}{A numerical vector indicating the minimum and maximum value for
-the vertical axes}
+the vertical axes.}
 
-\item{\dots}{Additional graphical arguments}
+\item{\dots}{Additional graphical arguments.}
 }
 \description{
 Provides several plots for meta-analysis of diagnostic test

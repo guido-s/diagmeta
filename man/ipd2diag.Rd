@@ -7,15 +7,15 @@
 ipd2diag(studlab, value, status, data = NULL, direction = "increasing")
 }
 \arguments{
-\item{studlab}{A vector with study labels}
+\item{studlab}{A vector with study labels.}
 
 \item{value}{A vector with individual patients' measurements of a
-discrete or continuous variable}
+discrete or continuous variable.}
 
 \item{status}{A vector with information of the individual's status
-(0 = non-diseased, 1 = diseased)}
+(0 = non-diseased, 1 = diseased).}
 
-\item{data}{An optional data frame containing the study information}
+\item{data}{An optional data frame containing the study information.}
 
 \item{direction}{A character string specifying whether the probability of
 the target condition (e.g., a disease) is \code{"increasing"} or

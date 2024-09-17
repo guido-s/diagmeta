@@ -8,44 +8,48 @@ class \code{diagmeta}}
 diagstats(x, cutoff = x$optcut, sens, spec, prevalence, level = 0.95)
 }
 \arguments{
-\item{x}{An object of class \code{diagmeta}}
+\item{x}{An object of class \code{diagmeta}.}
 
-\item{cutoff}{A numeric or vector with cutoff value(s)}
+\item{cutoff}{A numeric or vector with cutoff value(s).}
 
-\item{sens}{A numeric or vector with sensitivity value(s)}
+\item{sens}{A numeric or vector with sensitivity value(s).}
 
-\item{spec}{A numeric or vector with specificity value(s)}
+\item{spec}{A numeric or vector with specificity value(s).}
 
-\item{prevalence}{A numeric or vector with the prevalence(s)}
+\item{prevalence}{A numeric or vector with the prevalence(s).}
 
-\item{level}{The level used to calculate confidence intervals}
+\item{level}{The level used to calculate confidence intervals.}
 }
 \value{
 A data frame of class "diagstats" with the following variables:
-\item{cutoff}{Cutoffs provided in argument "cutoff" and / or
+\item{cutoff}{Cutoffs provided in argument \code{cutoff} and / or
   model-based cutoff values for given sensitivities /
   specificities.}
-\item{Sens}{Sensitivities provided in argument "sens" and / or
+\item{Sens}{Sensitivities provided in argument \code{sens} and / or
   model-based estimates of the sensitivity for given cutoffs /
-  specificities}
-\item{seSens}{Standard error of sensitivity}
+  specificities.}
 \item{lower.Sens, upper.Sens}{Lower and upper confidence limits of
-  the sensitivity}
-\item{Spec}{Specificities provided in argument "spec" and / or
+  the sensitivities.}
+\item{Spec}{Specificities provided in argument \code{spec} and / or
   model-based estimates of the specificity for given cutoffs /
-  sensitivities}
-\item{seSpec}{Standard error of specificity}
+  sensitivities.}
 \item{lower.Spec, upper.Spec}{Lower and upper confidence limits of
-  the specificity}
+  the specificities.}
 \item{prevalence}{As defined above.}
-\item{PPV}{Positive predictive value (based on the cutoff)}
-\item{NPV}{Negative predictive value (based on the cutoff)}
+\item{PPV}{Positive predictive value (based on the prevalence).}
+\item{lower.PPV, upper.PPV}{Lower and upper confidence limits of
+  positive predictive values.}
+\item{NPV}{Negative predictive value (based on the prevalence)}
+\item{lower.NPV, upper.NPV}{Lower and upper confidence limits of
+  negative predictive values.}
 \item{PD}{Probability of disease if the given cutoff value was
-  observed as the measurement for an individual}
+  observed as the measurement for an individual.}
+\item{lower.PD, upper.PD}{Lower and upper confidence limits of
+  probabilities of disease.}
 \item{dens.nondiseased}{Value of the model-based density function at the
-   cutoff(s) for non-diseased individuals}
+   cutoff(s) for non-diseased individuals.}
 \item{dens.diseased}{Value of the model-based density function at the
-   cutoff(s) for diseased individuals}
+   cutoff(s) for diseased individuals.}
 }
 \description{
 The user can provide cutoffs, sensitivities, and / or specificities

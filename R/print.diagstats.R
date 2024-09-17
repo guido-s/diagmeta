@@ -60,11 +60,15 @@ print.diagstats <- function(x,
   drop.names <- c()
   ##
   if (!sensspec)
-    drop.names <- c("Sens", "seSens", "lower.Sens", "upper.Sens",
-                    "Spec", "seSpec", "lower.Spec", "upper.Spec")
+    drop.names <- c("Sens", "lower.Sens", "upper.Sens",
+                    "Spec", "lower.Spec", "upper.Spec")
   ##
   if (all(is.na(x$prevalence)) | !predicted)
-    drop.names <- c(drop.names, c("prevalence", "PPV", "NPV", "PD"))
+    drop.names <-
+      c(drop.names, c("prevalence",
+                      "PPV", "lower.PPV", "upper.PPV",
+                      "NPV", "lower.NPV", "upper.NPV",
+                      "PD", "lower.PD", "upper.PD"))
   ##
   if (!density)
     drop.names <- c(drop.names, c("dens.nondiseased", "dens.diseased"))

@@ -1,7 +1,7 @@
 Package: diagmeta
 Title: Meta-Analysis of Diagnostic Accuracy Studies with Several Cutpoints
 Version: 0.6-0
-Date: 2024-09-10
+Date: 2024-09-17
 Depends: meta (>= 5.0-0)
 Imports: lme4, grDevices
 Authors@R: c(person("Gerta", "Rücker",
