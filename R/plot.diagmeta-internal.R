@@ -615,17 +615,19 @@ sroc <- function(cutoff, Sens, Spec, studlab,
                     var.nondiseased, var.diseased)
   #
   if (ciSens) {
-    xvals <- c(x.upper.Se, x.lower.Se[order(x.lower.Se)])
-    yvals <- c(y.upper.Se, y.lower.Se[order(y.lower.Se)])
+    if (x.lower.Sp[1] > x.lower.Sp[2])
+      o <- order(y.lower.Se)
+    else
+      o <- rev(order(y.lower.Se))
     #
-    hull_indices <- chull(cbind(xvals, yvals))
-    hull_indices <- c(hull_indices, hull_indices[1])
+    xvals <- c(x.upper.Se, x.lower.Se[o])
+    yvals <- c(y.upper.Se, y.lower.Se[o])
     #
     if (shading == "shade")
-      polygon(xvals[hull_indices], yvals[hull_indices],
+      polygon(xvals, yvals,
               col = rgb(0.5, 0.5, 0.5, alpha = 0.2), border = NA)
     else if (shading == "hatch")
-      polygon(xvals[hull_indices], yvals[hull_indices],
+      polygon(xvals, yvals,
               density = 20, angle = 90,
               col = col.hatching, border = col.hatching, lwd = lwd.hatching)
     #
@@ -634,20 +636,22 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   }
   ##
   if (ciSpec) {
-    xvals <- c(x.upper.Sp, x.lower.Sp[order(y.lower.Sp)])
-    yvals <- c(y.upper.Sp, y.lower.Sp[order(y.lower.Sp)])
+    if (x.upper.Sp[1] > x.upper.Sp[2])
+      o <- order(y.lower.Sp)
+    else
+      o <- rev(order(y.lower.Sp))
     #
-    hull_indices <- chull(cbind(xvals, yvals))
-    hull_indices <- c(hull_indices, hull_indices[1])
+    xvals <- c(x.upper.Sp, x.lower.Sp[o])
+    yvals <- c(y.upper.Sp, y.lower.Sp[o])
     #
     if (shading == "shade")
-      polygon(xvals[hull_indices], yvals[hull_indices],
+      polygon(xvals, yvals,
               col = rgb(0.2, 0.2, 0.2, alpha = 0.2), border = NA)
     else if (shading == "hatch")
-      polygon(xvals[hull_indices], yvals[hull_indices],
+      polygon(xvals, yvals,
               density = 20, angle = 0,
               col = col.hatching, border = col.hatching, lwd = lwd.hatching)
-    ##
+    #
     lines(x.upper.Sp, y.upper.Sp, col = col.ci, lwd = lwd.ci, lty = 2)
     lines(x.lower.Sp, y.lower.Sp, col = col.ci, lwd = lwd.ci, lty = 2)
   }
