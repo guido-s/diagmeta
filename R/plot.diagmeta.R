@@ -68,6 +68,7 @@
 #'   of the confidence region.
 #' @param ellipse A logical indicating whether a confidence ellipse
 #'   should be drawn around the optimal cutoff.
+#' @param level The level used to calculate confidence intervals.
 #' @param xlim A character or numerical vector indicating the minimum
 #'   and maximum value for the horizontal axes.
 #' @param ylim A numerical vector indicating the minimum and maximum value for
@@ -210,6 +211,7 @@ plot.diagmeta <- function(x,
                           shading = "none",
                           col.hatching = col.ci, lwd.hatching = lwd.ci,
                           ellipse = FALSE,
+                          level = x$level,
                           xlim = NULL, ylim = NULL,
                           ...) {
   
@@ -259,6 +261,7 @@ plot.diagmeta <- function(x,
   chklogical(lines)
   chklogical(rlines)
   chklogical(line.optcut)
+  chklevel(level)
   ##
   chkchar(col.points)
   col.points <- setchar(col.points,
@@ -354,7 +357,6 @@ plot.diagmeta <- function(x,
   max.cutoff <- replaceNULL(x$max.cutoff, max(x$data.lmer$Cutoff, na.rm = TRUE))
   #
   distr <- x$distr
-  level <- x$level
   lambda <- x$lambda
   optcut <- x$optcut
   ##

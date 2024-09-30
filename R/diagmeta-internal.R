@@ -68,21 +68,25 @@ ciRegr <- function(x,
 }
 
 
-ciEllipse <- function(x,
-                      alpha0, var.alpha0, beta0, var.beta0,
-                      alpha1, var.alpha1, beta1, var.beta1,
-                      cov.alpha0.beta0, cov.alpha1.beta1,
-                      cov.alpha0.alpha1, cov.alpha0.beta1, cov.alpha1.beta0, cov.beta0.beta1, 
-                      var.group0, var.group1,
-                      level = 0.95) {
+calcEllipse <- function(x,
+                        alpha0, var.alpha0, beta0, var.beta0,
+                        alpha1, var.alpha1, beta1, var.beta1,
+                        cov.alpha0.beta0, cov.alpha1.beta1,
+                        cov.alpha0.alpha1, cov.alpha0.beta1,
+                        cov.alpha1.beta0, cov.beta0.beta1, 
+                        var.group0, var.group1) {
   ##
   y0 <- alpha0 + beta0 * x
   y1 <- alpha1 + beta1 * x
-  se.y0 <- sqrt(var.alpha0 + x^2 * var.beta0 + 2 * x * cov.alpha0.beta0 + var.group0)
-  se.y1 <- sqrt(var.alpha1 + x^2 * var.beta1 + 2 * x * cov.alpha1.beta1 + var.group1)
-  covar <- cov.alpha0.alpha1 + x * cov.alpha0.beta1 + x *cov.alpha1.beta0 + x^2 *cov.beta0.beta1
-  r <- covar/se.y0/se.y1
-  res <- list(logit.spec = y0, logit.sens = -y1, se.y0 = se.y0, se.y1 = se.y1, covar = covar, r = r)
+  se.y0 <- sqrt(var.alpha0 + x^2 * var.beta0 +
+                  2 * x * cov.alpha0.beta0 + var.group0)
+  se.y1 <- sqrt(var.alpha1 + x^2 * var.beta1 +
+                  2 * x * cov.alpha1.beta1 + var.group1)
+  covar <- cov.alpha0.alpha1 + x * cov.alpha0.beta1 +
+    x *cov.alpha1.beta0 + x^2 *cov.beta0.beta1
+  r <- covar / se.y0 / se.y1
+  res <- list(logit.spec = y0, logit.sens = -y1, se.y0 = se.y0, se.y1 = se.y1,
+              covar = covar, r = r)
   ##
   res
 }

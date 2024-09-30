@@ -34,6 +34,7 @@ multiple cutoffs model}
   col.hatching = col.ci,
   lwd.hatching = lwd.ci,
   ellipse = FALSE,
+  level = x$level,
   xlim = NULL,
   ylim = NULL,
   ...
@@ -130,6 +131,8 @@ of the confidence region.}
 
 \item{ellipse}{A logical indicating whether a confidence ellipse
 should be drawn around the optimal cutoff.}
+
+\item{level}{The level used to calculate confidence intervals.}
 
 \item{xlim}{A character or numerical vector indicating the minimum
 and maximum value for the horizontal axes.}

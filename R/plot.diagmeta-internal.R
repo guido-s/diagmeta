@@ -606,15 +606,14 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   #
   ocut <- transf(optcut, direction, log.cutoff, min.cutoff, max.cutoff)
   #
-  ce <- ciEllipse(ocut, 
-                  alpha0, var.alpha0, beta0, var.beta0,
-                  alpha1, var.alpha1, beta1, var.beta1,
-                  cov.alpha0.beta0, cov.alpha1.beta1,
-                  cov.alpha0.alpha1, cov.alpha0.beta1,
-                  cov.alpha1.beta0, cov.beta0.beta1, 
-                  var.nondiseased, var.diseased, level)
-  
-  ##
+  ce <- calcEllipse(ocut,
+                    alpha0, var.alpha0, beta0, var.beta0,
+                    alpha1, var.alpha1, beta1, var.beta1,
+                    cov.alpha0.beta0, cov.alpha1.beta1,
+                    cov.alpha0.alpha1, cov.alpha0.beta1,
+                    cov.alpha1.beta0, cov.beta0.beta1, 
+                    var.nondiseased, var.diseased)
+  #
   if (ciSens) {
     xvals <- c(x.upper.Se, x.lower.Se[order(x.lower.Se)])
     yvals <- c(y.upper.Se, y.lower.Se[order(y.lower.Se)])
@@ -689,7 +688,7 @@ sroc <- function(cutoff, Sens, Spec, studlab,
   if (ellipse) {
     n <- 2 * pi * 100 
     xx <- yy <- rep(0, n) 
-    q <- sqrt(qchisq(0.05, 2, lower.tail = FALSE))
+    q <- sqrt(qchisq(level, 2))
     ##
     for (t in seq_len(n)) {
       xx[t] <- pdiag(-ce$logit.spec +

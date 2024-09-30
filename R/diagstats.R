@@ -120,17 +120,6 @@ diagstats <- function(x,
   beta0 <- regr$beta0
   beta1 <- regr$beta1
   #
-  var.alpha0 <- regr$var.alpha0
-  var.alpha1 <- regr$var.alpha1
-  var.beta0 <- regr$var.beta0
-  var.beta1 <- regr$var.beta1
-  cov.alpha0.alpha1 <- regr$cov.alpha0.alpha1
-  cov.alpha0.beta0 <- regr$cov.alpha0.beta0
-  cov.alpha0.beta1 <- regr$cov.alpha0.beta1
-  cov.alpha1.beta0 <- regr$cov.alpha1.beta0 
-  cov.alpha1.beta1 <- regr$cov.alpha1.beta1
-  cov.beta0.beta1 <- regr$cov.beta0.beta1  
-  #
   distr <- x$distr
   
   
@@ -189,6 +178,12 @@ diagstats <- function(x,
   }
   
   cutoff.tr <- transf(cutoff, direction, x$log.cutoff, min.cutoff, max.cutoff)
+  #
+  covar <-
+    regr$cov.alpha0.alpha1 +
+    cutoff.tr * regr$cov.alpha0.beta1 +
+    cutoff.tr * regr$cov.alpha1.beta0 +
+    cutoff.tr^2 * regr$cov.beta0.beta1
   
   Sens <- 1 - pdiag(beta1 * cutoff.tr + alpha1, distr)
   Spec <- pdiag(beta0 * cutoff.tr + alpha0, distr)
@@ -222,13 +217,10 @@ diagstats <- function(x,
   PPV <- Sens * prevalence /
     (prevalence * Sens + (1 - prevalence) * (1 - Spec))
   varPPV <-
-    Spec^2 * (var.alpha0 + cutoff.tr^2 * var.beta0 +
-                2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased) +
-    (1 - Sens)^2 * (var.alpha1 + cutoff.tr^2 * var.beta1 +
-                      2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased) -
-    2 * Spec * (1 - Sens) *
-    (cov.alpha0.alpha1 + cutoff.tr * cov.alpha0.beta1 +
-       cutoff.tr * cov.alpha1.beta0 + cutoff.tr^2 * cov.beta0.beta1)
+    ddiag(alpha0 + beta0 * cutoff.tr, distr)^2 * seSpec^2 / (1 - Spec)^2 +
+    ddiag(alpha1 + beta1 * cutoff.tr, distr)^2 * seSens^2 / Sens^2 -
+    2 * covar * ddiag(alpha1 + beta1 * cutoff.tr, distr) *
+    ddiag(alpha0 + beta0 * cutoff.tr, distr) / Sens / (1 - Spec)
   ciPPV <- ci(qdiag(PPV, distr), sqrt(varPPV), level = level)
   lower.PPV <- pdiag(ciPPV$lower, distr)
   upper.PPV <- pdiag(ciPPV$upper, distr)  
@@ -236,43 +228,31 @@ diagstats <- function(x,
   NPV <- Spec * (1 - prevalence) /
     (prevalence * (1 - Sens) + (1 - prevalence) * Spec)
   varNPV <-
-    (1 - Spec)^2 * (var.alpha0 + cutoff.tr^2 * var.beta0 +
-                      2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased) +
-    Sens^2 * (var.alpha1 + cutoff.tr^2 * var.beta1 +
-                2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased) -
-    2 * Sens * (1 - Spec) *
-    (cov.alpha0.alpha1 + cutoff.tr * cov.alpha0.beta1 +
-       cutoff.tr * cov.alpha1.beta0 + cutoff.tr^2 * cov.beta0.beta1)
+    ddiag(alpha0 + beta0 * cutoff.tr, distr)^2 * seSpec^2 / Spec^2 +
+    ddiag(alpha1 + beta1 * cutoff.tr, distr)^2 * seSens^2 / (1 - Sens)^2 -
+    2 * covar * ddiag(alpha1 + beta1 * cutoff.tr, distr) *
+    ddiag(alpha0 + beta0 * cutoff.tr, distr) / Spec / (1 - Sens)
   ciNPV <- ci(qdiag(NPV, distr), sqrt(varNPV), level = level)
   lower.NPV <- pdiag(ciNPV$lower, distr)
-  upper.NPV <- pdiag(ciNPV$upper, distr)  
+  upper.NPV <- pdiag(ciNPV$upper, distr)
   #
   PD <- prevalence * dens.diseased /
     (prevalence * dens.diseased + (1 - prevalence) * dens.nondiseased)
-  varPD <- 
-    (1 - 2 * Spec)^2 *
-    (var.alpha0 + cutoff.tr^2 * var.beta0 +
-       2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased) +
-    (2 * Sens - 1)^2 *
-    (var.alpha1 + cutoff.tr^2 * var.beta1 +
-       2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased) -
-    2 * (2 * Sens - 1) * (1 - 2 * Spec) *
-    (cov.alpha0.alpha1 + cutoff.tr * cov.alpha0.beta1 +
-       cutoff.tr * cov.alpha1.beta0 + cutoff.tr^2 * cov.beta0.beta1)
+  #
+  if (distr == "logistic")
+    varPD <- (1 - 2 * Spec)^2 * seSpec^2 + (2 * Sens - 1)^2 * seSens^2 -
+    2 * (2 * Sens - 1) * (1 - 2 * Spec) * covar
+  else
+    varPD <- (alpha0 + beta0 * cutoff.tr)^2 * seSpec^2 +
+    (alpha1 + beta1 * cutoff.tr)^2 * seSens^2 -
+    2 * (alpha0 + beta0 * cutoff.tr) * (alpha1 + beta1 * cutoff.tr) * covar
+  #
   ciPD <- ci(qdiag(PD, distr), sqrt(varPD), level = level)
   lower.PD <- pdiag(ciPD$lower, distr)
   upper.PD <- pdiag(ciPD$upper, distr)  
   #
   DOR <- Sens * Spec / (1 - Sens) / (1 - Spec)
-  varDOR <- 
-    var.alpha0 + cutoff.tr^2 * var.beta0 +
-    2 * cutoff.tr * cov.alpha0.beta0 + x$var.nondiseased +
-    var.alpha1 + cutoff.tr^2 * var.beta1 +
-    2 * cutoff.tr * cov.alpha1.beta1 + x$var.diseased - 
-    2 * cov.alpha0.alpha1 -
-    2 * cutoff.tr * cov.alpha0.beta1 - 
-    2 * cutoff.tr * cov.alpha1.beta0 -
-    2 * cutoff.tr^2 * cov.beta0.beta1
+  varDOR <- seSpec^2 + seSens^2 - 2 * covar
   ciDOR <- ci(log(DOR), sqrt(varDOR), level = level)
   lower.DOR <- exp(ciDOR$lower)
   upper.DOR <- exp(ciDOR$upper)
@@ -297,6 +277,7 @@ diagstats <- function(x,
                     PPV,lower.PPV, upper.PPV,
                     NPV, lower.NPV, upper.NPV,
                     PD, lower.PD, upper.PD,
+                    DOR = DOR, lower.DOR = lower.DOR, upper.DOR = upper.DOR,
                     dens.nondiseased, dens.diseased)
   #
   class(res) <- c("diagstats", "data.frame")
